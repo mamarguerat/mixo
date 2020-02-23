@@ -12,6 +12,7 @@ namespace behringer_routing
 {
     public partial class application : Form
     {
+        Scene scene;
         string workingPath;
 
         public application()
@@ -30,6 +31,8 @@ namespace behringer_routing
             {
                 this.Close();
             }
+
+            scene = new Scene(workingPath);
         }
 
         private void application_Shown(object sender, EventArgs e)
