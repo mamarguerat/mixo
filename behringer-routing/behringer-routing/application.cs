@@ -12,7 +12,7 @@ namespace behringer_routing
 {
     public partial class application : Form
     {
-        Scene scene;
+        X32scene scene;
         string workingPath;
 
         public application()
