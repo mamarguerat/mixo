@@ -8,7 +8,7 @@ using System.IO;
 
 namespace behringer_routing
 {
-    class Scene
+    class X32scene
     {
         private String scn;
         config sceneRouting;
