@@ -15,29 +15,29 @@ namespace behringer_routing
         
         private struct aes50
         {
-            string c1t8;
-            string c9t16;
-            string c17t24;
-            string c25t32;
-            string c33t40;
-            string c40t48;
+            string ch1_8;
+            string ch9_16;
+            string ch17_24;
+            string ch25_32;
+            string ch33_40;
+            string ch40_48;
         }
 
         private struct card
         {
-            public string c1t8;
-            public string c9t16;
-            public string c17t24;
-            public string c25t32;
+            public string ch1_8;
+            public string ch9_16;
+            public string ch17_24;
+            public string ch25_32;
         }
 
         private struct play
         {
-            public string c1t8;
-            public string c9t16;
-            public string c17t24;
-            public string c25t32;
-            public string a1t6;
+            public string ch1_8;
+            public string ch9_16;
+            public string ch17_24;
+            public string ch25_32;
+            public string aux1_6;
         }
 
         private struct routing
