@@ -45,7 +45,10 @@ namespace behringer_routing
                 {
                     Directory.CreateDirectory(path);
                 }
-                string console = newProject.console;
+                using (StreamWriter outputFile = new StreamWriter(Path.Combine(path, "settings.brt"), false))
+                {
+                    outputFile.WriteLine(newProject.console);
+                }
                 this.Close();
             }
         }

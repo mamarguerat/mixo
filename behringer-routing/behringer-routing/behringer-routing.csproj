@@ -52,6 +52,13 @@
     <Compile Include="application.Designer.cs">
       <DependentUpon>application.cs</DependentUpon>
     </Compile>
+    <Compile Include="device.cs" />
+    <Compile Include="editDevice.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="editDevice.Designer.cs">
+      <DependentUpon>editDevice.cs</DependentUpon>
+    </Compile>
     <Compile Include="newProjectForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -66,9 +73,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scene.cs" />
+    <Compile Include="X32scene.cs" />
     <EmbeddedResource Include="application.resx">
       <DependentUpon>application.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="editDevice.resx">
+      <DependentUpon>editDevice.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="newProjectForm.resx">
       <DependentUpon>newProjectForm.cs</DependentUpon>

@@ -12,6 +12,12 @@ namespace behringer_routing
     {
         private String scn;
         config sceneRouting;
+
+        public struct scene
+        {
+            config config;
+
+        }
         
         private struct aes50
         {
@@ -57,6 +63,27 @@ namespace behringer_routing
             public int[] OUT;
         }
 
+        private struct userctrl
+        {
+            public page a;
+            public page b;
+            public page c;
+        }
+
+        private struct page
+        {
+            public string color;
+            public string encoder;
+            public string button;
+        }
+
+        private struct dp48
+        {
+            string param;
+            int[] assign;
+            string[] grpname;
+        }
+
         private struct config
         {
             public bool[] chlink;
@@ -74,9 +101,12 @@ namespace behringer_routing
             public string osc;
             public userrout userrout;
             public routing routing;
+            public userctrl userctrl;
+            public string tape;
+            public string amixenable;
         }
 
-        public Scene(string path)
+        public X32scene(string path)
         {
             LoadFile(path);
         }
