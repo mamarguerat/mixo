@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace behringer_routing
 {
@@ -31,7 +33,7 @@ namespace behringer_routing
 
         private void OpeningForm_Load(object sender, EventArgs e)
         {
-            version.Text = "v1.0.0";
+            version.Text = "v1.0.0.42";
         }
 
         private void btnNewProject_Click(object sender, EventArgs e)
@@ -45,9 +47,26 @@ namespace behringer_routing
                 {
                     Directory.CreateDirectory(path);
                 }
-                using (StreamWriter outputFile = new StreamWriter(Path.Combine(path, "settings.brt"), false))
+
+                using (XmlWriter writer = XmlWriter.Create(path + "\\settings.xml"))
                 {
-                    outputFile.WriteLine(newProject.console);
+                    writer.WriteStartElement("devices");
+                    writer.WriteStartElement("device");
+                    writer.WriteElementString("type", newProject.console);
+                    writer.WriteElementString("locked", "true");
+                    writer.WriteElementString("name", "local inputs");
+                    writer.WriteStartElement("connexion");
+                    writer.WriteElementString("first", "local 1-8");
+                    writer.WriteElementString("second", "local 9-16");
+                    if (newProject.console == "Behringer X32" || newProject.console == "Midas M32")
+                    {
+                        writer.WriteElementString("third", "local 17-24");
+                        writer.WriteElementString("fourth", "local 25-32");
+                    }
+                    writer.WriteEndElement();
+                    writer.WriteEndElement();
+                    writer.WriteEndElement();
+                    writer.Flush();
                 }
                 this.Close();
             }

@@ -8,8 +8,9 @@ namespace behringer_routing
 {
     class device
     {
-        public string Type { get; set; }
-        public string Connection { get; set; }
+        public string type { get; set; }
+        public string[] connection { get; set; }
         public bool locked { get; set; }
+        public string name { get; set; }
     }
 }

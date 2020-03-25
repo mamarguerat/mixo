@@ -39,18 +39,20 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 15);
+            this.label1.Location = new System.Drawing.Point(22, 28);
+            this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(68, 13);
+            this.label1.Size = new System.Drawing.Size(122, 25);
             this.label1.TabIndex = 0;
             this.label1.Text = "Device Type";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 47);
+            this.label2.Location = new System.Drawing.Point(22, 87);
+            this.label2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(61, 13);
+            this.label2.Size = new System.Drawing.Size(112, 25);
             this.label2.TabIndex = 0;
             this.label2.Text = "Connection";
             // 
@@ -59,9 +61,10 @@
             this.comboBoxType.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.comboBoxType.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.comboBoxType.FormattingEnabled = true;
-            this.comboBoxType.Location = new System.Drawing.Point(86, 12);
+            this.comboBoxType.Location = new System.Drawing.Point(158, 22);
+            this.comboBoxType.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.comboBoxType.Name = "comboBoxType";
-            this.comboBoxType.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxType.Size = new System.Drawing.Size(219, 32);
             this.comboBoxType.Sorted = true;
             this.comboBoxType.TabIndex = 1;
             // 
@@ -70,9 +73,10 @@
             this.comboBoxConnection.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.comboBoxConnection.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.comboBoxConnection.FormattingEnabled = true;
-            this.comboBoxConnection.Location = new System.Drawing.Point(86, 44);
+            this.comboBoxConnection.Location = new System.Drawing.Point(158, 81);
+            this.comboBoxConnection.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.comboBoxConnection.Name = "comboBoxConnection";
-            this.comboBoxConnection.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxConnection.Size = new System.Drawing.Size(219, 32);
             this.comboBoxConnection.Sorted = true;
             this.comboBoxConnection.TabIndex = 1;
             // 
@@ -80,9 +84,10 @@
             // 
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.buttonCancel.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.buttonCancel.Location = new System.Drawing.Point(13, 90);
+            this.buttonCancel.Location = new System.Drawing.Point(24, 166);
+            this.buttonCancel.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(75, 23);
+            this.buttonCancel.Size = new System.Drawing.Size(138, 42);
             this.buttonCancel.TabIndex = 2;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
@@ -91,9 +96,10 @@
             // buttonOK
             // 
             this.buttonOK.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.buttonOK.Location = new System.Drawing.Point(132, 90);
+            this.buttonOK.Location = new System.Drawing.Point(242, 166);
+            this.buttonOK.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.buttonOK.Name = "buttonOK";
-            this.buttonOK.Size = new System.Drawing.Size(75, 23);
+            this.buttonOK.Size = new System.Drawing.Size(138, 42);
             this.buttonOK.TabIndex = 2;
             this.buttonOK.Text = "OK";
             this.buttonOK.UseVisualStyleBackColor = true;
@@ -102,11 +108,11 @@
             // editDevice
             // 
             this.AcceptButton = this.buttonOK;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(219, 126);
+            this.ClientSize = new System.Drawing.Size(387, 186);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.comboBoxConnection);
@@ -114,8 +120,9 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.MaximumSize = new System.Drawing.Size(235, 165);
-            this.MinimumSize = new System.Drawing.Size(235, 165);
+            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.MaximumSize = new System.Drawing.Size(411, 250);
+            this.MinimumSize = new System.Drawing.Size(411, 250);
             this.Name = "editDevice";
             this.Text = "editDevice";
             this.ResumeLayout(false);
