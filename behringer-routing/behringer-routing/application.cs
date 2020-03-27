@@ -51,11 +51,11 @@ namespace behringer_routing
                                     break;
                                 case "locked":
                                     string read = reader.ReadString();
-                                    if (read == "true")
+                                    if (read == "True" || read == "true")
                                     {
                                         list[i].locked = true;
                                     }
-                                    else if (read == "false")
+                                    else if (read == "False" || read == "false")
                                     {
                                         list[i].locked = false;
                                     }
@@ -88,37 +88,32 @@ namespace behringer_routing
         {
             List<device> list = new List<device>();
 
-            for (int i = 0; i < dataGridViewDevices.Rows.Count-1; i++)
+            for (int i = 0; i < dataGridViewDevices.Rows.Count - 1; i++)
             {
                 device device = new device();
-                device.connection = new string[4];
                 try
                 {
+                    device.connection = new string[4];
+                    if (dataGridViewDevices.Rows[i].Cells["locked"].Value.ToString() == "True")
+                    {
+                        device.locked = true;
+                    }
+                    else
+                    {
+                        device.locked = false;
+                    }
                     device.type = dataGridViewDevices.Rows[i].Cells["Device"].Value.ToString();
-                }
-                catch { }
-                for (int j = 0; j < 4; j++)
-                {
-                    try
+                    if (device.locked)
                     {
-                        device.connection[j] = (dataGridViewDevices.Rows[i].Cells[j+1] as DataGridViewComboBoxCell).Value.ToString();
+                        for (int j = 0; j < 4; j++)
+                            device.connection[j] = dataGridViewDevices.Rows[i].Cells[j + 1].Value.ToString();
                     }
-                    catch
+                    else
                     {
-                        
+                        for (int j = 0; j < 4; j++)
+                            device.connection[j] = (dataGridViewDevices.Rows[i].Cells[j + 1] as DataGridViewComboBoxCell).Value.ToString();
                     }
-                }
-                try
-                {
                     device.name = dataGridViewDevices.Rows[i].Cells["Name"].Value.ToString();
-                }
-                catch
-                {
-                    device.name = "";
-                }
-                try
-                {
-                    device.locked = (bool)dataGridViewDevices.Rows[i].Cells["locked"].Value;
                 }
                 catch { }
                 list.Add(device);
@@ -183,6 +178,8 @@ namespace behringer_routing
 
         private void dataGridUpdate()
         {
+            dataGridViewDevices.Rows.Clear();
+
             dataGridViewDevices.ColumnCount = 7;
             dataGridViewDevices.Columns[0].Name = "Device";
             dataGridViewDevices.Columns[1].Name = "1-8";
@@ -199,27 +196,42 @@ namespace behringer_routing
             dataGridViewDevices.Columns["25-32"].ReadOnly = true;
             dataGridViewDevices.Columns["Name"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dataGridViewDevices.Columns["Name"].ReadOnly = false;
-            dataGridViewDevices.Columns["locked"].Visible = false;
+            dataGridViewDevices.Columns["locked"].Visible = true;
 
             string[] connexions = { "AES50A 1-8", "AES50A 9-16", "AES50A 17-24", "AES50A 25-32", "AES50A 33-40", "AES50A 41-48" };
             string[] device = { "SD16", "SD8" };
 
             for (int i = 0; i < devices.Count; i++)
             {
+                dataGridViewDevices.Rows.Add();
+                dataGridViewDevices["locked", i].Value = devices[i].locked.ToString();
+                dataGridViewDevices["name", i].Value = devices[i].name;
+
                 if (!devices[i].locked)
                 {
                     DataGridViewComboBoxCell cell = new DataGridViewComboBoxCell();
                     cell.Items.AddRange(device);
                     dataGridViewDevices["Device", i] = cell;
                     dataGridViewDevices["Device", i].ReadOnly = false;
+                    dataGridViewDevices["Device", i].Value = devices[i].type;
+
                     cell = new DataGridViewComboBoxCell();
                     cell.Items.AddRange(connexions);
                     dataGridViewDevices["1-8", i] = cell;
                     dataGridViewDevices["1-8", i].ReadOnly = false;
+                    dataGridViewDevices["1-8", i].Value = devices[i].connection[0];
                 }
-                object[] row = { devices[i].type, devices[i].connection[0], devices[i].connection[1], devices[i].connection[2], devices[i].connection[3], devices[i].name, devices[i].locked };
-                dataGridViewDevices.Rows.Add(row);
+                else
+                {
+                    dataGridViewDevices["Device", i].Value = devices[i].type;
+                    dataGridViewDevices["1-8", i].Value = devices[i].connection[0];
+                }
+                dataGridViewDevices["9-16", i].Value = devices[i].connection[1];
+                dataGridViewDevices["17-24", i].Value = devices[i].connection[2];
+                dataGridViewDevices["25-32", i].Value = devices[i].connection[3];
             }
+
+            dataGridViewDevices.AllowUserToAddRows = false;
         }
 
         private void dataGridViewDevices_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -236,6 +248,30 @@ namespace behringer_routing
         {
             devices = saveDevices();
             saveXML();
+        }
+
+        private void buttonDown_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonUp_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonRemove_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonAdd_Click(object sender, EventArgs e)
+        {
+            device device = new device();
+            device.connection = new string[4];
+            device.locked = false;
+            devices.Add(device);
+            dataGridUpdate();
         }
     }
 }
