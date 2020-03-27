@@ -232,6 +232,7 @@ namespace behringer_routing
             }
 
             dataGridViewDevices.AllowUserToAddRows = false;
+            dataGridViewDevices.ClearSelection();
         }
 
         private void dataGridViewDevices_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -252,17 +253,49 @@ namespace behringer_routing
 
         private void buttonDown_Click(object sender, EventArgs e)
         {
-
+            int index = dataGridViewDevices.CurrentCell.RowIndex;
+            if (!devices[index].locked)
+            {
+                if (index + 1 < devices.Count() && devices[index + 1].locked != true)
+                {
+                    device device = new device();
+                    device = devices[index + 1];
+                    devices[index + 1] = devices[index];
+                    devices[index] = device;
+                    dataGridUpdate();
+                    dataGridViewDevices.Rows[index + 1].Cells[0].Selected = true;
+                }
+            }
+            else
+                MessageBox.Show("ERROR\nThis row can't be moved", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void buttonUp_Click(object sender, EventArgs e)
         {
-
+            int index = dataGridViewDevices.CurrentCell.RowIndex;
+            if (!devices[index].locked)
+            {
+                if (index - 1 >= 0 && devices[index - 1].locked != true)
+                {
+                    device device = new device();
+                    device = devices[index - 1];
+                    devices[index - 1] = devices[index];
+                    devices[index] = device;
+                    dataGridUpdate();
+                    dataGridViewDevices.Rows[index - 1].Cells[0].Selected = true;
+                }
+            }
+            else
+                MessageBox.Show("ERROR\nThis row can't be moved", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void buttonRemove_Click(object sender, EventArgs e)
         {
-
+            if (!devices[dataGridViewDevices.CurrentCell.RowIndex].locked)
+                devices.RemoveAt(dataGridViewDevices.CurrentCell.RowIndex);
+            else
+                MessageBox.Show("ERROR\nThis row can't be deleted", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            dataGridUpdate();
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
