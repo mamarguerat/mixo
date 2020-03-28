@@ -15,6 +15,26 @@ namespace behringer_routing
 {
     public partial class application : Form
     {
+        private struct channel
+        {
+            public int index;
+            public string name;
+            public bool phantom;
+            public bool phase;
+            public string icon;
+            public string color;
+            public bool invert;
+        }
+        private struct device
+        {
+            public string type;
+            public string connection;
+            public string output;
+            public bool locked;
+            public string name;
+            public channel channel;
+        }
+
         // X32scene x32;
         string workingPath;
 
@@ -340,7 +360,6 @@ namespace behringer_routing
                 comboBoxAES50.Enabled = false;
                 comboBoxOutput.Text = "local";
                 comboBoxOutput.Enabled = false;
-                tbxName.Text = device.name;
             }
             else
             {
@@ -353,7 +372,6 @@ namespace behringer_routing
                 comboBoxAES50.Enabled = true;
                 comboBoxOutput.Text = device.output;
                 comboBoxOutput.Enabled = true;
-                tbxName.Text = device.name;
             }
             tbxName.Text = device.name;
         }
