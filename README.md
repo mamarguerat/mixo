@@ -20,3 +20,9 @@ I will not accept any contributions until I have a working prototype
 
 ## Issues
 Feel free to report any issues or suggestions you have
+
+# Screenshots
+**NOTE** This project is under developement. These screenshots could not be the final application
+<img src="graphic/screenshots/home-screen.png" width=300px >
+<img src="graphic/screenshots/new-project.png" width=200px >
+<img src="graphic/screenshots/main-application.png" height=300px >
