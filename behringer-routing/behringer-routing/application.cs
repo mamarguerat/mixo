@@ -198,6 +198,11 @@ namespace behringer_routing
             dataGridViewDevices.Columns["Name"].ReadOnly = false;
             dataGridViewDevices.Columns["locked"].Visible = true;
 
+            foreach(DataGridViewColumn column in dataGridViewDevices.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
+
             string[] connexions = { "AES50A 1-8", "AES50A 9-16", "AES50A 17-24", "AES50A 25-32", "AES50A 33-40", "AES50A 41-48" };
             string[] device = { "SD16", "SD8" };
 
@@ -233,6 +238,7 @@ namespace behringer_routing
 
             dataGridViewDevices.AllowUserToAddRows = false;
             dataGridViewDevices.ClearSelection();
+
         }
 
         private void dataGridViewDevices_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -263,7 +269,8 @@ namespace behringer_routing
                     devices[index + 1] = devices[index];
                     devices[index] = device;
                     dataGridUpdate();
-                    dataGridViewDevices.Rows[index + 1].Cells[0].Selected = true;
+                    dataGridViewDevices.Rows[index +
+                        1].Cells[0].Selected = true;
                 }
             }
             else
