@@ -13,7 +13,7 @@ A tool to simplify routing with behringer x-consoles, midas m-consoles and behri
 This tool can generate `.pdf` files for documenting the routing. The documentation contain physical connexions, console routing and faders routing
 
 # Notes
-_This project is under developement and may not be working at the moment. Please always use last release to avoid any problems_
+_This project is under developement and may not be working at the moment. Please always use latest release to avoid any problems_
 
 ## Contributions
 I will not accept any contributions until I have a working prototype
