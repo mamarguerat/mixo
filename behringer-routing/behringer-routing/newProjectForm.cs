@@ -64,12 +64,12 @@ namespace behringer_routing
         private void newProjectForm_Load(object sender, EventArgs e)
         {
             cbxConsole.Items.Add("Behringer X32 Compact");
-            cbxConsole.Items.Add("(Behringer X32)");
-            cbxConsole.Items.Add("(Behringer X32 Producer)");
-            cbxConsole.Items.Add("(Behringer X32 Rack)");
-            cbxConsole.Items.Add("(Midas M32)");
-            cbxConsole.Items.Add("(Midas M32 Rack)");
-            cbxConsole.Items.Add("(Behringer Wing)");
+            //cbxConsole.Items.Add("(Behringer X32)");
+            //cbxConsole.Items.Add("(Behringer X32 Producer)");
+            //cbxConsole.Items.Add("(Behringer X32 Rack)");
+            //cbxConsole.Items.Add("(Midas M32)");
+            //cbxConsole.Items.Add("(Midas M32 Rack)");
+            //cbxConsole.Items.Add("(Behringer Wing)");
         }
     }
 }

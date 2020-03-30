@@ -51,17 +51,28 @@ namespace behringer_routing
                 using (XmlWriter writer = XmlWriter.Create(path + "\\settings.xml"))
                 {
                     writer.WriteStartElement("devices");
+
                     writer.WriteStartElement("device");
                     writer.WriteElementString("type", newProject.console);
                     writer.WriteElementString("locked", "true");
                     writer.WriteElementString("name", "local inputs");
-                    writer.WriteStartElement("connexion");
-                    writer.WriteElementString("first", "local 1-8");
-                    writer.WriteElementString("second", "local 9-16");
-                    if (newProject.console == "Behringer X32" || newProject.console == "Midas M32")
+                    writer.WriteElementString("connection", "local");
+                    writer.WriteStartElement("channels");
+                    int channels = 0;
+                    if (newProject.console == "Behringer X32 Compact")
                     {
-                        writer.WriteElementString("third", "local 17-24");
-                        writer.WriteElementString("fourth", "local 25-32");
+                        channels = 16;
+                    }
+                    for (int i = 0; i < channels; i++)
+                    {
+                        writer.WriteStartElement("channel");
+                        writer.WriteElementString("name", "");
+                        writer.WriteElementString("phantom", "");
+                        writer.WriteElementString("phase", "");
+                        writer.WriteElementString("icon", "");
+                        writer.WriteElementString("color", "");
+                        writer.WriteElementString("invert", "");
+                        writer.WriteEndElement();
                     }
                     writer.WriteEndElement();
                     writer.WriteEndElement();

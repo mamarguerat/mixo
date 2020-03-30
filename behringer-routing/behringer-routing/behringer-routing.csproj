@@ -52,7 +52,6 @@
     <Compile Include="application.Designer.cs">
       <DependentUpon>application.cs</DependentUpon>
     </Compile>
-    <Compile Include="device.cs" />
     <Compile Include="editDevice.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -17,7 +17,6 @@ namespace behringer_routing
     {
         private struct channel
         {
-            public int index;
             public string name;
             public bool phantom;
             public bool phase;
@@ -32,7 +31,7 @@ namespace behringer_routing
             public string output;
             public bool locked;
             public string name;
-            public channel channel;
+            public channel[] input;
         }
 
         // X32scene x32;
@@ -45,6 +44,16 @@ namespace behringer_routing
         public application()
         {
             InitializeComponent();
+        }
+
+        private bool StringToBool(string text)
+        {
+            if (text == "True" || text == "true")
+                return true;
+            else if (text == "False" || text == "false")
+                return false;
+            else
+                return false;
         }
 
         private void initDevices()
@@ -64,17 +73,13 @@ namespace behringer_routing
                             {
                                 case "type":
                                     device.type = reader.ReadString();
+                                    if (device.type == "Behringer X32 Compact" || device.type == "SD16")
+                                        device.input = new channel[16];
+                                    else if (device.type == "SD8")
+                                        device.input = new channel[8];
                                     break;
                                 case "locked":
-                                    string read = reader.ReadString();
-                                    if (read == "True" || read == "true")
-                                    {
-                                        device.locked = true;
-                                    }
-                                    else if (read == "False" || read == "false")
-                                    {
-                                        device.locked = false;
-                                    }
+                                    device.locked = StringToBool(reader.ReadString());
                                     break;
                                 case "name":
                                     device.name = reader.ReadString();
@@ -85,104 +90,145 @@ namespace behringer_routing
                                 case "output":
                                     device.output = reader.ReadString();
                                     break;
+
+                            }
+                            if (reader.NodeType == XmlNodeType.Element && reader.Name == "channel")
+                            {
+                                int i = 0;
+                                do
+                                {
+                                    reader.Read();
+                                    switch (reader.Name)
+                                    {
+                                        case "name":
+                                            break;
+                                        case "phantom":
+                                            device.input[i].phantom = StringToBool(reader.ReadString());
+                                            break;
+                                        case "phase":
+                                            device.input[i].phase = StringToBool(reader.ReadString());
+                                            break;
+                                        case "icon":
+                                            break;
+                                        case "color":
+                                            break;
+                                        case "invert":
+                                            device.input[i].invert = StringToBool(reader.ReadString());
+                                            break;
+                                    }
+                                } while (reader.NodeType != XmlNodeType.EndElement || reader.Name != "channel");
+                                i++;
                             }
                         } while (reader.NodeType != XmlNodeType.EndElement || reader.Name != "device");
 
                         if (reader.NodeType == XmlNodeType.EndElement && reader.Name == "device")
                         {
-                            switch (device.connection)
-                            {
-                                case "local":
-                                    mainConsole = device;
-                                    break;
-                                case "A":
-                                    devicesA.Add(device);
-                                    break;
-                                case "B":
-                                    devicesB.Add(device);
-                                    break;
-                            }
-                            device = new device();
+                            addDevice(device);
                         }
                     }
                 }
             }
         }
 
-        private List<device> saveDevices()
+        private void addDevice(device device)
         {
-            List<device> list = new List<device>();
+            switch (device.connection)
+            {
+                case "local":
+                    mainConsole = device;
+                    break;
+                case "A":
+                    devicesA.Add(device);
+                    break;
+                case "B":
+                    devicesB.Add(device);
+                    break;
+            }
+            device = new device();
+        }
 
-            for (int i = 0; i < dataGridViewDevices.Rows.Count - 1; i++)
+        private void saveDevices()
+        {
+            mainConsole = new device();
+            devicesA.Clear();
+            devicesB.Clear();
+
+            for (int i = 0; i < dataGridViewDevices.Rows.Count; i++)
             {
                 device device = new device();
                 try
                 {
                     //device.connection = new string[4];
-                    if (dataGridViewDevices.Rows[i].Cells["locked"].Value.ToString() == "True")
-                    {
-                        device.locked = true;
-                    }
-                    else
-                    {
-                        device.locked = false;
-                    }
+                    device.locked = StringToBool(dataGridViewDevices.Rows[i].Cells["locked"].Value.ToString());
                     device.type = dataGridViewDevices.Rows[i].Cells["Device"].Value.ToString();
-                    if (device.locked)
-                    {
-                        //for (int j = 0; j < 4; j++)
-                        device.connection = dataGridViewDevices.Rows[i].Cells[0 + 1].Value.ToString();
-                    }
-                    else
-                    {
-                        //for (int j = 0; j < 4; j++)
-                        device.connection = (dataGridViewDevices.Rows[i].Cells[0 + 1] as DataGridViewComboBoxCell).Value.ToString();
-                    }
+                    device.connection = dataGridViewDevices.Rows[i].Cells["AES50"].Value.ToString();
                     device.name = dataGridViewDevices.Rows[i].Cells["Name"].Value.ToString();
+                    device.output = dataGridViewDevices.Rows[i].Cells["Output"].Value.ToString();
+                    for (int j = 0; j < dataGridViewChannels.Rows.Count; j++)
+                    {
+                        device.input[j].name = dataGridViewChannels.Rows[j].Cells["Name"].Value.ToString();
+                        device.input[j].phantom = StringToBool(dataGridViewChannels.Rows[j].Cells["Phantom"].Value.ToString());
+                        device.input[j].phase = StringToBool(dataGridViewChannels.Rows[j].Cells["Phase"].Value.ToString());
+                        device.input[j].icon = dataGridViewChannels.Rows[j].Cells["Icon"].Value.ToString();
+                        device.input[j].color = dataGridViewChannels.Rows[j].Cells["Color"].Value.ToString();
+                        device.input[j].invert = StringToBool(dataGridViewChannels.Rows[j].Cells["Invert"].Value.ToString());
+                    }
                 }
                 catch { }
-                list.Add(device);
+                switch (device.connection)
+                {
+                    case "A":
+                        devicesA.Add(device);
+                        break;
+                    case "B":
+                        devicesB.Add(device);
+                        break;
+                    default:
+                        mainConsole = device;
+                        break;
+                }
             }
-            return list;
         }
 
         private void saveXML()
         {
             using (XmlWriter writer = XmlWriter.Create(workingPath + "\\settings.xml"))
             {
-                writer.WriteStartElement("devices"); writer.WriteStartElement("device");
-                writer.WriteElementString("type", mainConsole.type);
-                writer.WriteElementString("locked", mainConsole.locked.ToString());
-                writer.WriteElementString("name", mainConsole.name);
-                writer.WriteStartElement("connection");
-                writer.WriteElementString("first", mainConsole.connection);
-                writer.WriteEndElement();
-                writer.WriteEndElement();
+                writeDevice(writer, mainConsole);
                 foreach (device device in devicesA)
                 {
-                    writer.WriteStartElement("device");
-                    writer.WriteElementString("type", device.type);
-                    writer.WriteElementString("locked", device.locked.ToString());
-                    writer.WriteElementString("name", device.name);
-                    writer.WriteStartElement("connection");
-                    writer.WriteElementString("first", device.connection);
-                    writer.WriteEndElement();
-                    writer.WriteEndElement();
+                    writeDevice(writer, device);
                 }
                 foreach (device device in devicesB)
                 {
-                    writer.WriteStartElement("device");
-                    writer.WriteElementString("type", device.type);
-                    writer.WriteElementString("locked", device.locked.ToString());
-                    writer.WriteElementString("name", device.name);
-                    writer.WriteStartElement("connection");
-                    writer.WriteElementString("first", device.connection);
-                    writer.WriteEndElement();
-                    writer.WriteEndElement();
+                    writeDevice(writer, device);
                 }
                 writer.WriteEndElement();
                 writer.Flush();
             }
+        }
+
+        private void writeDevice(XmlWriter writer, device device)
+        {
+            writer.WriteStartElement("device");
+            writer.WriteElementString("type", device.type);
+            writer.WriteElementString("locked", device.locked.ToString());
+            writer.WriteElementString("name", device.name);
+            writer.WriteElementString("connection", device.connection);
+            writer.WriteStartElement("channels");
+            foreach (channel input in device.input)
+            {
+                writer.WriteStartElement("channel");
+                writer.WriteElementString("name", input.name);
+                writer.WriteElementString("phantom", input.phantom.ToString());
+                writer.WriteElementString("phase", input.phase.ToString());
+                writer.WriteElementString("icon", input.icon);
+                writer.WriteElementString("color", input.color);
+                writer.WriteElementString("invert", input.invert.ToString());
+                writer.WriteEndElement();
+            }
+            writer.WriteEndElement();
+            writer.WriteEndElement();
         }
 
         private void application_Load(object sender, EventArgs e)
@@ -209,6 +255,8 @@ namespace behringer_routing
             comboBoxAES50.Items.AddRange(AES50);
             comboBoxDevice.Items.AddRange(device);
             comboBoxOutput.Items.AddRange(connexions);
+            dataGridViewDevices.Rows[dataGridViewDevices.Rows.Count - 1].Selected = true;
+            SelectRow(0);
         }
 
         private void application_Shown(object sender, EventArgs e)
@@ -236,13 +284,18 @@ namespace behringer_routing
             dataGridViewDevices.Columns[7].Name = "locked";
             dataGridViewDevices.Columns[8].Name = "AES50";
             dataGridViewDevices.Columns["Device"].ReadOnly = true;
-            dataGridViewDevices.Columns["Device"].FillWeight = 150;
+            dataGridViewDevices.Columns["Device"].Width = 150;
+            dataGridViewDevices.Columns["1-8"].Width = 80;
+            dataGridViewDevices.Columns["9-16"].Width = 80;
+            dataGridViewDevices.Columns["17-24"].Width = 80;
+            dataGridViewDevices.Columns["25-32"].Width = 80;
+            dataGridViewDevices.Columns["Output"].Width = 80;
             dataGridViewDevices.Columns["AES50"].ReadOnly = true;
             dataGridViewDevices.Columns["Output"].ReadOnly = true;
             dataGridViewDevices.Columns["Name"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dataGridViewDevices.Columns["Name"].ReadOnly = true;
-            dataGridViewDevices.Columns["locked"].Visible = true;
-            dataGridViewDevices.Columns["AES50"].Visible = true;
+            dataGridViewDevices.Columns["locked"].Visible = false;
+            dataGridViewDevices.Columns["AES50"].Visible = false;
 
             foreach (DataGridViewColumn column in dataGridViewDevices.Columns)
             {
@@ -254,6 +307,8 @@ namespace behringer_routing
             dataGridViewDevices["locked", 0].Value = mainConsole.locked.ToString();
             dataGridViewDevices["name", 0].Value = mainConsole.name;
             fillAES50(0, mainConsole);
+            dataGridViewDevices["Output", 0].Value = mainConsole.output;
+            dataGridViewDevices["AES50", 0].Value = mainConsole.connection;
 
             for (int i = 0; i < devicesA.Count; i++)
             {
@@ -286,6 +341,8 @@ namespace behringer_routing
         private void fillAES50(int row, device device)
         {
             string[] values = { "", "", "", "" };
+            string connection = "AES50";
+            int channel;
             switch (device.connection)
             {
                 case "local":
@@ -298,24 +355,36 @@ namespace behringer_routing
                     }
                     break;
                 case "A":
+                    connection += "A ";
+                    channel = 1;
+                    for (int i = row; i > 1; i--)
+                    {
+                        channel += devicesA[i - 1].input.Length;
+                    }
+                    values[0] = connection + channel + "-" + (channel + 7);
                     switch (device.type)
                     {
                         case "SD8":
-
                             break;
                         case "SD16":
-
+                            values[1] = connection + (channel + 8) + "-" + (channel + 15);
                             break;
                     }
                     break;
                 case "B":
+                    connection += "B ";
+                    channel = 1;
+                    for (int i = row; i > 1 + devicesA.Count; i--)
+                    {
+                        channel += devicesA[i - 1].input.Length;
+                    }
+                    values[0] = connection + channel + "-" + (channel + 7);
                     switch (device.type)
                     {
                         case "SD8":
-
                             break;
                         case "SD16":
-
+                            values[1] = connection + (channel + 8) + "-" + (channel + 15);
                             break;
                     }
                     break;
@@ -329,10 +398,25 @@ namespace behringer_routing
 
         private void dataGridViewDevices_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            int index = 0;
+            foreach(DataGridViewRow row in dataGridViewDevices.Rows)
+            {
+                if (row.Selected == true)
+                {
+                    index = row.Index;
+                    break;
+                }
+            }
+            SelectRow(index);
+        }
+
+        private void SelectRow(int row)
+        {
+            dataGridViewDevices.ClearSelection();
+            dataGridViewDevices.Rows[row].Selected = true;
             device device = new device();
             try
             {
-                //device.connection = new string[4];
                 int i = dataGridViewDevices.CurrentCell.RowIndex;
                 if (dataGridViewDevices.Rows[i].Cells["locked"].Value.ToString() == "True")
                 {
@@ -344,8 +428,8 @@ namespace behringer_routing
                 }
                 device.type = dataGridViewDevices.Rows[i].Cells["Device"].Value.ToString();
                 device.connection = dataGridViewDevices.Rows[i].Cells["AES50"].Value.ToString();
-                device.name = dataGridViewDevices.Rows[i].Cells["Name"].Value.ToString();
                 device.output = dataGridViewDevices.Rows[i].Cells["Output"].Value.ToString();
+                device.name = dataGridViewDevices.Rows[i].Cells["Name"].Value.ToString();
             }
             catch { }
 
@@ -437,11 +521,25 @@ namespace behringer_routing
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            //device device = new device();
-            ////device.connection = new string[4];
-            //device.locked = false;
-            //devices.Add(device);
-            //dataGridUpdate();
+            device newDevice = new device();
+            newDevice.locked = false;
+            if (comboBoxDevice.Enabled && comboBoxDevice.Text != "" && comboBoxOutput.Text != "" && comboBoxAES50.Text != "")
+            {
+                newDevice.type = comboBoxDevice.SelectedItem.ToString();
+                newDevice.connection = comboBoxAES50.SelectedItem.ToString();
+                newDevice.output = comboBoxOutput.SelectedItem.ToString();
+                newDevice.name = tbxName.Text;
+            }
+            else
+            {
+                newDevice.type = "SD8";
+                newDevice.connection = "A";
+                newDevice.output = "1-8";
+                newDevice.name = tbxName.Text;
+            }
+            addDevice(newDevice);
+            dataGridUpdate();
+            SelectRow(dataGridViewDevices.Rows.Count - 1);
         }
 
         private void buttonSaveSettings_Click(object sender, EventArgs e)
@@ -458,6 +556,9 @@ namespace behringer_routing
                 dataGridViewDevices.Rows[i].Cells["Name"].Value = tbxName.Text;
             }
             catch { }
+
+            saveDevices();
+            dataGridUpdate();
         }
     }
 }
