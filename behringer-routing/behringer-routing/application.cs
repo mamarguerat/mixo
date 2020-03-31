@@ -155,26 +155,7 @@ namespace behringer_routing
 
             for (int i = 0; i < dataGridViewDevices.Rows.Count; i++)
             {
-                device device = new device();
-                try
-                {
-                    //device.connection = new string[4];
-                    device.locked = StringToBool(dataGridViewDevices.Rows[i].Cells["locked"].Value.ToString());
-                    device.type = dataGridViewDevices.Rows[i].Cells["Device"].Value.ToString();
-                    device.connection = dataGridViewDevices.Rows[i].Cells["AES50"].Value.ToString();
-                    device.name = dataGridViewDevices.Rows[i].Cells["Name"].Value.ToString();
-                    device.output = dataGridViewDevices.Rows[i].Cells["Output"].Value.ToString();
-                    for (int j = 0; j < dataGridViewChannels.Rows.Count; j++)
-                    {
-                        device.input[j].name = dataGridViewChannels.Rows[j].Cells["Name"].Value.ToString();
-                        device.input[j].phantom = StringToBool(dataGridViewChannels.Rows[j].Cells["Phantom"].Value.ToString());
-                        device.input[j].phase = StringToBool(dataGridViewChannels.Rows[j].Cells["Phase"].Value.ToString());
-                        device.input[j].icon = dataGridViewChannels.Rows[j].Cells["Icon"].Value.ToString();
-                        device.input[j].color = dataGridViewChannels.Rows[j].Cells["Color"].Value.ToString();
-                        device.input[j].invert = StringToBool(dataGridViewChannels.Rows[j].Cells["Invert"].Value.ToString());
-                    }
-                }
-                catch { }
+                device device = readDevice(i);
                 switch (device.connection)
                 {
                     case "A":
@@ -190,10 +171,40 @@ namespace behringer_routing
             }
         }
 
+        private device readDevice(int row)
+        {
+            device device = new device();
+            try
+            {
+                device.locked = StringToBool(dataGridViewDevices.Rows[row].Cells["locked"].Value.ToString());
+                device.type = dataGridViewDevices.Rows[row].Cells["Device"].Value.ToString();
+                device.connection = dataGridViewDevices.Rows[row].Cells["AES50"].Value.ToString();
+                device.name = dataGridViewDevices.Rows[row].Cells["Name"].Value.ToString();
+                device.output = dataGridViewDevices.Rows[row].Cells["Output"].Value.ToString();
+                device.input = new channel[dataGridViewChannels.Rows.Count];
+                for (int j = 0; j < device.input.Length; j++)
+                {
+                    device.input[j].name = dataGridViewChannels.Rows[j].Cells["Name"].Value.ToString();
+                    device.input[j].phantom = StringToBool(dataGridViewChannels.Rows[j].Cells["Phantom"].Value.ToString());
+                    device.input[j].phase = StringToBool(dataGridViewChannels.Rows[j].Cells["Phase"].Value.ToString());
+                    device.input[j].icon = dataGridViewChannels.Rows[j].Cells["Icon"].Value.ToString();
+                    device.input[j].color = dataGridViewChannels.Rows[j].Cells["Color"].Value.ToString();
+                    device.input[j].invert = StringToBool(dataGridViewChannels.Rows[j].Cells["Invert"].Value.ToString());
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Corrupted file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return device;
+        }
+
         private void saveXML()
         {
             using (XmlWriter writer = XmlWriter.Create(workingPath + "\\settings.xml"))
             {
+                writer.WriteStartElement("devices");
                 writeDevice(writer, mainConsole);
                 foreach (device device in devicesA)
                 {
@@ -336,6 +347,8 @@ namespace behringer_routing
 
             dataGridViewDevices.AllowUserToAddRows = false;
             dataGridViewDevices.ClearSelection();
+
+            dataGridViewChannels.Rows.Clear();
         }
 
         private void fillAES50(int row, device device)
@@ -399,7 +412,7 @@ namespace behringer_routing
         private void dataGridViewDevices_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             int index = 0;
-            foreach(DataGridViewRow row in dataGridViewDevices.Rows)
+            foreach (DataGridViewRow row in dataGridViewDevices.Rows)
             {
                 if (row.Selected == true)
                 {
@@ -414,24 +427,7 @@ namespace behringer_routing
         {
             dataGridViewDevices.ClearSelection();
             dataGridViewDevices.Rows[row].Selected = true;
-            device device = new device();
-            try
-            {
-                int i = dataGridViewDevices.CurrentCell.RowIndex;
-                if (dataGridViewDevices.Rows[i].Cells["locked"].Value.ToString() == "True")
-                {
-                    device.locked = true;
-                }
-                else
-                {
-                    device.locked = false;
-                }
-                device.type = dataGridViewDevices.Rows[i].Cells["Device"].Value.ToString();
-                device.connection = dataGridViewDevices.Rows[i].Cells["AES50"].Value.ToString();
-                device.output = dataGridViewDevices.Rows[i].Cells["Output"].Value.ToString();
-                device.name = dataGridViewDevices.Rows[i].Cells["Name"].Value.ToString();
-            }
-            catch { }
+            device device = readDevice(row);
 
             if (device.locked)
             {
@@ -458,6 +454,11 @@ namespace behringer_routing
                 comboBoxOutput.Enabled = true;
             }
             tbxName.Text = device.name;
+
+            List<channel> channels = new List<channel>();
+            channels.AddRange(device.input);
+            dataGridViewChannels.DataSource = channels;
+            dataGridViewChannels.Update();
         }
 
         private void dataGridViewDevices_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -467,7 +468,7 @@ namespace behringer_routing
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //devices = saveDevices();
+            saveDevices();
             saveXML();
         }
 
@@ -512,6 +513,9 @@ namespace behringer_routing
 
         private void buttonRemove_Click(object sender, EventArgs e)
         {
+            dataGridViewDevices.Rows.RemoveAt(dataGridViewDevices.CurrentCell.RowIndex);
+            saveDevices();
+            dataGridUpdate();
             //if (!devices[dataGridViewDevices.CurrentCell.RowIndex].locked)
             //    devices.RemoveAt(dataGridViewDevices.CurrentCell.RowIndex);
             //else

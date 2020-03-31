@@ -57,6 +57,7 @@ namespace behringer_routing
                     writer.WriteElementString("locked", "true");
                     writer.WriteElementString("name", "local inputs");
                     writer.WriteElementString("connection", "local");
+                    writer.WriteElementString("output", "local 1-8");
                     writer.WriteStartElement("channels");
                     int channels = 0;
                     if (newProject.console == "Behringer X32 Compact")
