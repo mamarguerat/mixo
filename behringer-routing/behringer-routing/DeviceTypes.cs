@@ -9,12 +9,17 @@ namespace behringer_routing
     class DeviceTypes
     {
         private string n;
+        private string t;
         private uint nbrI;
         private uint nbrO;
 
         public string name
         {
             get { return n; }
+        }
+        public string type
+        {
+            get { return t; }
         }
         public uint nbrInputs
         {
@@ -25,9 +30,10 @@ namespace behringer_routing
             get { return nbrO; }
         }
 
-        public DeviceTypes(string deviceName, uint deviceInputs, uint deviceOutputs)
+        public DeviceTypes(string deviceName, string type, uint deviceInputs, uint deviceOutputs)
         {
             n = deviceName;
+            t = type;
             nbrI = deviceInputs;
             nbrO = deviceOutputs;
         }

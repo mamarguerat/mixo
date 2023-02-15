@@ -17,7 +17,8 @@ namespace behringer_routing
     {
         // X32scene x32;
         string workingPath;
-        private List<Devices> devices = new List<Devices>();
+        private List<Devices> mixers = new List<Devices>();
+        private List<Devices> stageBoxes = new List<Devices>();
         DeviceTypes[] deviceTypes;
 
         enum ColumnName
@@ -48,15 +49,17 @@ namespace behringer_routing
                 this.Close();
                 return;
             }
+            this.Text = "X32-Rooting - " + this.Text;
 
-            deviceTypes = new DeviceTypes[3];
-            deviceTypes[0] = new DeviceTypes("X32 Compact", 16, 8);
-            deviceTypes[1] = new DeviceTypes("SD8", 8, 8);
-            deviceTypes[2] = new DeviceTypes("SD16", 16, 8);
+            deviceTypes = new DeviceTypes[4];
+            deviceTypes[0] = new DeviceTypes("X32 Compact", "mixer", 16, 8);
+            deviceTypes[1] = new DeviceTypes("X32", "mixer", 32, 16);
+            deviceTypes[2] = new DeviceTypes("SD8", "stage box", 8, 8);
+            deviceTypes[3] = new DeviceTypes("SD16", "stage box", 16, 8);
 
-            devices.Add(new Devices(deviceTypes[0]));   // Add X32 Compact
-            devices[0].master = true;
-            devices[0].name = "Main Console";
+            mixers.Add(new Devices(deviceTypes[0]));   // Add X32 Compact
+            mixers[0].master = true;
+            mixers[0].name = "Main Console";
             dataGridCreateColumns();
             dataGridUpdate();
         }
@@ -66,110 +69,146 @@ namespace behringer_routing
 
         }
 
-        private void dataGridViewDevices_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
         private void dataGridCreateColumns()
         {
             DataGridViewColumn column;
             DataGridViewColumn comboboxColumn;
-            DataGridViewComboBoxCell comboboxCell = new DataGridViewComboBoxCell();
+            DataGridViewComboBoxCell comboboxCell;
+            DataGridViewComboBoxCell comboboxCellDevices;
+            // Mixers
+            comboboxCell = new DataGridViewComboBoxCell();
             comboboxCell.Items.Add("1");
             comboboxCell.Items.Add("2");
             comboboxCell.Items.Add("3");
 
-            column = new DataGridViewColumn();
-            column.Name = "Device";
-            column.ReadOnly = true;
-            column.Width = 150;
-            column.CellTemplate = new DataGridViewTextBoxCell();
-            dataGridViewDevices.Columns.Add(column);
+            comboboxCellDevices = new DataGridViewComboBoxCell();
+            foreach (DeviceTypes type in deviceTypes)
+            {
+                if (type.type == "mixer")
+                {
+                    comboboxCellDevices.Items.Add(type.name);
+                }
+            }
+            comboboxColumn = new DataGridViewComboBoxColumn();
+            comboboxColumn.Name = "Device";
+            comboboxColumn.ReadOnly = false;
+            comboboxColumn.Width = 150;
+            comboboxColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
+            comboboxColumn.CellTemplate = comboboxCellDevices;
+            dataGridMixers.Columns.Add(comboboxColumn);
             comboboxColumn = new DataGridViewComboBoxColumn();
             comboboxColumn.Name = "1-8";
             comboboxColumn.ReadOnly = false;
             comboboxColumn.Width = 85;
             comboboxColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
             comboboxColumn.CellTemplate = comboboxCell;
-            dataGridViewDevices.Columns.Add(comboboxColumn);
+            dataGridMixers.Columns.Add(comboboxColumn);
             comboboxColumn = new DataGridViewComboBoxColumn();
             comboboxColumn.Name = "9-16";
             comboboxColumn.ReadOnly = false;
             comboboxColumn.Width = 85;
             comboboxColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
             comboboxColumn.CellTemplate = comboboxCell;
-            dataGridViewDevices.Columns.Add(comboboxColumn);
+            dataGridMixers.Columns.Add(comboboxColumn);
             comboboxColumn = new DataGridViewComboBoxColumn();
             comboboxColumn.Name = "17-24";
             comboboxColumn.ReadOnly = false;
             comboboxColumn.Width = 85;
             comboboxColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
             comboboxColumn.CellTemplate = comboboxCell;
-            dataGridViewDevices.Columns.Add(comboboxColumn);
+            dataGridMixers.Columns.Add(comboboxColumn);
             comboboxColumn = new DataGridViewComboBoxColumn();
             comboboxColumn.Name = "25-32";
             comboboxColumn.ReadOnly = false;
             comboboxColumn.Width = 85;
             comboboxColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
             comboboxColumn.CellTemplate = comboboxCell;
-            dataGridViewDevices.Columns.Add(comboboxColumn);
+            dataGridMixers.Columns.Add(comboboxColumn);
             comboboxColumn = new DataGridViewComboBoxColumn();
             comboboxColumn.Name = "Output";
             comboboxColumn.ReadOnly = false;
             comboboxColumn.Width = 85;
             comboboxColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
             comboboxColumn.CellTemplate = comboboxCell;
-            dataGridViewDevices.Columns.Add(comboboxColumn);
+            dataGridMixers.Columns.Add(comboboxColumn);
             column = new DataGridViewColumn();
             column.Name = "Name";
             column.ReadOnly = false;
             column.Width = 120;
             column.SortMode = DataGridViewColumnSortMode.NotSortable;
             column.CellTemplate = new DataGridViewTextBoxCell();
-            dataGridViewDevices.Columns.Add(column);
+            dataGridMixers.Columns.Add(column);
             column = new DataGridViewColumn();
             column.Name = "Description";
             column.ReadOnly = false;
             column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             column.SortMode = DataGridViewColumnSortMode.NotSortable;
             column.CellTemplate = new DataGridViewTextBoxCell();
-            dataGridViewDevices.Columns.Add(column);
+            dataGridMixers.Columns.Add(column);
+
+            // StageBoxes
+            comboboxCell = new DataGridViewComboBoxCell();
+            comboboxCell.Items.Add("1");
+            comboboxCell.Items.Add("2");
+            comboboxCell.Items.Add("3");
+
+            comboboxCellDevices = new DataGridViewComboBoxCell();
+            foreach(DeviceTypes type in deviceTypes)
+            {
+                if(type.type == "stage box")
+                {
+                    comboboxCellDevices.Items.Add(type.name);
+                }
+            }
+            comboboxColumn = new DataGridViewComboBoxColumn();
+            comboboxColumn.Name = "Device";
+            comboboxColumn.ReadOnly = false;
+            comboboxColumn.Width = 150;
+            comboboxColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
+            comboboxColumn.CellTemplate = comboboxCellDevices;
+            dataGridStageBoxes.Columns.Add(comboboxColumn);
+            comboboxColumn = new DataGridViewComboBoxColumn();
+            comboboxColumn.Name = "Output";
+            comboboxColumn.ReadOnly = false;
+            comboboxColumn.Width = 85;
+            comboboxColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
+            comboboxColumn.CellTemplate = comboboxCell;
+            dataGridStageBoxes.Columns.Add(comboboxColumn);
+            column = new DataGridViewColumn();
+            column.Name = "Name";
+            column.ReadOnly = false;
+            column.Width = 120;
+            column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            column.CellTemplate = new DataGridViewTextBoxCell();
+            dataGridStageBoxes.Columns.Add(column);
+            column = new DataGridViewColumn();
+            column.Name = "Description";
+            column.ReadOnly = false;
+            column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            column.CellTemplate = new DataGridViewTextBoxCell();
+            dataGridStageBoxes.Columns.Add(column);
         }
         private void dataGridUpdate()
         {
-            dataGridViewDevices.Rows.Clear();
+            dataGridMixers.Rows.Clear();
 
-            for(int i = 0; i < devices.Count; i++)
+            for(int i = 0; i < mixers.Count; i++)
             {
-                dataGridViewDevices.Rows.Add();
-                dataGridViewDevices["Device", i].Value = devices[i].type.name;
-                //dataGridViewDevices["locked", 0].Value = devices[0].type.name;
-                dataGridViewDevices["Name", i].Value = devices[i].name;
-                dataGridViewDevices["Description", i].Value = devices[i].description;
+                dataGridMixers.Rows.Add();
+                dataGridMixers["Device", i].Value = mixers[i].type.name;
+                dataGridMixers["Name", i].Value = mixers[i].name;
+                dataGridMixers["Description", i].Value = mixers[i].description;
             }
-        }
 
-        private void dataGridViewDevices_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-        }
+            dataGridStageBoxes.Rows.Clear();
 
-        private void SelectRow(int row)
-        {
-        }
-
-        private void dataGridViewDevices_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            switch(dataGridViewDevices.CurrentCell.ColumnIndex)
+            for (int i = 0; i < stageBoxes.Count; i++)
             {
-                case (int)ColumnName.name:
-                    devices[dataGridViewDevices.CurrentCell.RowIndex].name = (string)dataGridViewDevices.CurrentCell.Value;
-                    break;
-                case (int)ColumnName.description:
-                    devices[dataGridViewDevices.CurrentCell.RowIndex].description = (string)dataGridViewDevices.CurrentCell.Value;
-                    break;
-                default:
-                    break;
+                dataGridStageBoxes.Rows.Add();
+                dataGridStageBoxes["Device", i].Value = stageBoxes[i].type.name;
+                dataGridStageBoxes["Name", i].Value = stageBoxes[i].name;
+                dataGridStageBoxes["Description", i].Value = stageBoxes[i].description;
             }
         }
 
@@ -185,33 +224,84 @@ namespace behringer_routing
         {
         }
 
-        private void buttonRemove_Click(object sender, EventArgs e)
+        private void dataGridMixers_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            switch (dataGridMixers.CurrentCell.ColumnIndex)
+            {
+                case (int)ColumnName.name:
+                    mixers[dataGridMixers.CurrentCell.RowIndex].name = (string)dataGridMixers.CurrentCell.Value;
+                    break;
+                case (int)ColumnName.description:
+                    mixers[dataGridMixers.CurrentCell.RowIndex].description = (string)dataGridMixers.CurrentCell.Value;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void dataGridStageBoxes_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            switch (dataGridStageBoxes.CurrentCell.ColumnIndex)
+            {
+                case (int)ColumnName.name:
+                    stageBoxes[dataGridStageBoxes.CurrentCell.RowIndex].name = (string)dataGridStageBoxes.CurrentCell.Value;
+                    break;
+                case (int)ColumnName.description:
+                    stageBoxes[dataGridStageBoxes.CurrentCell.RowIndex].description = (string)dataGridStageBoxes.CurrentCell.Value;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void buttonAddMixer_Click(object sender, EventArgs e)
+        {
+            mixers.Add(new Devices(deviceTypes[0]));
+            dataGridUpdate();
+            dataGridMixers.Rows[0].Selected = false;
+            dataGridMixers.Rows[dataGridMixers.RowCount - 1].Selected = true;
+        }
+
+        private void buttonRemoveMixer_Click(object sender, EventArgs e)
         {
             int lastIndex = 0;
-            for (int i = 0; i < dataGridViewDevices.SelectedRows.Count; i++)
+            for (int i = 0; i < dataGridMixers.SelectedRows.Count; i++)
             {
-                int index = dataGridViewDevices.SelectedRows[i].Index;
+                int index = dataGridMixers.SelectedRows[i].Index;
                 if (index != 0)
                 {
-                    devices.RemoveAt(dataGridViewDevices.SelectedRows[i].Index);
+                    mixers.RemoveAt(dataGridMixers.SelectedRows[i].Index);
                 }
                 lastIndex = index;
             }
             dataGridUpdate();
-            dataGridViewDevices.Rows[0].Selected = false;
-            dataGridViewDevices.Rows[lastIndex > dataGridViewDevices.RowCount-1 ? dataGridViewDevices.RowCount - 1 : lastIndex].Selected = true;
+            dataGridMixers.Rows[0].Selected = false;
+            dataGridMixers.Rows[lastIndex > dataGridMixers.RowCount - 1 ? dataGridMixers.RowCount - 1 : lastIndex].Selected = true;
         }
 
-        private void buttonAdd_Click(object sender, EventArgs e)
+        private void btnAddStageBox_Click(object sender, EventArgs e)
         {
-            devices.Add(new Devices(deviceTypes[1]));
+            stageBoxes.Add(new Devices(deviceTypes[2]));
             dataGridUpdate();
-            dataGridViewDevices.Rows[0].Selected = false;
-            dataGridViewDevices.Rows[dataGridViewDevices.RowCount - 1].Selected = true;
+            dataGridStageBoxes.Rows[0].Selected = false;
+            dataGridStageBoxes.Rows[dataGridStageBoxes.RowCount - 1].Selected = true;
         }
 
-        private void buttonSaveSettings_Click(object sender, EventArgs e)
+        private void btnRemoveStageBox_Click(object sender, EventArgs e)
         {
+            int lastIndex = 0;
+            for (int i = 0; i < dataGridStageBoxes.SelectedRows.Count; i++)
+            {
+                int index = dataGridStageBoxes.SelectedRows[i].Index;
+                stageBoxes.RemoveAt(dataGridStageBoxes.SelectedRows[i].Index);
+                lastIndex = index;
+            }
+            dataGridUpdate();
+            if(lastIndex != 0)
+            {
+                dataGridStageBoxes.Rows[0].Selected = false;
+                dataGridStageBoxes.Rows[lastIndex > dataGridStageBoxes.RowCount - 1 ? dataGridStageBoxes.RowCount - 1 : lastIndex].Selected = true;
+            }
         }
     }
 }
