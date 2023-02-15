@@ -33,7 +33,7 @@ namespace behringer_routing
 
         private void OpeningForm_Load(object sender, EventArgs e)
         {
-            version.Text = "v1.0.0.42";
+            version.Text = "v" + Application.ProductVersion;
         }
 
         private void btnNewProject_Click(object sender, EventArgs e)

@@ -52,8 +52,6 @@
             // 
             // tbxName
             // 
-            this.tbxName.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.tbxName.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.tbxName.Location = new System.Drawing.Point(53, 94);
             this.tbxName.Name = "tbxName";
             this.tbxName.Size = new System.Drawing.Size(234, 20);
@@ -61,8 +59,6 @@
             // 
             // cbxConsole
             // 
-            this.cbxConsole.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.cbxConsole.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.cbxConsole.FormattingEnabled = true;
             this.cbxConsole.Location = new System.Drawing.Point(66, 120);
             this.cbxConsole.MaxDropDownItems = 10;
@@ -74,7 +70,6 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.label1.Location = new System.Drawing.Point(9, 97);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(38, 13);
@@ -84,7 +79,6 @@
             // label2
             // 
             this.label2.Font = new System.Drawing.Font("Arial", 24.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.label2.Location = new System.Drawing.Point(12, 9);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(275, 61);
@@ -95,7 +89,6 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.label3.Location = new System.Drawing.Point(9, 123);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(51, 13);
@@ -105,7 +98,6 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.label4.Location = new System.Drawing.Point(9, 168);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(51, 13);
@@ -114,8 +106,6 @@
             // 
             // tbxLocation
             // 
-            this.tbxLocation.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.tbxLocation.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.tbxLocation.Location = new System.Drawing.Point(12, 192);
             this.tbxLocation.Name = "tbxLocation";
             this.tbxLocation.Size = new System.Drawing.Size(275, 20);
@@ -133,6 +123,7 @@
             // 
             // btnCancel
             // 
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Location = new System.Drawing.Point(12, 251);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(120, 23);
@@ -146,7 +137,6 @@
             this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(300, 290);
             this.Controls.Add(this.btnCancel);

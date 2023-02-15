@@ -49,9 +49,8 @@
             // 
             // btnNewProject
             // 
-            this.btnNewProject.BackColor = System.Drawing.SystemColors.GrayText;
+            this.btnNewProject.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.btnNewProject.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNewProject.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.btnNewProject.Location = new System.Drawing.Point(12, 307);
             this.btnNewProject.Name = "btnNewProject";
             this.btnNewProject.Size = new System.Drawing.Size(425, 40);
@@ -62,9 +61,8 @@
             // 
             // btnOpenProject
             // 
-            this.btnOpenProject.BackColor = System.Drawing.SystemColors.GrayText;
+            this.btnOpenProject.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.btnOpenProject.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOpenProject.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.btnOpenProject.Location = new System.Drawing.Point(12, 353);
             this.btnOpenProject.Name = "btnOpenProject";
             this.btnOpenProject.Size = new System.Drawing.Size(425, 40);
@@ -76,7 +74,6 @@
             // label1
             // 
             this.label1.Font = new System.Drawing.Font("Arial", 24.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.label1.Location = new System.Drawing.Point(12, 230);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(425, 61);
@@ -87,7 +84,6 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.label2.Location = new System.Drawing.Point(270, 278);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(82, 13);
@@ -97,8 +93,6 @@
             // version
             // 
             this.version.AutoSize = true;
-            this.version.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.version.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.version.Location = new System.Drawing.Point(16, 401);
             this.version.Name = "version";
             this.version.Size = new System.Drawing.Size(37, 13);
@@ -109,7 +103,6 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(449, 423);
             this.Controls.Add(this.version);
             this.Controls.Add(this.label2);
