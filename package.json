@@ -1,0 +1,42 @@
+{
+  "name": "behringer-routing",
+  "version": "1.0.0",
+  "description": "Routing tool for behringer X32",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mamarguerat/behringer-routing.git"
+  },
+  "keywords": [
+    "routing",
+    "mixer",
+    "midas",
+    "behringer",
+    "x32",
+    "x32-mixer",
+    "m32"
+  ],
+  "author": "Martin Marguerat",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/mamarguerat/behringer-routing/issues"
+  },
+  "homepage": "https://github.com/mamarguerat/behringer-routing#readme",
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.5",
+    "@electron-forge/maker-deb": "^6.0.5",
+    "@electron-forge/maker-rpm": "^6.0.5",
+    "@electron-forge/maker-squirrel": "^6.0.5",
+    "@electron-forge/maker-zip": "^6.0.5",
+    "electron": "^25.3.0"
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.0",
+    "jquery": "^3.7.0"
+  }
+}

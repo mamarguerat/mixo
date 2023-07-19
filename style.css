@@ -1,0 +1,33 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+#canvas {
+    min-width: 100%;
+    min-height: 100%;
+}
+.device {
+    width: min-content;
+    display:inline-block;
+    position:absolute;
+}
+
+.device:hover {
+    cursor: move;
+}
+
+.device input {
+    width: 100%;
+    border: none;
+    /*border-bottom: 1px solid gray;*/
+    text-align: center;
+    background: transparent;
+}
+
+.x32c img {
+    width: 250px;
+}
+.sd16 img {
+    width: 200px;
+}
