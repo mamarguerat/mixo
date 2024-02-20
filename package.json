@@ -6,7 +6,8 @@
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
-    "make": "electron-forge make"
+    "make": "electron-forge make",
+    "loc-build": "electron-builder"
   },
   "repository": {
     "type": "git",
@@ -42,6 +43,9 @@
     "jquery": "^3.7.0"
   },
   "build": {
+    "extraResources": [
+      "./images/**/*"
+    ],
     "appId": "ch.martinmarguerat.mixers-routing-tool",
     "productName": "Mixers routing tool",
     "mac": {

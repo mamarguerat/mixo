@@ -11,12 +11,13 @@ class Device {
   }
 
   show() {
+    console.log(process.env.BASE_URL + "/assets/images/", this.type + ".svg");
     if (this.visible)
       return "<div id='" + this.id +
         "' class='device " + this.type +
         "' style='top: " + this.y +
         "px; left: " + this.x +
-        "px;'><img draggable='false' src='./images/" + this.type +
+        "px;'><img draggable='false' src='" + process.env.BASE_URL + "/assets/images/" +  this.type +
         ".svg'><input type='text' value='" + this.name +
         "'></div>";
     else return "";
