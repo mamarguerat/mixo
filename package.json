@@ -1,7 +1,7 @@
 {
-  "name": "behringer-routing",
+  "name": "mixers-routing-tool",
   "version": "1.0.0",
-  "description": "Routing tool for behringer X32",
+  "description": "Routing tool for mixing consoles",
   "main": "main.js",
   "scripts": {
     "start": "electron-forge start",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mamarguerat/behringer-routing.git"
+    "url": "git+https://github.com/mamarguerat/mixers-routing-tool.git"
   },
   "keywords": [
     "routing",
@@ -24,9 +24,9 @@
   "author": "Martin Marguerat",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/mamarguerat/behringer-routing/issues"
+    "url": "https://github.com/mamarguerat/mixers-routing-tool/issues"
   },
-  "homepage": "https://github.com/mamarguerat/behringer-routing#readme",
+  "homepage": "https://github.com/mamarguerat/mixers-routing-tool#readme",
   "devDependencies": {
     "@electron-forge/cli": "^6.0.5",
     "@electron-forge/maker-deb": "^6.0.5",
