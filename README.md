@@ -20,5 +20,16 @@ _This project is under development and may not be working at the moment. Please 
 ## Contributions
 I will not accept any contributions until I have a working prototype
 
+### Build from scratch
+Install npm and nodejs
+
+```bash
+curl -fsSL https://deb.nodesource.com/setup_21.x | sudo -E bash -
+sudo apt-get install -y nodejs
+sudo apt install npm
+```
+
+In the clonned repository run `npm install` and `npm start`
+
 ## Issues
 Feel free to report any issues or suggestions you have

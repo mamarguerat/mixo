@@ -1,7 +1,7 @@
 {
-  "name": "behringer-routing",
-  "version": "1.0.0",
-  "description": "Routing tool for behringer X32",
+  "name": "mixers-routing-tool",
+  "version": "0.0.1",
+  "description": "Routing tool for mixing consoles",
   "main": "main.js",
   "scripts": {
     "start": "electron-forge start",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mamarguerat/behringer-routing.git"
+    "url": "git+https://github.com/mamarguerat/mixers-routing-tool.git"
   },
   "keywords": [
     "routing",
@@ -24,19 +24,37 @@
   "author": "Martin Marguerat",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/mamarguerat/behringer-routing/issues"
+    "url": "https://github.com/mamarguerat/mixers-routing-tool/issues"
   },
-  "homepage": "https://github.com/mamarguerat/behringer-routing#readme",
+  "homepage": "https://github.com/mamarguerat/mixers-routing-tool#readme",
   "devDependencies": {
     "@electron-forge/cli": "^6.0.5",
     "@electron-forge/maker-deb": "^6.0.5",
     "@electron-forge/maker-rpm": "^6.0.5",
     "@electron-forge/maker-squirrel": "^6.0.5",
     "@electron-forge/maker-zip": "^6.0.5",
-    "electron": "^25.8.4"
+    "electron": "^25.8.4",
+    "electron-builder": "^24.12.0"
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
+    "electron-updater": "^6.1.8",
     "jquery": "^3.7.0"
+  },
+  "build": {
+    "appId": "ch.martinmarguerat.mixers-routing-tool",
+    "productName": "Mixers routing tool",
+    "mac": {
+      "category": "public.app-category.utilities"
+    },
+    "dmg": {
+      "icon": false
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Utility"
+    }
   }
 }
