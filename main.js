@@ -141,13 +141,25 @@ app.on('window-all-closed', () => {
   }
 });
 
+var childWindow;
+
 ipcMain.on('window', (event, arg) => {
-  const window = new BrowserWindow({
-    height: 600,
-    width: 800
-  });
-  window.loadURL('https://stackoverflow.com/questions/53390798/opening-new-window-electron');
-  window.once('ready-to-show', () => {
-    window.show()
-  })
+  createChildWindow("device-detail.html", "device-detail-preload.js")
+  childWindow.webContents.send('type', arg)
 })
+
+// function to create a child window
+function createChildWindow(fileName, preloadFileName) {
+  childWindow = new BrowserWindow({
+    width: 1000,
+    height: 700,
+    parent : win, // accessing the parent window 
+    webPreferences: {
+      preload: path.join(__dirname, preloadFileName),
+      nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true,
+    }
+  })
+  childWindow.loadFile(fileName)
+}

@@ -1,7 +1,7 @@
 # Behringer routing tool
 A tool to simplify routing with behringer x-consoles, midas m-consoles and behringer wing.
 
-<img src="images/2023-07-19_14-18-10%20(1).gif" >
+<img src="public/assets/images/2023-07-19_14-18-10%20(1).gif" >
 
 ## Simplify routing
 - This tool has a user-friendly user interface to simplify routing

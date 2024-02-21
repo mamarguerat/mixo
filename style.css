@@ -31,3 +31,8 @@ html, body {
 .sd16 img {
     width: 200px;
 }
+
+.detail {
+    width: 100% !important;
+    height: 100% !important;
+}
