@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
     height: 100%;
     margin: 0;
 }
@@ -7,10 +8,12 @@ html, body {
     min-width: 100%;
     min-height: 100%;
 }
+
 .device {
     width: min-content;
-    display:inline-block;
-    position:absolute;
+    display: inline-block;
+    position: absolute;
+    padding-top: 5px;
 }
 
 .device:hover {
@@ -25,9 +28,30 @@ html, body {
     background: transparent;
 }
 
-.x32c img {
-    width: 250px;
+.device .AES50 {
+    border: 1px solid black;
+    background: white;
+    height: 1em;
+    width: 1em;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    position: absolute;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: crosshair !important;
 }
+
+.device .AES50:hover {
+    background: black;
+    color: white;
+}
+
+.x32c img {
+    width: 260px;
+}
+
 .sd16 img {
     width: 200px;
 }
@@ -35,4 +59,18 @@ html, body {
 .detail {
     width: 100% !important;
     height: 100% !important;
+}
+
+#canvas svg {
+    height: 100%;
+    width: 100%;
+}
+
+.lines {
+    position: absolute;
+    z-index: -1;
+}
+
+.line {
+    stroke-width: 3px;
 }
