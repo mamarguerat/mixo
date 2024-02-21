@@ -1,16 +1,21 @@
 {
   "name": "mixers-routing-tool",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Routing tool for mixing consoles",
   "main": "main.js",
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
-    "make": "electron-forge make"
+    "make": "electron-forge make",
+    "loc-build": "electron-builder"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mamarguerat/mixers-routing-tool.git"
+    "url": "https://github.com/mamarguerat/mixers-routing-tool.git"
+  },
+  "publish": {
+    "provider": "github",
+    "releaseType": "release"
   },
   "keywords": [
     "routing",
@@ -42,6 +47,12 @@
     "jquery": "^3.7.0"
   },
   "build": {
+    "extraResources": [
+      {
+        "from": "public",
+        "to": "public"
+      }
+    ],
     "appId": "ch.martinmarguerat.mixers-routing-tool",
     "productName": "Mixers routing tool",
     "mac": {
@@ -55,6 +66,9 @@
         "AppImage"
       ],
       "category": "Utility"
+    },
+    "win": {
+      "publish": "github"
     }
   }
 }
