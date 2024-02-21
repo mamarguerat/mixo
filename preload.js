@@ -1,9 +1,12 @@
 const { contextBridge, ipcRenderer } = require('electron')
 const path = require('path')
 
+// Uncomment for npm start command
+// process.env.NODE_ENV = 'development'
+
 const publicPath =
   process.env.NODE_ENV === 'development'
-    ? path.join(__dirname, './public')
+    ? './public'
     : path.join(process.resourcesPath, 'public');
 const imagesPath = path.join(publicPath, "assets", "images");
 
