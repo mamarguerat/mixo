@@ -1,9 +1,9 @@
-const { app, BrowserWindow, ipcMain, Menu } = require('electron');
+const { app, BrowserWindow, ipcMain, Menu } = require('electron')
 const path = require('path')
 let win
 
 // Autoupdater from https://samuelmeuli.com/blog/2019-04-07-packaging-and-publishing-an-electron-app/
-const autoUpdater = require("electron-updater");
+const { autoUpdater } = require("electron-updater")
 
 app.on("ready", () => {
 	autoUpdater.checkForUpdatesAndNotify();
