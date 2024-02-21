@@ -44,7 +44,10 @@
   },
   "build": {
     "extraResources": [
-      "./images/**/*"
+      {
+        "from": "public",
+        "to": "public"
+      }
     ],
     "appId": "ch.martinmarguerat.mixers-routing-tool",
     "productName": "Mixers routing tool",

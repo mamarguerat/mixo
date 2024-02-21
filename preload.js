@@ -1,4 +1,11 @@
 const { contextBridge, ipcRenderer } = require('electron')
+const path = require('path')
+
+const publicPath =
+  process.env.NODE_ENV === 'development'
+    ? path.join(__dirname, './public')
+    : path.join(process.resourcesPath, 'public');
+const imagesPath = path.join(publicPath, "assets", "images");
 
 class Device {
   constructor(x, y, type, id, name) {
@@ -11,14 +18,13 @@ class Device {
   }
 
   show() {
-    console.log(process.env.BASE_URL + "/assets/images/", this.type + ".svg");
     if (this.visible)
       return "<div id='" + this.id +
         "' class='device " + this.type +
         "' style='top: " + this.y +
         "px; left: " + this.x +
-        "px;'><img draggable='false' src='" + process.env.BASE_URL + "/assets/images/" +  this.type +
-        ".svg'><input type='text' value='" + this.name +
+        "px;'><img draggable='false' src='" + path.join(imagesPath, this.type + ".svg") +
+        "'><input type='text' value='" + this.name +
         "'></div>";
     else return "";
   }
