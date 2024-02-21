@@ -9,7 +9,6 @@ app.on("ready", () => {
 	autoUpdater.checkForUpdatesAndNotify();
 });
 
-
 const menuTemplate = [
   { role: 'appMenu' },
   {
@@ -124,6 +123,11 @@ const createWindow = () => {
 };
 
 app.whenReady().then(() => {
+  if (!app.isPackaged)
+  {
+    process.env.NODE_ENV = 'development';
+  }
+
   Menu.setApplicationMenu(menu);
   createWindow();
 
