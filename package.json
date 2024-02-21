@@ -1,6 +1,6 @@
 {
   "name": "mixers-routing-tool",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Routing tool for mixing consoles",
   "main": "main.js",
   "scripts": {
