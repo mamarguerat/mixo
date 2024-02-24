@@ -94,9 +94,12 @@ contextBridge.exposeInMainWorld('versions', {
 
 let devices = [];
 let links = [];
+let selectedElement = null;
+let selectedAES = null;
+let originX, originY, mouseX, mouseY;
 
 function selectTopDiv(ele) {
-  while (!ele.classList.contains('device') && !ele.classList.contains('AES50') && ele.tagName != "INPUT") {
+  while (ele.tagName != "BODY" && !ele.classList.contains('device') && !ele.classList.contains('AES50') && ele.tagName != "INPUT") {
     ele = ele.parentElement;
   }
   return ele;
@@ -120,69 +123,67 @@ function drawLine() {
   })
 }
 
-function enableDragging(ele) {
-  var dragging = dragging || false,
-    x, y, Ox, Oy,
-    current;
-  enableDragging.z = enableDragging.z || 1;
-  ele.onmousedown = function (ev) {
-    current = selectTopDiv(ev.target);
-    console.log(current)
-
-    if (current.classList.contains('AES50')) {
-      // Create line to connect
-      window.onmousemove = function (ev) {
-        fromID = current.parentElement.id
-        document.getElementById("lines").innerHTML = "<path class='line' d='M" + (devices[fromID].x + 58) + "," + devices[fromID].y +
-          " C " + (devices[fromID].x + 58) + "," + (devices[fromID].y - 80) +
-          " " + (ev.clientX + 0) + "," + (ev.clientY - 80) +
-          " " + (ev.clientX + 0) + "," + ev.clientY +
-          "' stroke='black' fill='transparent'/>";
-          links.forEach(link => {
-            document.getElementById("lines").innerHTML += link.show();
-          })
-        
-        window.onmouseup = function (ev2) {
-          console.log(ev2)
-          target = selectTopDiv(ev2.target)
-          console.log(current.classList[1])
-          console.log(target.classList[1])
-          toID = target.parentElement.id
-          links.push(new Link(devices[fromID], current.classList[1], devices[toID], target.classList[1]))
-          drawLine();
-        }
-      };
+function enableClick(ele) {
+  console.log("enableDragging")
+  console.log(ele)
+  ele.addEventListener("mousedown", (ev) => {
+    element = selectTopDiv(ev.target)
+    if (element.classList.contains('AES50')) {
+      selectedElement = element;
     }
-    else if (current.classList.contains('device')) {
-      dragging = true;
-      x = ev.clientX;
-      y = ev.clientY;
-      Ox = current.offsetLeft;
-      Oy = current.offsetTop;
-      current.style.zIndex = ++enableDragging.z;
-
-      window.onmousemove = function (ev) {
-        if (dragging == true) {
-          var Sx = ev.clientX - x + Ox,
-            Sy = ev.clientY - y + Oy;
-          if (Sx < 0) Sx = 0;
-          if (Sy < 0) Sy = 0;
-          current.style.top = Math.round(Sy / 10) * 10 + "px";
-          current.style.left = Math.round(Sx / 10) * 10 + "px";
-          //draw();
-          devices[current.id].move(parseInt(current.style.left, 10), parseInt(current.style.top, 10));
-          drawLine()
-          return false;
-        }
-      };
-      window.onmouseup = function (ev) {
-        dragging && (dragging = false);
-        devices[current.id].move(parseInt(current.style.left, 10), parseInt(current.style.top, 10));
-        drawLine()
-      }
+    else if (element.classList.contains('device')) {
+      selectedElement = element;  // Select element
+      console.log("Element selected: " + selectedElement.id)
+      originX = selectedElement.offsetLeft;
+      originY = selectedElement.offsetTop;
+      mouseX = ev.clientX;
+      mouseY = ev.clientY;
     }
-  };
+  });
 }
+  
+window.addEventListener("mousemove", (ev) => {
+  if (selectedElement == null) return;
+  if (selectedElement.classList.contains('AES50')) {
+    fromID = selectedElement.parentElement.id
+    document.getElementById("lines").innerHTML = "<path class='line' d='M" + (devices[fromID].x + 58) + "," + devices[fromID].y +
+      " C " + (devices[fromID].x + 58) + "," + (devices[fromID].y - 80) +
+      " " + (ev.clientX + 0) + "," + (ev.clientY - 80) +
+      " " + (ev.clientX + 0) + "," + ev.clientY +
+      "' stroke='black' fill='transparent'/>";
+      links.forEach(link => {
+        document.getElementById("lines").innerHTML += link.show();
+      })
+  }
+  else if (selectedElement.classList.contains('device')) {
+    console.log(selectedElement)
+    var Sx = ev.clientX - mouseX + originX,
+      Sy = ev.clientY - mouseY + originY;
+    if (Sx < 0) Sx = 0;
+    if (Sy < 0) Sy = 0;
+    selectedElement.style.top = Math.round(Sy / 10) * 10 + "px";
+    selectedElement.style.left = Math.round(Sx / 10) * 10 + "px";
+    devices[selectedElement.id].move(parseInt(selectedElement.style.left, 10), parseInt(selectedElement.style.top, 10));
+    drawLine()
+  }
+});
+
+window.addEventListener("mouseup", (ev) => {
+  if (selectedElement.classList.contains('AES50')) {
+    console.log(ev)
+    target = selectTopDiv(ev.target)
+    console.log(selectedElement.classList[1])
+    console.log(target.classList[1])
+    toID = target.parentElement.id
+    links.push(new Link(devices[fromID], selectedElement.classList[1], devices[toID], target.classList[1]))
+    drawLine();
+  }
+  else if (selectedElement.classList.contains('device')) {
+    devices[selectedElement.id].move(parseInt(selectedElement.style.left, 10), parseInt(selectedElement.style.top, 10));
+    drawLine()
+    selectedElement = null; // Unselect element
+  }
+});
 
 function enableDoubleClick(ele) {
   ele.ondblclick = function (ev) {
@@ -207,8 +208,8 @@ ipcRenderer.on('menu', (event, arg) => {
 
   var ele = document.getElementsByClassName("device");
   for (var i = 0; i < ele.length; i++) {
-    enableDragging(ele[i]);
+    enableClick(ele[i]);
     enableDoubleClick(ele[i]);
     enableRightClick(ele[i]);
   }
-})
+});
