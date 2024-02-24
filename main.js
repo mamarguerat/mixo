@@ -58,10 +58,8 @@ const menuTemplate = [
           },
           { type: 'separator' },
           {
-            label: 'Wing'
-          },
-          {
-            label: 'SD8'
+            label: 'SD8',
+            click: () => win.webContents.send('menu', 'sd8'),
           },
           {
             label: 'SD16',
