@@ -1,4 +1,5 @@
-const { contextBridge, ipcRenderer } = require('electron')
+const { contextBridge, ipcRenderer } = require('electron');
+const { link } = require('fs');
 const path = require('path')
 
 // Uncomment for npm start command
@@ -113,7 +114,7 @@ function draw() {
 }
 
 function drawLine() {
-  document.getElementById("lines").innerHTML = 0;
+  document.getElementById("lines").innerHTML = "";
   links.forEach(link => {
     document.getElementById("lines").innerHTML += link.show();
   })
@@ -126,12 +127,33 @@ function enableDragging(ele) {
   enableDragging.z = enableDragging.z || 1;
   ele.onmousedown = function (ev) {
     current = selectTopDiv(ev.target);
+    console.log(current)
 
     if (current.classList.contains('AES50')) {
       // Create line to connect
+      window.onmousemove = function (ev) {
+        fromID = current.parentElement.id
+        document.getElementById("lines").innerHTML = "<path class='line' d='M" + (devices[fromID].x + 58) + "," + devices[fromID].y +
+          " C " + (devices[fromID].x + 58) + "," + (devices[fromID].y - 80) +
+          " " + (ev.clientX + 0) + "," + (ev.clientY - 80) +
+          " " + (ev.clientX + 0) + "," + ev.clientY +
+          "' stroke='black' fill='transparent'/>";
+          links.forEach(link => {
+            document.getElementById("lines").innerHTML += link.show();
+          })
+        
+        window.onmouseup = function (ev2) {
+          console.log(ev2)
+          target = selectTopDiv(ev2.target)
+          console.log(current.classList[1])
+          console.log(target.classList[1])
+          toID = target.parentElement.id
+          links.push(new Link(devices[fromID], current.classList[1], devices[toID], target.classList[1]))
+          drawLine();
+        }
+      };
     }
-
-    if (current.classList.contains('device')) {
+    else if (current.classList.contains('device')) {
       dragging = true;
       x = ev.clientX;
       y = ev.clientY;
@@ -178,8 +200,8 @@ function enableRightClick(ele) {
 
 ipcRenderer.on('menu', (event, arg) => {
   devices.push(new Device(10, 10, arg, devices.length, arg));
-  if (devices.length == 2) links.push(new Link(devices[0], AES50.A, devices[1], AES50.A));
-  if (devices.length == 3) links.push(new Link(devices[1], AES50.B, devices[2], AES50.A));
+  // if (devices.length == 2) links.push(new Link(devices[0], AES50.A, devices[1], AES50.A));
+  // if (devices.length == 3) links.push(new Link(devices[1], AES50.B, devices[2], AES50.A));
 
   draw();
 
