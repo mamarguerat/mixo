@@ -1,11 +1,20 @@
-const { contextBridge, ipcRenderer } = require('electron')
+const { contextBridge, ipcRenderer } = require('electron');
+const { link } = require('fs');
 const path = require('path')
+
+// Uncomment for npm start command
+// process.env.NODE_ENV = 'development'
 
 const publicPath =
   process.env.NODE_ENV === 'development'
-    ? path.join(__dirname, './public')
+    ? './public'
     : path.join(process.resourcesPath, 'public');
 const imagesPath = path.join(publicPath, "assets", "images");
+
+const AES50 = {
+  A: "A",
+  B: "B"
+};
 
 class Device {
   constructor(x, y, type, id, name) {
@@ -15,17 +24,24 @@ class Device {
     this.id = id;
     this.name = name;
     this.visible = true;
+
+
+    this.AES50A = id;
+    this.AES50B = id;
   }
 
   show() {
     if (this.visible)
+    {
       return "<div id='" + this.id +
         "' class='device " + this.type +
         "' style='top: " + this.y +
-        "px; left: " + this.x +
-        "px;'><img draggable='false' src='" + path.join(imagesPath, this.type + ".svg") +
-        "'><input type='text' value='" + this.name +
-        "'></div>";
+        "px; left: " + this.x + "px;'>" +
+        "<div class='AES50 A' style='left: 50px; top: 0px;'>A</div>" +
+        "<div class='AES50 B' style='left: 70px; top: 0px;'>B</div>" +
+        "<img draggable='false' src='" + path.join(imagesPath, this.type + ".svg") +
+        "'><input type='text' value='" + this.name + "'></div>";
+    }
     else return "";
   }
 
@@ -38,6 +54,56 @@ class Device {
   //  this.visible = false;
   //}
 }
+
+class Link {
+  constructor(dev1, aes50_1, dev2, aes50_2) {
+    this.valid = true
+    this.device1 = dev1;
+    this.device2 = dev2;
+    this.aes50_1 = aes50_1;
+    this.aes50_2 = aes50_2;
+    this.check();
+  }
+
+  /// Check if link is valable
+  check() {
+    console.log("CHECK")
+    links.forEach(link => {
+      // if link already on aes50
+      if ((this.device1 == link.device1 && this.aes50_1 == link.aes50_1) ||
+          (this.device1 == link.device2 && this.aes50_1 == link.aes50_2)) {
+        console.log("LINK ALREADY CREATED")
+        link.delete()
+      }
+      else if ((this.device2 == link.device1 && this.aes50_2 == link.aes50_1) ||
+               (this.device2 == link.device2 && this.aes50_2 == link.aes50_2)) {
+        console.log("LINK ALREADY CREATED")
+        link.delete()
+      }
+    });
+  }
+
+  delete() {
+    this.valid = false;
+    this.device1 = -1;
+    this.aes50_1 = -1;
+    this.device2 = -1;
+    this.aes50_2 = -2;
+  }
+
+  show() {
+    if (this.valid) {
+      let x1offset = this.aes50_1 == AES50.A ? 58 : 78;
+      let x2offset = this.aes50_2 == AES50.A ? 58 : 78;
+      //return "<line class='line' x1='" + (devices[this.device1].x + 58) + "' y1='" + devices[this.device1].y + "' x2='" + (devices[this.device2].x + 58) + "' y2='" + devices[this.device2].y + "' stroke='black' fill='transparent'/>";
+      return "<path class='line' d='M" + (devices[this.device1].x + x1offset) + "," + devices[this.device1].y +
+        " C " + (devices[this.device1].x + x1offset) + "," + (devices[this.device1].y - 80) +
+        " " + (devices[this.device2].x + x2offset) + "," + (devices[this.device2].y - 80) +
+        " " + (devices[this.device2].x + x2offset) + "," + devices[this.device2].y +
+        "' stroke='black' fill='transparent'/>";
+    }
+  }
+}
 /*
 contextBridge.exposeInMainWorld('versions', {
   node: () => process.versions.node,
@@ -49,9 +115,12 @@ contextBridge.exposeInMainWorld('versions', {
 */
 
 let devices = [];
+let links = [];
+let selectedElement = null;
+let originX, originY, mouseX, mouseY;
 
 function selectTopDiv(ele) {
-  while (!ele.classList.contains('device') && ele.tagName != "INPUT") {
+  while (ele.tagName != "BODY" && !ele.classList.contains('device') && !ele.classList.contains('AES50') && ele.tagName != "INPUT") {
     ele = ele.parentElement;
   }
   return ele;
@@ -59,46 +128,89 @@ function selectTopDiv(ele) {
 
 function draw() {
   console.log("DRAW");
-  console.log(devices);
-  document.getElementById("canvas").innerHTML = "";
+  document.getElementById("canvas").innerHTML = "<svg id='lines' class='lines'></svg>";
   devices.forEach(device => {
     document.getElementById("canvas").innerHTML += device.show();
   })
+  drawLine();
 }
 
+function drawLine() {
+  document.getElementById("lines").innerHTML = "";
+  links.forEach(link => {
+    document.getElementById("lines").innerHTML += link.show();
+  })
+}
 
-function enableDragging(ele) {
-  var dragging = dragging || false,
-    x, y, Ox, Oy,
-    current;
-  enableDragging.z = enableDragging.z || 1;
-  ele.onmousedown = function (ev) {
-    current = selectTopDiv(ev.target);
-    dragging = true;
-    x = ev.clientX;
-    y = ev.clientY;
-    Ox = current.offsetLeft;
-    Oy = current.offsetTop;
-    current.style.zIndex = ++enableDragging.z;
-
-    window.onmousemove = function (ev) {
-      if (dragging == true) {
-        var Sx = ev.clientX - x + Ox,
-          Sy = ev.clientY - y + Oy;
-        if (Sx < 0) Sx = 0;
-        if (Sy < 0) Sy = 0;
-        current.style.top = Sy + "px";
-        current.style.left = Sx + "px";
-        return false;
-      }
-    };
-    window.onmouseup = function (ev) {
-      dragging && (dragging = false);
-      devices[current.id].move(parseInt(current.style.left, 10), parseInt(current.style.top, 10));
-      //draw();
+function enableClick(ele) {
+  ele.addEventListener("mousedown", (ev) => {
+    element = selectTopDiv(ev.target)
+    if (element.classList.contains('AES50')) {
+      selectedElement = element;
+      fromID = selectedElement.parentElement.id
+      fromAES50 = selectedElement.classList[1]
+      links.forEach(link => {
+        if ((link.device1 == fromID && link.aes50_1 == fromAES50) ||
+            (link.device2 == fromID && link.aes50_2 == fromAES50)) {
+          link.delete();
+        }
+      });
     }
-  };
+    else if (element.classList.contains('device')) {
+      selectedElement = element;  // Select element
+      console.log("Element selected: " + selectedElement.id)
+      originX = selectedElement.offsetLeft;
+      originY = selectedElement.offsetTop;
+      mouseX = ev.clientX;
+      mouseY = ev.clientY;
+    }
+  });
 }
+  
+window.addEventListener("mousemove", (ev) => {
+  drawLine()
+  if (selectedElement == null) return;
+  if (selectedElement.classList.contains('AES50')) {
+    fromID = selectedElement.parentElement.id
+    fromAES50 = selectedElement.classList[1]
+    xoffset = fromAES50 == AES50.A ? 58 : 78;
+    document.getElementById("lines").innerHTML = "<path class='line' d='M" + (devices[fromID].x + xoffset) + "," + devices[fromID].y +
+      " C " + (devices[fromID].x + xoffset) + "," + (devices[fromID].y - 80) +
+      " " + (ev.clientX + 0) + "," + (ev.clientY - 80) +
+      " " + (ev.clientX + 0) + "," + ev.clientY +
+      "' stroke='black' fill='transparent'/>";
+    links.forEach(link => {
+      document.getElementById("lines").innerHTML += link.show();
+    })
+  }
+  else if (selectedElement.classList.contains('device')) {
+    var Sx = ev.clientX - mouseX + originX,
+      Sy = ev.clientY - mouseY + originY;
+    if (Sx < 0) Sx = 0;
+    if (Sy < 0) Sy = 0;
+    selectedElement.style.top = Math.round(Sy / 10) * 10 + "px";
+    selectedElement.style.left = Math.round(Sx / 10) * 10 + "px";
+    devices[selectedElement.id].move(parseInt(selectedElement.style.left, 10), parseInt(selectedElement.style.top, 10));
+    drawLine()
+  }
+});
+
+window.addEventListener("mouseup", (ev) => {
+  if (selectedElement.classList.contains('AES50')) {
+    target = selectTopDiv(ev.target)
+    toID = target.parentElement.id
+    if (fromID != toID)
+    {
+      links.push(new Link(devices[fromID].id, selectedElement.classList[1], devices[toID].id, target.classList[1]))
+    }
+    drawLine();
+  }
+  else if (selectedElement.classList.contains('device')) {
+    devices[selectedElement.id].move(parseInt(selectedElement.style.left, 10), parseInt(selectedElement.style.top, 10));
+    drawLine()
+  }
+  selectedElement = null; // Unselect element
+});
 
 function enableDoubleClick(ele) {
   ele.ondblclick = function (ev) {
@@ -116,13 +228,15 @@ function enableRightClick(ele) {
 
 ipcRenderer.on('menu', (event, arg) => {
   devices.push(new Device(10, 10, arg, devices.length, arg));
+  // if (devices.length == 2) links.push(new Link(devices[0], AES50.A, devices[1], AES50.A));
+  // if (devices.length == 3) links.push(new Link(devices[1], AES50.B, devices[2], AES50.A));
 
   draw();
 
   var ele = document.getElementsByClassName("device");
   for (var i = 0; i < ele.length; i++) {
-    enableDragging(ele[i]);
+    enableClick(ele[i]);
     enableDoubleClick(ele[i]);
     enableRightClick(ele[i]);
   }
-})
+});
