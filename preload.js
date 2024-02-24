@@ -57,29 +57,51 @@ class Device {
 
 class Link {
   constructor(dev1, aes50_1, dev2, aes50_2) {
+    this.valid = true
     this.device1 = dev1;
     this.device2 = dev2;
     this.aes50_1 = aes50_1;
     this.aes50_2 = aes50_2;
+    this.check();
+  }
 
-    aes50_1 == AES50.A ? devices[dev1.id].AES50A = dev2.id : devices[dev1.id].AES50B = dev2.id;
-    aes50_2 == AES50.A ? devices[dev2.id].AES50A = dev1.id : devices[dev2.id].AES50B = dev1.id;
+  /// Check if link is valable
+  check() {
+    console.log("CHECK")
+    links.forEach(link => {
+      // if link already on aes50
+      if ((this.device1 == link.device1 && this.aes50_1 == link.aes50_1) ||
+          (this.device1 == link.device2 && this.aes50_1 == link.aes50_2)) {
+        console.log("LINK ALREADY CREATED")
+        link.delete()
+      }
+      else if ((this.device2 == link.device1 && this.aes50_2 == link.aes50_1) ||
+               (this.device2 == link.device2 && this.aes50_2 == link.aes50_2)) {
+        console.log("LINK ALREADY CREATED")
+        link.delete()
+      }
+    });
   }
 
   delete() {
-    aes50_1 == AES50.A ? devices[dev1.id].AES50A = dev1.id : devices[dev1.id].AES50B = dev1.id;
-    aes50_2 == AES50.A ? devices[dev2.id].AES50A = dev2.id : devices[dev2.id].AES50B = dev2.id;
+    this.valid = false;
+    this.device1 = -1;
+    this.aes50_1 = -1;
+    this.device2 = -1;
+    this.aes50_2 = -2;
   }
 
   show() {
-    this.x1offset = this.aes50_1 == AES50.A ? 58 : 78;
-    this.x2offset = this.aes50_2 == AES50.A ? 58 : 78;
-    //return "<line class='line' x1='" + (devices[this.device1].x + 58) + "' y1='" + devices[this.device1].y + "' x2='" + (devices[this.device2].x + 58) + "' y2='" + devices[this.device2].y + "' stroke='black' fill='transparent'/>";
-    return "<path class='line' d='M" + (this.device1.x + this.x1offset) + "," + this.device1.y +
-      " C " + (this.device1.x + this.x1offset) + "," + (this.device1.y - 80) +
-      " " + (this.device2.x + this.x2offset) + "," + (this.device2.y - 80) +
-      " " + (this.device2.x + this.x2offset) + "," + this.device2.y +
-      "' stroke='black' fill='transparent'/>";
+    if (this.valid) {
+      let x1offset = this.aes50_1 == AES50.A ? 58 : 78;
+      let x2offset = this.aes50_2 == AES50.A ? 58 : 78;
+      //return "<line class='line' x1='" + (devices[this.device1].x + 58) + "' y1='" + devices[this.device1].y + "' x2='" + (devices[this.device2].x + 58) + "' y2='" + devices[this.device2].y + "' stroke='black' fill='transparent'/>";
+      return "<path class='line' d='M" + (devices[this.device1].x + x1offset) + "," + devices[this.device1].y +
+        " C " + (devices[this.device1].x + x1offset) + "," + (devices[this.device1].y - 80) +
+        " " + (devices[this.device2].x + x2offset) + "," + (devices[this.device2].y - 80) +
+        " " + (devices[this.device2].x + x2offset) + "," + devices[this.device2].y +
+        "' stroke='black' fill='transparent'/>";
+    }
   }
 }
 /*
@@ -95,7 +117,6 @@ contextBridge.exposeInMainWorld('versions', {
 let devices = [];
 let links = [];
 let selectedElement = null;
-let selectedAES = null;
 let originX, originY, mouseX, mouseY;
 
 function selectTopDiv(ele) {
@@ -107,8 +128,6 @@ function selectTopDiv(ele) {
 
 function draw() {
   console.log("DRAW");
-  console.log(devices);
-  console.log(links);
   document.getElementById("canvas").innerHTML = "<svg id='lines' class='lines'></svg>";
   devices.forEach(device => {
     document.getElementById("canvas").innerHTML += device.show();
@@ -124,12 +143,18 @@ function drawLine() {
 }
 
 function enableClick(ele) {
-  console.log("enableDragging")
-  console.log(ele)
   ele.addEventListener("mousedown", (ev) => {
     element = selectTopDiv(ev.target)
     if (element.classList.contains('AES50')) {
       selectedElement = element;
+      fromID = selectedElement.parentElement.id
+      fromAES50 = selectedElement.classList[1]
+      links.forEach(link => {
+        if ((link.device1 == fromID && link.aes50_1 == fromAES50) ||
+            (link.device2 == fromID && link.aes50_2 == fromAES50)) {
+          link.delete();
+        }
+      });
     }
     else if (element.classList.contains('device')) {
       selectedElement = element;  // Select element
@@ -143,20 +168,22 @@ function enableClick(ele) {
 }
   
 window.addEventListener("mousemove", (ev) => {
+  drawLine()
   if (selectedElement == null) return;
   if (selectedElement.classList.contains('AES50')) {
     fromID = selectedElement.parentElement.id
-    document.getElementById("lines").innerHTML = "<path class='line' d='M" + (devices[fromID].x + 58) + "," + devices[fromID].y +
-      " C " + (devices[fromID].x + 58) + "," + (devices[fromID].y - 80) +
+    fromAES50 = selectedElement.classList[1]
+    xoffset = fromAES50 == AES50.A ? 58 : 78;
+    document.getElementById("lines").innerHTML = "<path class='line' d='M" + (devices[fromID].x + xoffset) + "," + devices[fromID].y +
+      " C " + (devices[fromID].x + xoffset) + "," + (devices[fromID].y - 80) +
       " " + (ev.clientX + 0) + "," + (ev.clientY - 80) +
       " " + (ev.clientX + 0) + "," + ev.clientY +
       "' stroke='black' fill='transparent'/>";
-      links.forEach(link => {
-        document.getElementById("lines").innerHTML += link.show();
-      })
+    links.forEach(link => {
+      document.getElementById("lines").innerHTML += link.show();
+    })
   }
   else if (selectedElement.classList.contains('device')) {
-    console.log(selectedElement)
     var Sx = ev.clientX - mouseX + originX,
       Sy = ev.clientY - mouseY + originY;
     if (Sx < 0) Sx = 0;
@@ -170,19 +197,19 @@ window.addEventListener("mousemove", (ev) => {
 
 window.addEventListener("mouseup", (ev) => {
   if (selectedElement.classList.contains('AES50')) {
-    console.log(ev)
     target = selectTopDiv(ev.target)
-    console.log(selectedElement.classList[1])
-    console.log(target.classList[1])
     toID = target.parentElement.id
-    links.push(new Link(devices[fromID], selectedElement.classList[1], devices[toID], target.classList[1]))
+    if (fromID != toID)
+    {
+      links.push(new Link(devices[fromID].id, selectedElement.classList[1], devices[toID].id, target.classList[1]))
+    }
     drawLine();
   }
   else if (selectedElement.classList.contains('device')) {
     devices[selectedElement.id].move(parseInt(selectedElement.style.left, 10), parseInt(selectedElement.style.top, 10));
     drawLine()
-    selectedElement = null; // Unselect element
   }
+  selectedElement = null; // Unselect element
 });
 
 function enableDoubleClick(ele) {
