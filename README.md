@@ -33,3 +33,12 @@ In the clonned repository run `npm install` and `npm start`
 
 ## Issues
 Feel free to report any issues or suggestions you have
+
+## Star History
+<a href="https://star-history.com/#mamarguerat/mixers-routing-tool&Date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=mamarguerat/mixers-routing-tool&type=Date&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=mamarguerat/mixers-routing-tool&type=Date" />
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=mamarguerat/mixers-routing-tool&type=Date" />
+  </picture>
+</a>
