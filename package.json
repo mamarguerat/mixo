@@ -1,7 +1,7 @@
 {
-  "name": "mixers-routing-tool",
+  "name": "Mixo",
   "version": "0.0.3",
-  "description": "Routing tool for mixing consoles",
+  "description": "Routing tool for behringer x32 based on hardware availabilities instead of software capabilities. Aim to simplify routing and create automatic documentation. ",
   "main": "main.js",
   "scripts": {
     "start": "electron-forge start",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mamarguerat/mixers-routing-tool.git"
+    "url": "https://github.com/mamarguerat/mixo.git"
   },
   "publish": {
     "provider": "github",
@@ -29,9 +29,9 @@
   "author": "Martin Marguerat",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/mamarguerat/mixers-routing-tool/issues"
+    "url": "https://github.com/mamarguerat/mixo/issues"
   },
-  "homepage": "https://github.com/mamarguerat/mixers-routing-tool#readme",
+  "homepage": "https://github.com/mamarguerat/mixo#readme",
   "devDependencies": {
     "@electron-forge/cli": "^6.0.5",
     "@electron-forge/maker-deb": "^6.0.5",
@@ -53,8 +53,8 @@
         "to": "public"
       }
     ],
-    "appId": "ch.martinmarguerat.mixers-routing-tool",
-    "productName": "Mixers routing tool",
+    "appId": "ch.martinmarguerat.mixo",
+    "productName": "Mixo",
     "mac": {
       "category": "public.app-category.utilities"
     },
