@@ -1,6 +1,6 @@
 {
   "name": "Mixo",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Routing tool for behringer x32 based on hardware availabilities instead of software capabilities. Aim to simplify routing and create automatic documentation. ",
   "main": "main.js",
   "scripts": {
