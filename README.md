@@ -1,7 +1,23 @@
-# Behringer routing tool
-A tool to simplify routing with behringer x-consoles, midas m-consoles and behringer wing.
+<h1 align="center">Mixo</h1>
 
-<img src="public/assets/images/2023-07-19_14-18-10%20(1).gif" >
+<p align="center">
+  <img src="https://img.shields.io/github/package-json/v/mamarguerat/mixo?style=for-the-badge&color=green">
+  <img src="https://img.shields.io/github/stars/mamarguerat/mixo?style=for-the-badge&color=orange">
+  <img src="https://img.shields.io/github/forks/mamarguerat/mixo?color=cyan&style=for-the-badge&color=purple">
+  <img src="https://img.shields.io/github/watchers/mamarguerat/mixo?color=cyan&style=for-the-badge&color=purple">
+  <img src="https://img.shields.io/github/issues/mamarguerat/mixo?color=red&style=for-the-badge">
+  <img src="https://img.shields.io/github/license/mamarguerat/mixo?style=for-the-badge&color=blue">
+  <img src="https://img.shields.io/github/downloads/mamarguerat/mixo/total?style=for-the-badge&color=lightgray">
+</p>
+
+<p align="center">
+A tool to simplify routing with behringer x-consoles, midas m-consoles.
+
+This app create a routing procedure based on hardware availabilities instead of software capabilities. It aims to simplify routing and create automatic documentation.
+
+<img src="public/assets/images/quick-demo.gif" >
+
+</p>
 
 ## Simplify routing
 - This tool has a user-friendly user interface to simplify routing
@@ -33,3 +49,12 @@ In the clonned repository run `npm install` and `npm start`
 
 ## Issues
 Feel free to report any issues or suggestions you have
+
+## Star History
+<a href="https://star-history.com/#mamarguerat/mixers-routing-tool&Date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=mamarguerat/mixers-routing-tool&type=Date&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=mamarguerat/mixers-routing-tool&type=Date" />
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=mamarguerat/mixers-routing-tool&type=Date" />
+  </picture>
+</a>

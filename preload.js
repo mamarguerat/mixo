@@ -24,10 +24,6 @@ class Device {
     this.id = id;
     this.name = name;
     this.visible = true;
-
-
-    this.AES50A = id;
-    this.AES50B = id;
   }
 
   show() {
@@ -50,9 +46,15 @@ class Device {
     this.y = newY;
   }
 
-  //delete() {
-  //  this.visible = false;
-  //}
+  delete() {
+    this.visible = false;
+    links.forEach(link => {
+      // if link on the device to delete
+      if ((this.id == link.device1) || (this.id == link.device2)) {
+        link.delete()
+      }
+    });
+  }
 }
 
 class Link {
@@ -67,17 +69,14 @@ class Link {
 
   /// Check if link is valable
   check() {
-    console.log("CHECK")
     links.forEach(link => {
       // if link already on aes50
       if ((this.device1 == link.device1 && this.aes50_1 == link.aes50_1) ||
           (this.device1 == link.device2 && this.aes50_1 == link.aes50_2)) {
-        console.log("LINK ALREADY CREATED")
         link.delete()
       }
       else if ((this.device2 == link.device1 && this.aes50_2 == link.aes50_1) ||
                (this.device2 == link.device2 && this.aes50_2 == link.aes50_2)) {
-        console.log("LINK ALREADY CREATED")
         link.delete()
       }
     });
@@ -127,12 +126,18 @@ function selectTopDiv(ele) {
 }
 
 function draw() {
-  console.log("DRAW");
   document.getElementById("canvas").innerHTML = "<svg id='lines' class='lines'></svg>";
   devices.forEach(device => {
     document.getElementById("canvas").innerHTML += device.show();
   })
   drawLine();
+
+  var ele = document.getElementsByClassName("device");
+  for (var i = 0; i < ele.length; i++) {
+    enableClick(ele[i]);
+    enableDoubleClick(ele[i]);
+    enableRightClick(ele[i]);
+  }
 }
 
 function drawLine() {
@@ -158,7 +163,6 @@ function enableClick(ele) {
     }
     else if (element.classList.contains('device')) {
       selectedElement = element;  // Select element
-      console.log("Element selected: " + selectedElement.id)
       originX = selectedElement.offsetLeft;
       originY = selectedElement.offsetTop;
       mouseX = ev.clientX;
@@ -222,7 +226,8 @@ function enableDoubleClick(ele) {
 function enableRightClick(ele) {
   ele.oncontextmenu = function (ev) {
     current = selectTopDiv(ev.target);
-    //devices[current.id].delete();
+    devices[current.id].delete();
+    draw();
   }
 }
 
@@ -232,11 +237,4 @@ ipcRenderer.on('menu', (event, arg) => {
   // if (devices.length == 3) links.push(new Link(devices[1], AES50.B, devices[2], AES50.A));
 
   draw();
-
-  var ele = document.getElementsByClassName("device");
-  for (var i = 0; i < ele.length; i++) {
-    enableClick(ele[i]);
-    enableDoubleClick(ele[i]);
-    enableRightClick(ele[i]);
-  }
 });
