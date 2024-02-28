@@ -52,7 +52,7 @@ body {
     width: 260px;
 }
 
-.sd16 img {
+.sd16 img, .sd8 img {
     width: 200px;
 }
 

@@ -58,10 +58,8 @@ const menuTemplate = [
           },
           { type: 'separator' },
           {
-            label: 'Wing'
-          },
-          {
-            label: 'SD8'
+            label: 'SD8',
+            click: () => win.webContents.send('menu', 'sd8'),
           },
           {
             label: 'SD16',
@@ -155,9 +153,11 @@ ipcMain.on('window', (event, arg) => {
 // function to create a child window
 function createChildWindow(fileName, preloadFileName) {
   childWindow = new BrowserWindow({
-    width: 1000,
-    height: 700,
-    parent : win, // accessing the parent window 
+    width: 700,
+    height: 500,
+    parent: win, // accessing the parent window
+    menuBarVisible: false,
+    autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, preloadFileName),
       nodeIntegration: true,
