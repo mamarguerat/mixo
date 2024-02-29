@@ -155,7 +155,6 @@ function createChildWindow(fileName, preloadFileName) {
   childWindow = new BrowserWindow({
     width: 700,
     height: 500,
-    parent: win, // accessing the parent window
     menuBarVisible: false,
     autoHideMenuBar: true,
     webPreferences: {
