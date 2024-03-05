@@ -1,8 +1,8 @@
 ---
 name: Device request
 about: Suggest an device to add in the app
-title: "[DEVICE]"
-labels: ''
+title: ''
+labels: [Device]
 assignees: ''
 
 ---
