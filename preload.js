@@ -115,6 +115,7 @@ let devices = [];
 let links = [];
 let selectedElement = null;
 let originX, originY, mouseX, mouseY;
+let idCnt = 0;
 
 function id2index(id, list) {
   return list.findIndex((element) => Number(element.id) === Number(id));
@@ -237,7 +238,7 @@ function enableRightClick(ele) {
 }
 
 ipcRenderer.on('menu', (event, arg) => {
-  devices.push(new Device(10, 10, arg, devices.length, arg));
+  devices.push(new Device(10, 10, arg, idCnt++, arg));
   // if (devices.length == 2) links.push(new Link(devices[0], AES50.A, devices[1], AES50.A));
   // if (devices.length == 3) links.push(new Link(devices[1], AES50.B, devices[2], AES50.A));
 
