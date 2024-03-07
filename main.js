@@ -1,6 +1,8 @@
-const { app, BrowserWindow, ipcMain, Menu } = require('electron')
-const path = require('path')
+const { dialog, app, BrowserWindow, ipcMain, Menu } = require('electron');
+const path = require('path');
+const fs = require('fs');
 let win
+let filePath = "";
 
 // Autoupdater from https://samuelmeuli.com/blog/2019-04-07-packaging-and-publishing-an-electron-app/
 const { autoUpdater } = require("electron-updater")
@@ -17,11 +19,16 @@ const menuTemplate = [
       {
         label: 'Load',
         accelerator: 'CmdOrCtrl+O',
-        click: () => console.log('Oh, hi there!'),
+        click: () => loadFile(),
       },
       {
         label: 'Save',
         accelerator: 'CmdOrCtrl+S',
+        click: () => win.webContents.send('file', { function: 'save' }),
+      },
+      {
+        label: 'Save as',
+        click: () => win.webContents.send('file', { function: 'saveas' }),
       },
       {
         label: 'Export documentation',
@@ -45,6 +52,7 @@ const menuTemplate = [
           },
           {
             label: 'X32 Compact',
+            accelerator: 'CmdOrCtrl+M',
             click: () => win.webContents.send('menu', 'x32c'),
           },
           {
@@ -150,12 +158,68 @@ ipcMain.on('window', (event, arg) => {
   childWindow.webContents.send('type', arg)
 })
 
+ipcMain.on('file', (event, arg) => {
+  if ('saveas' == arg.function || ('save' == arg.function && filePath == "")) {
+    dialog.showSaveDialog({
+      title: 'Save Mixo project',
+      filters: [
+        { name: 'Mixo project', extensions: ['mixo_prj'] },
+        { name: 'All Files', extensions: ['*'] }
+      ]
+    }).then(result => {
+      if (!result.canceled) {
+        filePath = result.filePath;
+        win.setTitle('Mixo • ' + filePath.replace(/^.*[\\\/]/, '').slice(0, -9));
+        // Write the JSON to the chosen file
+        fs.writeFile(result.filePath, arg.json, (err) => {
+          if (err) throw err;
+        });
+      }
+    }).catch(err => {
+      console.log(err);
+    });
+  }
+  else if ('save' == arg.function && filePath != "") {
+    fs.writeFile(filePath, arg.json, (err) => {
+      if (err) throw err;
+    })
+  }
+})
+function loadFile() {
+  dialog.showOpenDialog({
+    title: 'Open Mixo project',
+    filters:  [
+      { name: 'Mixo project', extensions: ['mixo_prj'] },
+      { name: 'All Files', extensions: ['*'] }
+    ],
+    properties: ['openFile']
+  }).then(result => {
+    if (!result.canceled) {
+      filePath = result.filePaths[0];
+      win.setTitle('Mixo • ' + filePath.replace(/^.*[\\\/]/, '').slice(0, -9));
+      // Read the chosen file
+      fs.readFile(result.filePaths[0], 'utf-8', (err, data) => {
+        if (err) throw err;
+        // Parse the JSON data
+        let jsonData = JSON.parse(data);
+        // Extract the arrays
+        win.webContents.send('file', {
+          function: 'load',
+          devices: jsonData.devices,
+          links: jsonData.links
+        });
+      });
+    }
+  }).catch(err => {
+    console.log(err);
+  });
+}
+
 // function to create a child window
 function createChildWindow(fileName, preloadFileName) {
   childWindow = new BrowserWindow({
     width: 700,
     height: 500,
-    parent: win, // accessing the parent window
     menuBarVisible: false,
     autoHideMenuBar: true,
     webPreferences: {
