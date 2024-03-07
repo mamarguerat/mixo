@@ -256,7 +256,7 @@ ipcRenderer.on('menu', (event, arg) => {
 });
 
 ipcRenderer.on('file', (event, arg) => {
-  if ('save' == arg.function) {
+  if ('save' == arg.function || 'saveas' == arg.function) {
     // Combine the arrays into an object
     let data = {
       devices: devices,
@@ -265,7 +265,7 @@ ipcRenderer.on('file', (event, arg) => {
     // Convert the object to JSON
     let json = JSON.stringify(data, null, 2);
     ipcRenderer.send('file', {
-      function: 'save',
+      function: arg.function,
       json: json
     });
   }

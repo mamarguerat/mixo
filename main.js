@@ -2,6 +2,7 @@ const { dialog, app, BrowserWindow, ipcMain, Menu } = require('electron');
 const path = require('path');
 const fs = require('fs');
 let win
+let filePath = "";
 
 // Autoupdater from https://samuelmeuli.com/blog/2019-04-07-packaging-and-publishing-an-electron-app/
 const { autoUpdater } = require("electron-updater")
@@ -24,6 +25,10 @@ const menuTemplate = [
         label: 'Save',
         accelerator: 'CmdOrCtrl+S',
         click: () => win.webContents.send('file', { function: 'save' }),
+      },
+      {
+        label: 'Save as',
+        click: () => win.webContents.send('file', { function: 'saveas' }),
       },
       {
         label: 'Export documentation',
@@ -154,7 +159,7 @@ ipcMain.on('window', (event, arg) => {
 })
 
 ipcMain.on('file', (event, arg) => {
-  if ('save' == arg.function) {
+  if ('saveas' == arg.function || ('save' == arg.function && filePath == "")) {
     dialog.showSaveDialog({
       title: 'Save Mixo project',
       filters: [
@@ -163,6 +168,8 @@ ipcMain.on('file', (event, arg) => {
       ]
     }).then(result => {
       if (!result.canceled) {
+        filePath = result.filePath;
+        win.setTitle('Mixo • ' + filePath.replace(/^.*[\\\/]/, '').slice(0, -9));
         // Write the JSON to the chosen file
         fs.writeFile(result.filePath, arg.json, (err) => {
           if (err) throw err;
@@ -171,6 +178,11 @@ ipcMain.on('file', (event, arg) => {
     }).catch(err => {
       console.log(err);
     });
+  }
+  else if ('save' == arg.function && filePath != "") {
+    fs.writeFile(filePath, arg.json, (err) => {
+      if (err) throw err;
+    })
   }
 })
 function loadFile() {
@@ -183,6 +195,8 @@ function loadFile() {
     properties: ['openFile']
   }).then(result => {
     if (!result.canceled) {
+      filePath = result.filePaths[0];
+      win.setTitle('Mixo • ' + filePath.replace(/^.*[\\\/]/, '').slice(0, -9));
       // Read the chosen file
       fs.readFile(result.filePaths[0], 'utf-8', (err, data) => {
         if (err) throw err;
