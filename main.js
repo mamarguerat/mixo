@@ -155,7 +155,6 @@ ipcMain.on('window', (event, arg) => {
 
 ipcMain.on('file', (event, arg) => {
   if ('save' == arg.function) {
-    console.log(arg.json)
     dialog.showSaveDialog({
       title: 'Save Mixo project',
       filters: [

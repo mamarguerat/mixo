@@ -93,10 +93,10 @@ class Link {
       let x1offset = this.aes50_1 == AES50.A ? 58 : 78;
       let x2offset = this.aes50_2 == AES50.A ? 58 : 78;
       //return "<line class='line' x1='" + (devices[this.device1].x + 58) + "' y1='" + devices[this.device1].y + "' x2='" + (devices[this.device2].x + 58) + "' y2='" + devices[this.device2].y + "' stroke='black' fill='transparent'/>";
-      return "<path class='line' d='M" + (devices[this.device1].x + x1offset) + "," + devices[this.device1].y +
-        " C " + (devices[this.device1].x + x1offset) + "," + (devices[this.device1].y - 80) +
-        " " + (devices[this.device2].x + x2offset) + "," + (devices[this.device2].y - 80) +
-        " " + (devices[this.device2].x + x2offset) + "," + devices[this.device2].y +
+      return "<path class='line' d='M" + (devices[id2index(this.device1, devices)].x + x1offset) + "," + devices[id2index(this.device1, devices)].y +
+        " C " + (devices[id2index(this.device1, devices)].x + x1offset) + "," + (devices[id2index(this.device1, devices)].y - 80) +
+        " " + (devices[id2index(this.device2, devices)].x + x2offset) + "," + (devices[id2index(this.device2, devices)].y - 80) +
+        " " + (devices[id2index(this.device2, devices)].x + x2offset) + "," + devices[id2index(this.device2, devices)].y +
         "' stroke='black' fill='transparent'/>";
     }
   }
