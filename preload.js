@@ -1,5 +1,5 @@
 const { contextBridge, ipcRenderer } = require('electron');
-const { link } = require('fs');
+const { fs } = require('fs');
 const path = require('path')
 
 // Uncomment for npm start command
@@ -93,10 +93,10 @@ class Link {
       let x1offset = this.aes50_1 == AES50.A ? 58 : 78;
       let x2offset = this.aes50_2 == AES50.A ? 58 : 78;
       //return "<line class='line' x1='" + (devices[this.device1].x + 58) + "' y1='" + devices[this.device1].y + "' x2='" + (devices[this.device2].x + 58) + "' y2='" + devices[this.device2].y + "' stroke='black' fill='transparent'/>";
-      return "<path class='line' d='M" + (devices[this.device1].x + x1offset) + "," + devices[this.device1].y +
-        " C " + (devices[this.device1].x + x1offset) + "," + (devices[this.device1].y - 80) +
-        " " + (devices[this.device2].x + x2offset) + "," + (devices[this.device2].y - 80) +
-        " " + (devices[this.device2].x + x2offset) + "," + devices[this.device2].y +
+      return "<path class='line' d='M" + (devices[id2index(this.device1, devices)].x + x1offset) + "," + devices[id2index(this.device1, devices)].y +
+        " C " + (devices[id2index(this.device1, devices)].x + x1offset) + "," + (devices[id2index(this.device1, devices)].y - 80) +
+        " " + (devices[id2index(this.device2, devices)].x + x2offset) + "," + (devices[id2index(this.device2, devices)].y - 80) +
+        " " + (devices[id2index(this.device2, devices)].x + x2offset) + "," + devices[id2index(this.device2, devices)].y +
         "' stroke='black' fill='transparent'/>";
     }
   }
@@ -140,6 +140,7 @@ function draw() {
     enableClick(ele[i]);
     enableDoubleClick(ele[i]);
     enableRightClick(ele[i]);
+    enableTextBox(ele[i], ele[i].children[3]);
   }
 }
 
@@ -171,6 +172,15 @@ function enableClick(ele) {
       mouseX = ev.clientX;
       mouseY = ev.clientY;
     }
+  });
+}
+
+function enableTextBox(parent, ele) {
+  ele.addEventListener("keyup", (ev) => {
+    deviceId = ev.target.parentElement.id;
+    console.log(deviceId)
+    devices[id2index(deviceId, devices)].name = ev.target.value;
+    console.log(devices)
   });
 }
   
@@ -244,3 +254,30 @@ ipcRenderer.on('menu', (event, arg) => {
 
   draw();
 });
+
+ipcRenderer.on('file', (event, arg) => {
+  if ('save' == arg.function || 'saveas' == arg.function) {
+    // Combine the arrays into an object
+    let data = {
+      devices: devices,
+      links: links
+    };
+    // Convert the object to JSON
+    let json = JSON.stringify(data, null, 2);
+    ipcRenderer.send('file', {
+      function: arg.function,
+      json: json
+    });
+  }
+  else if ('load' == arg.function) {
+    devices = [];
+    links = [];
+    arg.devices.forEach(device => {
+      devices.push(new Device(device.x, device.y, device.type, device.id, device.name));
+    });
+    arg.links.forEach(link => {
+      links.push(new Link(link.device1, link.aes50_1, link.device2, link.aes50_2));
+    })
+    draw();
+  }
+})
