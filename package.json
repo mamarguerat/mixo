@@ -42,10 +42,11 @@
     "electron-builder": "^24.13.3"
   },
   "dependencies": {
+    "@electron/remote": "^2.1.2",
     "electron-squirrel-startup": "^1.0.0",
     "electron-updater": "^6.1.8",
-    "jquery": "^3.7.0",
-    "update-electron-app": "^3.0.0"
+    "fs": "^0.0.1-security",
+    "jquery": "^3.7.0"
   },
   "build": {
     "extraResources": [

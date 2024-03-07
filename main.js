@@ -1,5 +1,6 @@
-const { app, BrowserWindow, ipcMain, Menu } = require('electron')
-const path = require('path')
+const { dialog, app, BrowserWindow, ipcMain, Menu } = require('electron');
+const path = require('path');
+const fs = require('fs');
 let win
 
 // Autoupdater from https://samuelmeuli.com/blog/2019-04-07-packaging-and-publishing-an-electron-app/
@@ -17,11 +18,12 @@ const menuTemplate = [
       {
         label: 'Load',
         accelerator: 'CmdOrCtrl+O',
-        click: () => console.log('Oh, hi there!'),
+        click: () => loadFile(),
       },
       {
         label: 'Save',
         accelerator: 'CmdOrCtrl+S',
+        click: () => win.webContents.send('file', { function: 'save' }),
       },
       {
         label: 'Export documentation',
@@ -45,6 +47,7 @@ const menuTemplate = [
           },
           {
             label: 'X32 Compact',
+            accelerator: 'CmdOrCtrl+M',
             click: () => win.webContents.send('menu', 'x32c'),
           },
           {
@@ -149,6 +152,55 @@ ipcMain.on('window', (event, arg) => {
   createChildWindow("device-detail.html", "device-detail-preload.js")
   childWindow.webContents.send('type', arg)
 })
+
+ipcMain.on('file', (event, arg) => {
+  if ('save' == arg.function) {
+    console.log(arg.json)
+    dialog.showSaveDialog({
+      title: 'Save Mixo project',
+      filters: [
+        { name: 'Mixo project', extensions: ['mixo_prj'] },
+        { name: 'All Files', extensions: ['*'] }
+      ]
+    }).then(result => {
+      if (!result.canceled) {
+        // Write the JSON to the chosen file
+        fs.writeFile(result.filePath, arg.json, (err) => {
+          if (err) throw err;
+        });
+      }
+    }).catch(err => {
+      console.log(err);
+    });
+  }
+})
+function loadFile() {
+  dialog.showOpenDialog({
+    title: 'Open Mixo project',
+    filters:  [
+      { name: 'Mixo project', extensions: ['mixo_prj'] },
+      { name: 'All Files', extensions: ['*'] }
+    ],
+    properties: ['openFile']
+  }).then(result => {
+    if (!result.canceled) {
+      // Read the chosen file
+      fs.readFile(result.filePaths[0], 'utf-8', (err, data) => {
+        if (err) throw err;
+        // Parse the JSON data
+        let jsonData = JSON.parse(data);
+        // Extract the arrays
+        win.webContents.send('file', {
+          function: 'load',
+          devices: jsonData.devices,
+          links: jsonData.links
+        });
+      });
+    }
+  }).catch(err => {
+    console.log(err);
+  });
+}
 
 // function to create a child window
 function createChildWindow(fileName, preloadFileName) {
