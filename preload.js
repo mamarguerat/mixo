@@ -140,6 +140,7 @@ function draw() {
     enableClick(ele[i]);
     enableDoubleClick(ele[i]);
     enableRightClick(ele[i]);
+    enableTextBox(ele[i], ele[i].children[3]);
   }
 }
 
@@ -171,6 +172,15 @@ function enableClick(ele) {
       mouseX = ev.clientX;
       mouseY = ev.clientY;
     }
+  });
+}
+
+function enableTextBox(parent, ele) {
+  ele.addEventListener("keyup", (ev) => {
+    deviceId = ev.target.parentElement.id;
+    console.log(deviceId)
+    devices[id2index(deviceId, devices)].name = ev.target.value;
+    console.log(devices)
   });
 }
   
