@@ -1,6 +1,8 @@
 const { contextBridge, ipcRenderer } = require('electron');
 const { fs } = require('fs');
-const path = require('path')
+const path = require('path');
+const Device = require('./device.js')
+const Link = require('./link.js')
 
 // Uncomment for npm start command
 // process.env.NODE_ENV = 'development'
@@ -16,91 +18,6 @@ const AES50 = {
   B: "B"
 };
 
-class Device {
-  constructor(x, y, type, id, name) {
-    this.x = x;
-    this.y = y;
-    this.type = type;
-    this.id = id;
-    this.name = name;
-    this.visible = true;
-  }
-
-  show() {
-    if (this.visible)
-    {
-      return "<div id='" + this.id +
-        "' class='device " + this.type +
-        "' style='top: " + this.y +
-        "px; left: " + this.x + "px;'>" +
-        "<div class='AES50 A' style='left: 50px; top: 0px;'>A</div>" +
-        "<div class='AES50 B' style='left: 70px; top: 0px;'>B</div>" +
-        "<img draggable='false' src='" + path.join(imagesPath, this.type + ".svg") +
-        "'><input type='text' value='" + this.name + "'></div>";
-    }
-    else return "";
-  }
-
-  move(newX, newY) {
-    this.x = newX;
-    this.y = newY;
-  }
-
-  delete() {
-    this.visible = false;
-    links.forEach(link => {
-      // if link on the device to delete
-      if ((this.id == link.device1) || (this.id == link.device2)) {
-        link.delete()
-      }
-    });
-  }
-}
-
-class Link {
-  constructor(dev1, aes50_1, dev2, aes50_2) {
-    this.valid = true
-    this.device1 = dev1;
-    this.device2 = dev2;
-    this.aes50_1 = aes50_1;
-    this.aes50_2 = aes50_2;
-    this.check();
-  }
-
-  /// Check if link is valable
-  check() {
-    links.forEach((link, index, fullArray) => {
-      // if link already on aes50
-      if ((this.device1 == link.device1 && this.aes50_1 == link.aes50_1) ||
-          (this.device1 == link.device2 && this.aes50_1 == link.aes50_2) ||
-          (this.device2 == link.device1 && this.aes50_2 == link.aes50_1) ||
-          (this.device2 == link.device2 && this.aes50_2 == link.aes50_2)) {
-        links.splice(index, 1);
-      }
-    });
-  }
-
-  delete() {
-    this.valid = false;
-    this.device1 = -1;
-    this.aes50_1 = -1;
-    this.device2 = -1;
-    this.aes50_2 = -2;
-  }
-
-  show() {
-    if (this.valid) {
-      let x1offset = this.aes50_1 == AES50.A ? 58 : 78;
-      let x2offset = this.aes50_2 == AES50.A ? 58 : 78;
-      //return "<line class='line' x1='" + (devices[this.device1].x + 58) + "' y1='" + devices[this.device1].y + "' x2='" + (devices[this.device2].x + 58) + "' y2='" + devices[this.device2].y + "' stroke='black' fill='transparent'/>";
-      return "<path class='line' d='M" + (devices[id2index(this.device1, devices)].x + x1offset) + "," + devices[id2index(this.device1, devices)].y +
-        " C " + (devices[id2index(this.device1, devices)].x + x1offset) + "," + (devices[id2index(this.device1, devices)].y - 80) +
-        " " + (devices[id2index(this.device2, devices)].x + x2offset) + "," + (devices[id2index(this.device2, devices)].y - 80) +
-        " " + (devices[id2index(this.device2, devices)].x + x2offset) + "," + devices[id2index(this.device2, devices)].y +
-        "' stroke='black' fill='transparent'/>";
-    }
-  }
-}
 /*
 contextBridge.exposeInMainWorld('versions', {
   node: () => process.versions.node,
@@ -112,6 +29,7 @@ contextBridge.exposeInMainWorld('versions', {
 */
 
 let devices = [];
+// TODO: Share variables with modules
 let links = [];
 let selectedElement = null;
 let originX, originY, mouseX, mouseY;
@@ -178,9 +96,7 @@ function enableClick(ele) {
 function enableTextBox(parent, ele) {
   ele.addEventListener("keyup", (ev) => {
     deviceId = ev.target.parentElement.id;
-    console.log(deviceId)
     devices[id2index(deviceId, devices)].name = ev.target.value;
-    console.log(devices)
   });
 }
   
@@ -279,5 +195,6 @@ ipcRenderer.on('file', (event, arg) => {
       links.push(new Link(link.device1, link.aes50_1, link.device2, link.aes50_2));
     })
     draw();
+    idCnt = devices[devices.length - 1].id + 1;
   }
 })
