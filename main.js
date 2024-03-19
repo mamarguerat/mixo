@@ -71,6 +71,7 @@ const menuTemplate = [
           },
           {
             label: 'SD16',
+            accelerator: 'CmdOrCtrl+Shift+M',
             click: () => win.webContents.send('menu', 'sd16'),
           },
           {
@@ -156,6 +157,8 @@ var childWindow;
 ipcMain.on('window', (event, arg) => {
   createChildWindow("device-detail.html", "device-detail-preload.js")
   childWindow.webContents.send('type', arg)
+  childWindow.setTitle('Mixo • ' + arg.name);
+  childWindow.webContents.send('ready');
 })
 
 ipcMain.on('file', (event, arg) => {
