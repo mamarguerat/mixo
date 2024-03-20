@@ -1,7 +1,8 @@
 html,
 body {
-    height: 100%;
     margin: 0;
+    min-height: 100%;
+    overflow: hidden;
     font-family: sans-serif;
 }
 
@@ -85,9 +86,9 @@ body {
     gap: 0.4rem;
     width: 450px;
     padding: 1.3rem;
-    min-height: 250px;
+    min-height: 200px;
     position: absolute;
-    top: 20%;
+    top: 15vh;
     background-color: white;
     border: 1px solid #ddd;
     border-radius: 15px;
@@ -96,6 +97,10 @@ body {
     translate: -50%;
     opacity: 1;
     transition: visibility 0s, opacity 1s ease-in-out;
+}
+
+#modal-title {
+    margin: 0px 0px 10px 0px;
 }
 
 .modal .flex {
@@ -120,7 +125,10 @@ body {
 button {
     cursor: pointer;
     border: none;
-    font-weight: 600;
+}
+
+.buttons {
+    margin-top: 10px;
 }
 
 .btn {
@@ -132,6 +140,14 @@ button {
     border-radius: 5px;
     text-align: center;
     font-size: 1em;
+    border: 2px solid black;
+    flex-grow: 3;
+}
+
+.cancel {
+    background-color: white;
+    color: black;
+    flex-grow: 1 !important;
 }
 
 .btn-open {
@@ -140,9 +156,8 @@ button {
 }
 
 .btn-close {
-    transform: translate(10px, -20px);
+    transform: translate(0px, -7px);
     padding: 0.5rem 0.7rem;
-    background: #eee;
     border-radius: 50%;
 }
 
@@ -166,6 +181,17 @@ button {
     opacity: 0;
 }
 
+/* Columns */
+.column-container {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+}
+
+.column {
+    flex-grow: 1;
+}
+
 /* CUSTOM DROPDOWN */
 .dropdown-wrapper {
     width: 100%;
@@ -173,6 +199,7 @@ button {
     float: left;
     position: relative;
     font-size: 0.9em;
+    flex-grow: 1;
 }
   
 .trigger-dropdown {
@@ -185,6 +212,10 @@ button {
     border-radius: 5px;
     transition: 0.2s ease-in;
     cursor:pointer;
+    text-align: left;
+    display: flex;
+    gap: 10px;
+    align-items: center;
 }
   
 .trigger-dropdown:hover {
@@ -198,25 +229,46 @@ button {
   
 .trigger-dropdown svg {
     width: 22px;
+    min-width: 22px;
     float: left;
     height: 22px;
+    min-height: 22px;
+}
+  
+.trigger-dropdown span {
+    float: left;
+    margin: 0px;
+    line-height: normal;
+    flex-grow: 1;
+    padding-top: 2px;
 }
   
 .dropdown-menu {
-    width: 100%;
+    width: calc(200% + 10px);
     display:none;
     z-index: 1;
     position: absolute;
     left: 0;
     top: 45px;
     box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-    max-height: 650%;
+    max-height: calc(100vh - 30vh - 150px);
+    min-height: 100px;
     overflow-y:scroll;
     border: 1px solid #ddd;
     border-radius: 5px;
     flex-wrap: wrap;
     gap: 0px;
     background-color: #fff;
+}
+
+.dropdown-menu button {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.right {
+    left: calc(-100% - 10px);
 }
   
 .dropdown-menu.show {
@@ -225,22 +277,28 @@ button {
   
 .dropdown-item svg {
     width: 22px;
+    min-width: 22px;
+    min-height: 22px;
     height: 22px;
-    float: left;
-    margin-right:10px;
 }
   
 .dropdown-item {
-    width: 49.99%;
+    width: 33.33%;
     height: 45px;
     line-height: 25px;
     border: 0;
-    padding: 0.7rem 1rem;
+    padding: 0.7rem;
     cursor: pointer;
     transition:0.2s ease-in;
     background-color:#fff;
     color: #5a616c;
     text-align: left;
+}
+  
+.dropdown-item span {
+    margin: 0px;
+    line-height: normal;
+    padding-top: 2px;
 }
   
 .dropdown-item:hover {
