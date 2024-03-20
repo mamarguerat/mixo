@@ -2,6 +2,7 @@ html,
 body {
     height: 100%;
     margin: 0;
+    font-family: sans-serif;
 }
 
 #canvas {
@@ -103,7 +104,7 @@ body {
     justify-content: space-between;
 }
 
-.modal input {
+.modal input, .modal select {
     padding: 0.7rem 1rem;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -163,4 +164,85 @@ button {
 .hidden {
     display: none;
     opacity: 0;
-}  
+}
+
+/* CUSTOM DROPDOWN */
+.dropdown-wrapper {
+    width: 100%;
+    height: 45px;
+    float: left;
+    position: relative;
+    font-size: 0.9em;
+}
+  
+.trigger-dropdown {
+    width: 100%;
+    height: 45px;
+    background-color: #fff;
+    border: 0;
+    padding: 0.7rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: 0.2s ease-in;
+    cursor:pointer;
+}
+  
+.trigger-dropdown:hover {
+    background-color:#eee;
+}
+  
+.trigger-dropdown .fa-caret-down {
+    float: right;
+    line-height: 22px;
+}
+  
+.trigger-dropdown svg {
+    width: 22px;
+    float: left;
+    height: 22px;
+}
+  
+.dropdown-menu {
+    width: 100%;
+    display:none;
+    z-index: 1;
+    position: absolute;
+    left: 0;
+    top: 45px;
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+    max-height: 650%;
+    overflow-y:scroll;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    flex-wrap: wrap;
+    gap: 0px;
+    background-color: #fff;
+}
+  
+.dropdown-menu.show {
+    display:flex;
+}
+  
+.dropdown-item svg {
+    width: 22px;
+    height: 22px;
+    float: left;
+    margin-right:10px;
+}
+  
+.dropdown-item {
+    width: 49.99%;
+    height: 45px;
+    line-height: 25px;
+    border: 0;
+    padding: 0.7rem 1rem;
+    cursor: pointer;
+    transition:0.2s ease-in;
+    background-color:#fff;
+    color: #5a616c;
+    text-align: left;
+}
+  
+.dropdown-item:hover {
+    background-color:#e5e5e5;
+}
