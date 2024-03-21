@@ -235,6 +235,14 @@ button {
     min-height: 22px;
 }
   
+.trigger-dropdown .icon {
+    width: 22px;
+    min-width: 22px;
+    float: left;
+    height: 22px;
+    min-height: 22px;
+}
+  
 .trigger-dropdown span {
     float: left;
     margin: 0px;
@@ -276,6 +284,13 @@ button {
 }
   
 .dropdown-item svg {
+    width: 22px;
+    min-width: 22px;
+    min-height: 22px;
+    height: 22px;
+}
+
+.dropdown-item .icon {
     width: 22px;
     min-width: 22px;
     min-height: 22px;
