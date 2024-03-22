@@ -1,5 +1,5 @@
-class io {
-    constructor(device, port, input, name, color, colorInvert, icon, phaseInvert) {
+class Connector {
+    constructor(device, port, input, name, color, colorInvert, icon, pwr, phaseInvert) {
         this.device = device;
         this.port = port;
         this.input = input;
@@ -7,6 +7,7 @@ class io {
         this.color = color;
         this.colorInvert = colorInvert;
         this.icon = icon;
+        this.pwr = pwr;
         this.phaseInvert = phaseInvert;
     }
 
@@ -14,3 +15,5 @@ class io {
         return this.color + this.colorInvert ? "i" : "";
     }
 }
+
+module.exports = Connector

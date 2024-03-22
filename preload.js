@@ -104,13 +104,8 @@ window.addEventListener("mousemove", (ev) => {
     fromID = selectedElement.parentElement.id
     fromAES50 = selectedElement.classList[1]
     xoffset = fromAES50 == Constants.AES50.A ? 58 : 78;
-<<<<<<< Updated upstream
     document.getElementById("lines").innerHTML = "<path class='line' d='M" + (devices[Constants.id2index(fromID, devices)].x + xoffset) + "," + devices[Constants.id2index(fromID, devices)].y +
       " C " + (devices[Constants.id2index(fromID, devices)].x + xoffset) + "," + (devices[Constants.id2index(fromID, devices)].y - 80) +
-=======
-    document.getElementById("lines").innerHTML = "<path class='line' d='M" + (devices[id2index(fromID, devices)].x + xoffset) + "," + devices[id2index(fromID, devices)].y +
-      " C " + (devices[id2index(fromID, devices)].x + xoffset) + "," + (devices[id2index(fromID, devices)].y - 80) +
->>>>>>> Stashed changes
       " " + (ev.clientX + 0) + "," + (ev.clientY - 80) +
       " " + (ev.clientX + 0) + "," + ev.clientY +
       "' stroke='black' fill='transparent'/>";
