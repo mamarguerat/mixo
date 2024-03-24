@@ -1,10 +1,5 @@
 const path = require('path');
-
-const publicPath =
-  process.env.NODE_ENV === 'development'
-    ? './public'
-    : path.join(process.resourcesPath, 'public');
-const imagesPath = path.join(publicPath, "assets", "images");
+const Constants = require('./const.js');
 
 class Device {
   constructor(x, y, type, id, name) {
@@ -22,7 +17,7 @@ class Device {
       "px; left: " + this.x + "px;'>" +
       "<div class='AES50 A' style='left: 50px; top: 0px;'>A</div>" +
       "<div class='AES50 B' style='left: 70px; top: 0px;'>B</div>" +
-      "<img draggable='false' src='" + path.join(imagesPath, this.type + ".svg") +
+      "<img draggable='false' src='" + path.join(Constants.imagesPath, this.type + ".svg") +
       "'><input type='text' value='" + this.name + "'></div>";
   }
 

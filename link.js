@@ -1,7 +1,4 @@
-const AES50 = {
-  A: "A",
-  B: "B"
-};
+const Constants = require('./const.js');
 
 class Link {
   constructor(dev1, aes50_1, dev2, aes50_2) {
@@ -26,8 +23,8 @@ class Link {
   }
 
   show() {
-    let x1offset = this.aes50_1 == AES50.A ? 58 : 78;
-    let x2offset = this.aes50_2 == AES50.A ? 58 : 78;
+    let x1offset = this.aes50_1 == Constants.AES50.A ? 58 : 78;
+    let x2offset = this.aes50_2 == Constants.AES50.A ? 58 : 78;
     //return "<line class='line' x1='" + (devices[this.device1].x + 58) + "' y1='" + devices[this.device1].y + "' x2='" + (devices[this.device2].x + 58) + "' y2='" + devices[this.device2].y + "' stroke='black' fill='transparent'/>";
     return "<path class='line' d='M" + (devices[id2index(this.device1, devices)].x + x1offset) + "," + devices[id2index(this.device1, devices)].y +
     " C " + (devices[id2index(this.device1, devices)].x + x1offset) + "," + (devices[id2index(this.device1, devices)].y - 80) +

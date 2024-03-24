@@ -1,11 +1,7 @@
 const { contextBridge, ipcRenderer } = require('electron')
 const path = require('path')
+const Constants = require('./const.js')
 
-const publicPath =
-  process.env.NODE_ENV === 'development'
-    ? './public'
-    : path.join(process.resourcesPath, 'public');
-const imagesPath = path.join(publicPath, "assets", "images");
 
 function selectTopDiv(ele) {
   while (!ele.classList.contains('device') && ele.tagName != "INPUT") {
@@ -28,5 +24,5 @@ function enableRightClick(ele) {
 
 ipcRenderer.on('type', (event, arg) => {
   console.log(arg)
-  document.getElementById("canvas").innerHTML += "<div id='0' class='device detail " + arg + "' style='top: 0px; left: 0px;'><img class='detail' draggable='false' src='" + path.join(imagesPath, arg + ".svg") + "'></div>";
+  document.getElementById("canvas").innerHTML += "<div id='device' class='device detail " + arg + "' style='top: 0px; left: 0px;'><object id='svg' class='detail' draggable='false' data='" + path.join(Constants.imagesPath, arg + ".svg") + "' type='image/svg+xml'></div>";
 });

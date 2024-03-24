@@ -1,22 +1,10 @@
 const { contextBridge, ipcRenderer } = require('electron');
-const { fs } = require('fs');
-const path = require('path');
 const Device = require('./device.js')
 const Link = require('./link.js')
+const Constants = require('./const.js')
 
 // Uncomment for npm start command
 // process.env.NODE_ENV = 'development'
-
-const publicPath =
-  process.env.NODE_ENV === 'development'
-    ? './public'
-    : path.join(process.resourcesPath, 'public');
-const imagesPath = path.join(publicPath, "assets", "images");
-
-const AES50 = {
-  A: "A",
-  B: "B"
-};
 
 /*
 contextBridge.exposeInMainWorld('versions', {
@@ -106,7 +94,7 @@ window.addEventListener("mousemove", (ev) => {
   if (selectedElement.classList.contains('AES50')) {
     fromID = selectedElement.parentElement.id
     fromAES50 = selectedElement.classList[1]
-    xoffset = fromAES50 == AES50.A ? 58 : 78;
+    xoffset = fromAES50 == Constants.AES50.A ? 58 : 78;
     document.getElementById("lines").innerHTML = "<path class='line' d='M" + (devices[id2index(fromID, devices)].x + xoffset) + "," + devices[id2index(fromID, devices)].y +
       " C " + (devices[id2index(fromID, devices)].x + xoffset) + "," + (devices[id2index(fromID, devices)].y - 80) +
       " " + (ev.clientX + 0) + "," + (ev.clientY - 80) +
