@@ -23,8 +23,17 @@ let selectedElement = null;
 let originX, originY, mouseX, mouseY;
 let idCnt = 0;
 
-function id2index(id, list) {
-  return list.findIndex((element) => Number(element.id) === Number(id));
+/// Check if link is valable
+function check(links) {
+  links.forEach((link, index, fullArray) => {
+  // if link already on aes50
+  if ((this.device1 == link.device1 && this.aes50_1 == link.aes50_1) ||
+      (this.device1 == link.device2 && this.aes50_1 == link.aes50_2) ||
+      (this.device2 == link.device1 && this.aes50_2 == link.aes50_1) ||
+      (this.device2 == link.device2 && this.aes50_2 == link.aes50_2)) {
+    links.splice(index, 1);
+  }
+  });
 }
 
 function selectTopDiv(ele) {
@@ -53,7 +62,7 @@ function draw() {
 function drawLine() {
   document.getElementById("lines").innerHTML = "";
   links.forEach(link => {
-    document.getElementById("lines").innerHTML += link.show();
+    document.getElementById("lines").innerHTML += link.show(devices);
   })
 }
 
@@ -84,7 +93,7 @@ function enableClick(ele) {
 function enableTextBox(parent, ele) {
   ele.addEventListener("keyup", (ev) => {
     deviceId = ev.target.parentElement.id;
-    devices[id2index(deviceId, devices)].name = ev.target.value;
+    devices[Constants.id2index(deviceId, devices)].name = ev.target.value;
   });
 }
   
@@ -95,13 +104,13 @@ window.addEventListener("mousemove", (ev) => {
     fromID = selectedElement.parentElement.id
     fromAES50 = selectedElement.classList[1]
     xoffset = fromAES50 == Constants.AES50.A ? 58 : 78;
-    document.getElementById("lines").innerHTML = "<path class='line' d='M" + (devices[id2index(fromID, devices)].x + xoffset) + "," + devices[id2index(fromID, devices)].y +
-      " C " + (devices[id2index(fromID, devices)].x + xoffset) + "," + (devices[id2index(fromID, devices)].y - 80) +
+    document.getElementById("lines").innerHTML = "<path class='line' d='M" + (devices[Constants.id2index(fromID, devices)].x + xoffset) + "," + devices[Constants.id2index(fromID, devices)].y +
+      " C " + (devices[Constants.id2index(fromID, devices)].x + xoffset) + "," + (devices[Constants.id2index(fromID, devices)].y - 80) +
       " " + (ev.clientX + 0) + "," + (ev.clientY - 80) +
       " " + (ev.clientX + 0) + "," + ev.clientY +
       "' stroke='black' fill='transparent'/>";
     links.forEach(link => {
-      document.getElementById("lines").innerHTML += link.show();
+      document.getElementById("lines").innerHTML += link.show(devices);
     })
   }
   else if (selectedElement.classList.contains('device')) {
@@ -111,7 +120,7 @@ window.addEventListener("mousemove", (ev) => {
     if (Sy < 0) Sy = 0;
     selectedElement.style.top = Math.round(Sy / 10) * 10 + "px";
     selectedElement.style.left = Math.round(Sx / 10) * 10 + "px";
-    index = id2index(selectedElement.id, devices);
+    index = Constants.id2index(selectedElement.id, devices);
     devices[index].move(parseInt(selectedElement.style.left, 10), parseInt(selectedElement.style.top, 10));
     drawLine()
   }
@@ -123,12 +132,13 @@ window.addEventListener("mouseup", (ev) => {
     toID = target.parentElement.id
     if (fromID != toID)
     {
-      links.push(new Link(devices[id2index(fromID, devices)].id, selectedElement.classList[1], devices[id2index(toID, devices)].id, target.classList[1]))
+      links.push(new Link(devices[Constants.id2index(fromID, devices)].id, selectedElement.classList[1], devices[Constants.id2index(toID, devices)].id, target.classList[1]))
+      check(links);
     }
     drawLine();
   }
   else if (selectedElement.classList.contains('device')) {
-    index = id2index(selectedElement.id, devices);
+    index = Constants.id2index(selectedElement.id, devices);
     devices[index].move(parseInt(selectedElement.style.left, 10), parseInt(selectedElement.style.top, 10));
     drawLine()
   }
@@ -138,15 +148,15 @@ window.addEventListener("mouseup", (ev) => {
 function enableDoubleClick(ele) {
   ele.ondblclick = function (ev) {
     current = selectTopDiv(ev.target);
-    ipcRenderer.send('window', devices[current.id].type);
+    ipcRenderer.send('window', devices[Constants.id2index(current.id, devices)]);
   }
 }
 
 function enableRightClick(ele) {
   ele.oncontextmenu = function (ev) {
     current = selectTopDiv(ev.target);
-    devices[id2index(current.id, devices)].delete();
-    devices.splice(id2index(current.id, devices), 1);
+    devices[Constants.id2index(current.id, devices)].delete(links);
+    devices.splice(Constants.id2index(current.id, devices), 1);
     draw();
   }
 }
@@ -181,6 +191,7 @@ ipcRenderer.on('file', (event, arg) => {
     });
     arg.links.forEach(link => {
       links.push(new Link(link.device1, link.aes50_1, link.device2, link.aes50_2));
+      check(links);
     })
     draw();
     idCnt = devices[devices.length - 1].id + 1;

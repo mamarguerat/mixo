@@ -26,7 +26,7 @@ class Device {
     this.y = newY;
   }
 
-  delete() {
+  delete(links) {
     let finished = false;
     do {
       finished = false

@@ -1,7 +1,6 @@
 const path = require('path');
 
-const publicPath =
-  process.env.NODE_ENV === 'development'
+const publicPath = process.env.NODE_ENV === 'development'
     ? './public'
     : path.join(process.resourcesPath, 'public');
 
@@ -31,5 +30,8 @@ module.exports = {
         {"Name": "Magenta", "Color": "#ED27AC", "ID": "MG"},
         {"Name": "Cyan",    "Color": "#2DE0E7", "ID": "CY"},
         {"Name": "White",   "Color": "#FFFFFF", "ID": "WH"}
-    ]
+    ],
+    id2index : function id2index(id, list) {
+        return list.findIndex((element) => Number(element.id) === Number(id));
+    },
 }
