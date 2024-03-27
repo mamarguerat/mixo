@@ -1,6 +1,8 @@
 const { dialog, app, BrowserWindow, ipcMain, Menu } = require('electron');
-const path = require('path');
+const join = require('path').join;
 const fs = require('fs');
+const openAboutWindow = require('about-window').default;
+const isMac = process.platform === 'darwin'
 let win
 let filePath = "";
 
@@ -12,7 +14,30 @@ app.on("ready", () => {
 });
 
 const menuTemplate = [
-  { role: 'appMenu' },
+  // { role: 'appMenu' },
+  ...(isMac
+    ? [
+        {
+          label: app.name,
+          submenu: [
+            {
+              label: 'About',
+              click: () => aboutWindow()
+            },
+            { type: 'separator' },
+            { role: 'services' },
+            { type: 'separator' },
+            { role: 'hide' },
+            { role: 'hideOthers' },
+            { role: 'unhide' },
+            { type: 'separator' },
+            { role: 'quit' }
+          ]
+        }
+      ]
+    : []),
+    
+  // { role: 'fileMenu' }
   {
     label: 'File',
     submenu: [
@@ -38,7 +63,47 @@ const menuTemplate = [
             accelerator: 'Shift+CmdOrCtrl+E',
           }
         ]
-      }
+      },
+      { type: 'separator' },
+      ...(isMac
+        ? [
+            { role: 'close' }
+          ]
+        : [
+            { role: 'quit' }
+          ]
+      ),
+    ]
+  },
+  // { role: 'editMenu' }
+  {
+    label: 'Edit',
+    submenu: [
+      { role: 'undo' },
+      { role: 'redo' },
+      { type: 'separator' },
+      { role: 'cut' },
+      { role: 'copy' },
+      { role: 'paste' },
+      ...(isMac
+        ? [
+            { role: 'pasteAndMatchStyle' },
+            { role: 'delete' },
+            { role: 'selectAll' },
+            { type: 'separator' },
+            {
+              label: 'Speech',
+              submenu: [
+                { role: 'startSpeaking' },
+                { role: 'stopSpeaking' }
+              ]
+            }
+          ]
+        : [
+            { role: 'delete' },
+            { type: 'separator' },
+            { role: 'selectAll' }
+          ])
     ]
   },
   {
@@ -53,7 +118,7 @@ const menuTemplate = [
           {
             label: 'X32 Compact',
             accelerator: 'CmdOrCtrl+M',
-            click: () => win.webContents.send('menu', 'x32c'),
+            click: () => win.webContents.send('menu', { action: 'add', type: 'x32c' }),
           },
           {
             label: 'X32 Producer'
@@ -67,12 +132,12 @@ const menuTemplate = [
           { type: 'separator' },
           {
             label: 'SD8',
-            click: () => win.webContents.send('menu', 'sd8'),
+            click: () => win.webContents.send('menu', { action: 'add', type: 'sd8' }),
           },
           {
             label: 'SD16',
             accelerator: 'CmdOrCtrl+Shift+M',
-            click: () => win.webContents.send('menu', 'sd16'),
+            click: () => win.webContents.send('menu', { action: 'add', type: 'sd16' }),
           },
           {
             label: 'S32'
@@ -111,7 +176,48 @@ const menuTemplate = [
       }
     ]
   },
-  { role: 'viewMenu' }
+  // { role: 'windowMenu' }
+  {
+    label: 'Window',
+    submenu: [
+      { role: 'minimize' },
+      { role: 'zoom' },
+      ...(isMac
+        ? [
+            { type: 'separator' },
+            { role: 'front' },
+            { type: 'separator' },
+            { role: 'window' }
+          ]
+        : [
+            { role: 'close' }
+          ])
+    ]
+  },
+  ...(app.isPackaged
+    ? []
+    : [{ role: 'viewMenu' }]
+  ),
+  {
+    role: 'help',
+    submenu: [
+      ...(isMac
+        ? []
+        : [
+            {
+              label: 'About',
+              click: () => aboutWindow()
+            },
+          ]),
+      {
+        label: 'Learn More',
+        click: async () => {
+          const { shell } = require('electron')
+          await shell.openExternal('https://martinmarguerat.ch')
+        }
+      }
+    ]
+  },
 ];
 const menu = Menu.buildFromTemplate(menuTemplate)
 
@@ -120,13 +226,12 @@ const createWindow = () => {
     width: 1000,
     height: 700,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
       contextIsolation: false,
     },
   });
-  ipcMain.handle('ping', () => 'pong')
-  win.loadFile('index.html');
+  ipcMain.handle('ping', () => 'pong');
+  win.loadFile(join(__dirname, '..', 'index.html'));
 };
 
 app.whenReady().then(() => {
@@ -155,7 +260,7 @@ app.on('window-all-closed', () => {
 var childWindow;
 
 ipcMain.on('window', (event, arg) => {
-  createChildWindow("device-detail.html", "device-detail-preload.js")
+  createChildWindow(join("..", "device-detail.html"), "device-detail-preload.js")
   childWindow.webContents.send('type', arg)
   childWindow.setTitle('Mixo • ' + arg.name);
   childWindow.webContents.send('ready');
@@ -226,11 +331,30 @@ function createChildWindow(fileName, preloadFileName) {
     menuBarVisible: false,
     autoHideMenuBar: true,
     webPreferences: {
-      preload: path.join(__dirname, preloadFileName),
+      preload: join(__dirname, preloadFileName),
       nodeIntegration: true,
       contextIsolation: false,
       enableRemoteModule: true,
     }
   })
   childWindow.loadFile(fileName)
+}
+
+function aboutWindow() {
+  openAboutWindow({
+    icon_path: join(__dirname, "..", "..", 'build', 'icon.png'),
+    package_json_dir: __dirname,
+    win_options: {
+      parent: win,
+      modal: true,
+      titleBarStyle: "hidden",
+      movable: false,
+      resizable: false,
+    },
+    css_path: join(__dirname, "..", "styles", "style.css"),
+    bug_link_text: "Report a bug",
+    product_name: "Mixo",
+    show_close_button: "Close",
+    adjust_window_size: true,
+  })
 }
