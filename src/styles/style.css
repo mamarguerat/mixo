@@ -8,7 +8,7 @@ body {
 
 #canvas {
     min-width: 100%;
-    min-height: 100%;
+    min-height: 100vh;
 }
 
 .device {
@@ -16,6 +16,7 @@ body {
     display: inline-block;
     position: absolute;
     padding-top: 5px;
+    user-select: none;
 }
 
 .device:hover {
@@ -50,11 +51,15 @@ body {
     color: white;
 }
 
-.x32c img {
+.deviceimg object {
+    pointer-events: none;
+}
+
+.x32c object {
     width: 260px;
 }
 
-.sd16 img, .sd8 img {
+.sd16 object, .sd8 object {
     width: 200px;
 }
 
@@ -76,6 +81,8 @@ body {
 
 .line {
     stroke-width: 3px;
+    stroke: black;
+    fill: transparent;
 }
 
 /* MODAL STYLE */

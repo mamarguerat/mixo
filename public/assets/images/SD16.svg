@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<svg width="1110px" height="464px" viewBox="0 0 1110 464" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+<svg width="1110px" height="464px" viewBox="0 0 1110 464" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" >
   <style>
     .number {
       font: 13px sans-serif;
       fill: #ffffff;
       text-anchor: middle;
+      user-select: none;
     }
     .hiz {
       font: 11px sans-serif;
       fill: #ffffff;
       text-anchor: middle;
+      user-select: none;
     }
   </style>
   <g id="SD16">
@@ -18,163 +20,105 @@
       <g id="XLRi-1" transform="translate(0 0)">
         <text x="78" y="26" class="number">1</text>
         <g id="connector" transform="translate(0 15.7)">
-          <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#B2B2B2" />
-          <circle id="jack" r="13" cx="39.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-1" r="5.5" cx="39.5" cy="54.5" fill="#454545" />
-          <circle id="xlr-2" r="5.5" cx="25.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-3" r="5.5" cx="53.5" cy="39.5" fill="#454545" />
+          <!--<use xlink:href="xlr.svg#xlr-f" x="0" y="0" /> -->
+          <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#0060FF" />
+          <use xlink:href="../icons/svg/68.svg#icon" x="7.5" y="7.5" stroke="#ffffff"/>
         </g>
       </g>
       <g id="XLRi-2" transform="translate(94 0)">
         <text x="78" y="26" class="number">2</text>
         <g id="connector" transform="translate(0 15.7)">
-          <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#B2B2B2" />
-          <circle id="jack" r="13" cx="39.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-1" r="5.5" cx="39.5" cy="54.5" fill="#454545" />
-          <circle id="xlr-2" r="5.5" cx="25.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-3" r="5.5" cx="53.5" cy="39.5" fill="#454545" />
+          <use xlink:href="xlr.svg#xlr-f" x="0" y="0" />
         </g>
       </g>
       <g id="XLRi-3" transform="translate(188 0)">
         <text x="78" y="26" class="number">3</text>
         <g id="connector" transform="translate(0 15.7)">
-          <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#B2B2B2" />
-          <circle id="jack" r="13" cx="39.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-1" r="5.5" cx="39.5" cy="54.5" fill="#454545" />
-          <circle id="xlr-2" r="5.5" cx="25.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-3" r="5.5" cx="53.5" cy="39.5" fill="#454545" />
+          <use xlink:href="xlr.svg#xlr-f" x="0" y="0" />
         </g>
       </g>
       <g id="XLRi-4" transform="translate(282 0)">
         <text x="78" y="26" class="number">4</text>
         <g id="connector" transform="translate(0 15.7)">
-          <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#B2B2B2" />
-          <circle id="jack" r="13" cx="39.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-1" r="5.5" cx="39.5" cy="54.5" fill="#454545" />
-          <circle id="xlr-2" r="5.5" cx="25.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-3" r="5.5" cx="53.5" cy="39.5" fill="#454545" />
+          <use xlink:href="xlr.svg#xlr-f" x="0" y="0" />
         </g>
       </g>
       <g id="XLRi-5" transform="translate(376 0)">
         <text x="78" y="26" class="number">5</text>
         <g id="connector" transform="translate(0 15.7)">
-          <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#B2B2B2" />
-          <circle id="jack" r="13" cx="39.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-1" r="5.5" cx="39.5" cy="54.5" fill="#454545" />
-          <circle id="xlr-2" r="5.5" cx="25.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-3" r="5.5" cx="53.5" cy="39.5" fill="#454545" />
+          <use xlink:href="xlr.svg#xlr-f" x="0" y="0" />
         </g>
       </g>
       <g id="XLRi-6" transform="translate(470 0)">
         <text x="78" y="26" class="number">6</text>
         <g id="connector" transform="translate(0 15.7)">
-          <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#B2B2B2" />
-          <circle id="jack" r="13" cx="39.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-1" r="5.5" cx="39.5" cy="54.5" fill="#454545" />
-          <circle id="xlr-2" r="5.5" cx="25.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-3" r="5.5" cx="53.5" cy="39.5" fill="#454545" />
+          <!--<use xlink:href="xlr.svg#xlr-f" x="0" y="0" /> -->
+          <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#35e72d" />
+          <use xlink:href="../icons/svg/72.svg#icon" x="7.5" y="7.5" stroke="#ffffff"/>
         </g>
       </g>
       <g id="XLRi-7" transform="translate(564 0)">
         <text x="78" y="26" class="number">7</text>
         <g id="connector" transform="translate(0 15.7)">
-          <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#B2B2B2" />
-          <circle id="jack" r="13" cx="39.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-1" r="5.5" cx="39.5" cy="54.5" fill="#454545" />
-          <circle id="xlr-2" r="5.5" cx="25.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-3" r="5.5" cx="53.5" cy="39.5" fill="#454545" />
+          <use xlink:href="xlr.svg#xlr-f" x="0" y="0" />
         </g>
       </g>
       <g id="XLRi-8" transform="translate(658 0)">
         <text x="78" y="26" class="number">8</text>
         <g id="connector" transform="translate(0 15.7)">
-          <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#B2B2B2" />
-          <circle id="jack" r="13" cx="39.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-1" r="5.5" cx="39.5" cy="54.5" fill="#454545" />
-          <circle id="xlr-2" r="5.5" cx="25.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-3" r="5.5" cx="53.5" cy="39.5" fill="#454545" />
+          <use xlink:href="xlr.svg#xlr-f" x="0" y="0" />
         </g>
       </g>
       <g id="XLRi-9" transform="translate(0 96)">
         <text x="78" y="26" class="number">9</text>
         <g id="connector" transform="translate(0 15.7)">
-          <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#B2B2B2" />
-          <circle id="jack" r="13" cx="39.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-1" r="5.5" cx="39.5" cy="54.5" fill="#454545" />
-          <circle id="xlr-2" r="5.5" cx="25.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-3" r="5.5" cx="53.5" cy="39.5" fill="#454545" />
+          <use xlink:href="xlr.svg#xlr-f" x="0" y="0" />
         </g>
       </g>
       <g id="XLRi-10" transform="translate(94 96)">
         <text x="78" y="26" class="number">10</text>
         <g id="connector" transform="translate(0 15.7)">
-          <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#B2B2B2" />
-          <circle id="jack" r="13" cx="39.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-1" r="5.5" cx="39.5" cy="54.5" fill="#454545" />
-          <circle id="xlr-2" r="5.5" cx="25.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-3" r="5.5" cx="53.5" cy="39.5" fill="#454545" />
+          <use xlink:href="xlr.svg#xlr-f" x="0" y="0" />
         </g>
       </g>
       <g id="XLRi-11" transform="translate(188 96)">
         <text x="78" y="26" class="number">11</text>
         <g id="connector" transform="translate(0 15.7)">
-          <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#B2B2B2" />
-          <circle id="jack" r="13" cx="39.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-1" r="5.5" cx="39.5" cy="54.5" fill="#454545" />
-          <circle id="xlr-2" r="5.5" cx="25.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-3" r="5.5" cx="53.5" cy="39.5" fill="#454545" />
+          <use xlink:href="xlr.svg#xlr-f" x="0" y="0" />
         </g>
       </g>
       <g id="XLRi-12" transform="translate(282 96)">
         <text x="78" y="26" class="number">12</text>
         <g id="connector" transform="translate(0 15.7)">
-          <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#B2B2B2" />
-          <circle id="jack" r="13" cx="39.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-1" r="5.5" cx="39.5" cy="54.5" fill="#454545" />
-          <circle id="xlr-2" r="5.5" cx="25.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-3" r="5.5" cx="53.5" cy="39.5" fill="#454545" />
+          <use xlink:href="xlr.svg#xlr-f" x="0" y="0" />
         </g>
       </g>
       <g id="XLRi-13" transform="translate(376 96)">
         <text x="78" y="26" class="number">13</text>
         <g id="connector" transform="translate(0 15.7)">
-          <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#B2B2B2" />
-          <circle id="jack" r="13" cx="39.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-1" r="5.5" cx="39.5" cy="54.5" fill="#454545" />
-          <circle id="xlr-2" r="5.5" cx="25.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-3" r="5.5" cx="53.5" cy="39.5" fill="#454545" />
+          <use xlink:href="xlr.svg#xlr-f" x="0" y="0" />
         </g>
       </g>
       <g id="XLRi-14" transform="translate(470 96)">
         <text x="78" y="26" class="number">14</text>
         <g id="connector" transform="translate(0 15.7)">
-          <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#B2B2B2" />
-          <circle id="jack" r="13" cx="39.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-1" r="5.5" cx="39.5" cy="54.5" fill="#454545" />
-          <circle id="xlr-2" r="5.5" cx="25.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-3" r="5.5" cx="53.5" cy="39.5" fill="#454545" />
+          <use xlink:href="xlr.svg#xlr-f" x="0" y="0" />
         </g>
       </g>
       <g id="XLRi-15" transform="translate(564 96)">
         <text x="78" y="26" class="number">15</text>
         <text x="39.5" y="14" class="hiz">HI-Z</text>
         <g id="connector" transform="translate(0 15.7)">
-          <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#B2B2B2" />
-          <circle id="jack" r="13" cx="39.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-1" r="5.5" cx="39.5" cy="54.5" fill="#454545" />
-          <circle id="xlr-2" r="5.5" cx="25.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-3" r="5.5" cx="53.5" cy="39.5" fill="#454545" />
+          <use xlink:href="xlr.svg#xlr-f" x="0" y="0" />
         </g>
       </g>
       <g id="XLRi-16" transform="translate(658 96)">
         <text x="78" y="26" class="number">16</text>
         <text x="39.5" y="14" class="hiz">HI-Z</text>
         <g id="connector" transform="translate(0 15.7)">
-          <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#B2B2B2" />
-          <circle id="jack" r="13" cx="39.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-1" r="5.5" cx="39.5" cy="54.5" fill="#454545" />
-          <circle id="xlr-2" r="5.5" cx="25.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-3" r="5.5" cx="53.5" cy="39.5" fill="#454545" />
+          <!--<use xlink:href="xlr.svg#xlr-f" x="0" y="0" /> -->
+          <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#FCF300" />
+          <use xlink:href="../icons/svg/74.svg#icon" x="7.5" y="7.5" stroke="#ffffff"/>
         </g>
       </g>
     </g>
@@ -182,73 +126,51 @@
       <g id="XLRo-1" transform="translate(0 0)">
         <text x="62" y="25" class="number">OUT 1</text>
         <g id="connector" transform="translate(0 25.7)">
-          <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-1" r="3" cx="39.5" cy="24.5" fill="#B2B2B2" />
-          <circle id="xlr-2" r="3" cx="25.5" cy="39.5" fill="#B2B2B2" />
-          <circle id="xlr-3" r="3" cx="53.5" cy="39.5" fill="#B2B2B2" />
+          <use xlink:href="xlr.svg#xlr-m" x="0" y="0" />
         </g>
       </g>
       <g id="XLRo-2" transform="translate(94 0)">
         <text x="62" y="25" class="number">OUT 2</text>
         <g id="connector" transform="translate(0 25.7)">
-          <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-1" r="3" cx="39.5" cy="24.5" fill="#B2B2B2" />
-          <circle id="xlr-2" r="3" cx="25.5" cy="39.5" fill="#B2B2B2" />
-          <circle id="xlr-3" r="3" cx="53.5" cy="39.5" fill="#B2B2B2" />
+          <use xlink:href="xlr.svg#xlr-m" x="0" y="0" />
         </g>
       </g>
       <g id="XLRo-3" transform="translate(188 0)">
         <text x="62" y="25" class="number">OUT 3</text>
         <g id="connector" transform="translate(0 25.7)">
-          <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-1" r="3" cx="39.5" cy="24.5" fill="#B2B2B2" />
-          <circle id="xlr-2" r="3" cx="25.5" cy="39.5" fill="#B2B2B2" />
-          <circle id="xlr-3" r="3" cx="53.5" cy="39.5" fill="#B2B2B2" />
+          <use xlink:href="xlr.svg#xlr-m" x="0" y="0" />
         </g>
       </g>
       <g id="XLRo-4" transform="translate(282 0)">
         <text x="62" y="25" class="number">OUT 4</text>
         <g id="connector" transform="translate(0 25.7)">
-          <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-1" r="3" cx="39.5" cy="24.5" fill="#B2B2B2" />
-          <circle id="xlr-2" r="3" cx="25.5" cy="39.5" fill="#B2B2B2" />
-          <circle id="xlr-3" r="3" cx="53.5" cy="39.5" fill="#B2B2B2" />
+          <use xlink:href="xlr.svg#xlr-m" x="0" y="0" />
         </g>
       </g>
       <g id="XLRo-5" transform="translate(376 0)">
         <text x="62" y="25" class="number">OUT 5</text>
         <g id="connector" transform="translate(0 25.7)">
-          <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-1" r="3" cx="39.5" cy="24.5" fill="#B2B2B2" />
-          <circle id="xlr-2" r="3" cx="25.5" cy="39.5" fill="#B2B2B2" />
-          <circle id="xlr-3" r="3" cx="53.5" cy="39.5" fill="#B2B2B2" />
+          <use xlink:href="xlr.svg#xlr-m" x="0" y="0" />
         </g>
       </g>
       <g id="XLRo-6" transform="translate(470 0)">
         <text x="62" y="25" class="number">OUT 6</text>
         <g id="connector" transform="translate(0 25.7)">
-          <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-1" r="3" cx="39.5" cy="24.5" fill="#B2B2B2" />
-          <circle id="xlr-2" r="3" cx="25.5" cy="39.5" fill="#B2B2B2" />
-          <circle id="xlr-3" r="3" cx="53.5" cy="39.5" fill="#B2B2B2" />
+          <use xlink:href="xlr.svg#xlr-m" x="0" y="0" />
         </g>
       </g>
       <g id="XLRo-7" transform="translate(564 0)">
         <text x="62" y="25" class="number">OUT 7</text>
         <g id="connector" transform="translate(0 25.7)">
-          <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-1" r="3" cx="39.5" cy="24.5" fill="#B2B2B2" />
-          <circle id="xlr-2" r="3" cx="25.5" cy="39.5" fill="#B2B2B2" />
-          <circle id="xlr-3" r="3" cx="53.5" cy="39.5" fill="#B2B2B2" />
+          <use xlink:href="xlr.svg#xlr-m" x="0" y="0" />
         </g>
       </g>
       <g id="XLRo-8" transform="translate(658 0)">
         <text x="62" y="25" class="number">OUT 8</text>
         <g id="connector" transform="translate(0 25.7)">
-          <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#454545" />
-          <circle id="xlr-1" r="3" cx="39.5" cy="24.5" fill="#B2B2B2" />
-          <circle id="xlr-2" r="3" cx="25.5" cy="39.5" fill="#B2B2B2" />
-          <circle id="xlr-3" r="3" cx="53.5" cy="39.5" fill="#B2B2B2" />
+          <!--<use xlink:href="xlr.svg#xlr-m" x="0" y="0" /> -->
+          <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#E72D2E" />
+          <use xlink:href="../icons/svg/73.svg#icon" x="7.5" y="7.5" stroke="#ffffff"/>
         </g>
       </g>
     </g>
@@ -256,20 +178,16 @@
     <path d="M57 38C63.076 38 68 42.924 68 49L68 416C68 422.076 63.076 427 57 427L57 427C50.924 427 46 422.076 46 416L46 49C46 42.924 50.924 38 57 38Z" id="Rectangle-18" fill="#D5D5D5" stroke="none" />
     <path d="M1053 37.9999C1059.08 37.9999 1064 42.9239 1064 48.9999L1064 416C1064 422.076 1059.08 427 1053 427L1053 427C1046.92 427 1042 422.076 1042 416L1042 48.9999C1042 42.9239 1046.92 37.9999 1053 37.9999Z" id="Rectangle-19" fill="#D5D5D5" stroke="none" />
     <g id="RJ45" transform="translate(128 123)">
-      <path d="M54 0C56.2094 0 58 1.79056 58 4L58 50C58 52.2094 56.2094 54 54 54L4 54C1.79056 54 0 52.2094 0 50L0 4C0 1.79056 1.79056 0 4 0L54 0Z" id="Rectangle-20" fill="#D5D5D5" stroke="none" />
-      <path d="M17 5L44 5L44 14L49 14L49 19L54 19L54 34L49 34L49 39L44 39L44 49L17 49L17 5Z" id="Rectangle-21-Union" fill="#000000" fill-rule="evenodd" stroke="none" />
+      <image x="0" y="0" width="79" height="79" xlink:href="rj45.svg" />
     </g>
     <g id="RJ45-2" transform="translate(128 193.29993)">
-      <path d="M54 0C56.2094 0 58 1.79056 58 4L58 50C58 52.2094 56.2094 54 54 54L4 54C1.79056 54 0 52.2094 0 50L0 4C0 1.79056 1.79056 0 4 0L54 0Z" id="Rectangle-20" fill="#D5D5D5" stroke="none" />
-      <path d="M17 5L44 5L44 14L49 14L49 19L54 19L54 34L49 34L49 39L44 39L44 49L17 49L17 5Z" id="Rectangle-21-Union" fill="#000000" fill-rule="evenodd" stroke="none" />
+      <image x="0" y="0" width="79" height="79" xlink:href="rj45.svg" />
     </g>
     <g id="RJ45-3" transform="translate(128 264.59985)">
-      <path d="M54 0C56.2094 0 58 1.79056 58 4L58 50C58 52.2094 56.2094 54 54 54L4 54C1.79056 54 0 52.2094 0 50L0 4C0 1.79056 1.79056 0 4 0L54 0Z" id="Rectangle-20" fill="#D5D5D5" stroke="none" />
-      <path d="M17 5L44 5L44 14L49 14L49 19L54 19L54 34L49 34L49 39L44 39L44 49L17 49L17 5Z" id="Rectangle-21-Union" fill="#000000" fill-rule="evenodd" stroke="none" />
+      <image x="0" y="0" width="79" height="79" xlink:href="rj45.svg" />
     </g>
     <g id="RJ45-4" transform="translate(128 334.90002)">
-      <path d="M54 0C56.2094 0 58 1.79056 58 4L58 50C58 52.2094 56.2094 54 54 54L4 54C1.79056 54 0 52.2094 0 50L0 4C0 1.79056 1.79056 0 4 0L54 0Z" id="Rectangle-20" fill="#D5D5D5" stroke="none" />
-      <path d="M17 5L44 5L44 14L49 14L49 19L54 19L54 34L49 34L49 39L44 39L44 49L17 49L17 5Z" id="Rectangle-21-Union" fill="#000000" fill-rule="evenodd" stroke="none" />
+      <image x="0" y="0" width="79" height="79" xlink:href="rj45.svg" />
     </g>
   </g>
 </svg>

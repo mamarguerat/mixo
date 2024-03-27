@@ -1,0 +1,6 @@
+<svg width="79px" height="79px" viewBox="0 0 79 79" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+  <g id="rj45" transform="translate(0 0)">
+    <path d="M54 0C56.2094 0 58 1.79056 58 4L58 50C58 52.2094 56.2094 54 54 54L4 54C1.79056 54 0 52.2094 0 50L0 4C0 1.79056 1.79056 0 4 0L54 0Z" id="Rectangle-20" fill="#D5D5D5" stroke="none" />
+    <path d="M17 5L44 5L44 14L49 14L49 19L54 19L54 34L49 34L49 39L44 39L44 49L17 49L17 5Z" id="Rectangle-21-Union" fill="#000000" fill-rule="evenodd" stroke="none" />
+  </g>
+</svg>

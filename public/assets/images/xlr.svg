@@ -1,0 +1,16 @@
+
+<svg width="79px" height="79px" viewBox="0 0 79 79" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+  <g id="xlr-f">
+    <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#B2B2B2" />
+    <circle id="jack" r="13" cx="39.5" cy="39.5" fill="#454545" />
+    <circle id="xlr-1" r="5.5" cx="39.5" cy="54.5" fill="#454545" />
+    <circle id="xlr-2" r="5.5" cx="25.5" cy="39.5" fill="#454545" />
+    <circle id="xlr-3" r="5.5" cx="53.5" cy="39.5" fill="#454545" />
+  </g>
+  <g id="xlr-m">
+    <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#454545" />
+    <circle id="xlr-1" r="4" cx="39.5" cy="24.5" fill="#B2B2B2" />
+    <circle id="xlr-2" r="4" cx="25.5" cy="39.5" fill="#B2B2B2" />
+    <circle id="xlr-3" r="4" cx="53.5" cy="39.5" fill="#B2B2B2" />
+  </g>
+</svg>
