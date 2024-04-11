@@ -239,7 +239,6 @@ const createWindow = () => {
       contextIsolation: false,
     },
   });
-  ipcMain.handle('ping', () => 'pong');
   win.loadFile(join(__dirname, '..', 'index.html'));
 };
 
@@ -270,11 +269,11 @@ var childWindow;
 
 // MARK: IPC events
 ipcMain.on('window', (event, arg) => {
-  createChildWindow(join("..", "device-detail.html"), "device-detail-preload.js")
-  childWindow.webContents.send('type', arg)
-  childWindow.setTitle('Mixo • ' + arg.name);
-  childWindow.webContents.send('ready');
-})
+  createChildWindow(join(__dirname, '..', 'device-detail.html'));
+  childWindow.webContents.on('did-finish-load', () => {
+    childWindow.webContents.send('ready', arg);
+  });
+});
 
 ipcMain.on('file', (event, arg) => {
   if ('saveas' == arg.function || ('save' == arg.function && filePath == "")) {
@@ -336,14 +335,13 @@ function loadFile() {
 }
 
 // function to create a child window
-function createChildWindow(fileName, preloadFileName) {
+function createChildWindow(fileName) {
   childWindow = new BrowserWindow({
     width: 700,
     height: 500,
     menuBarVisible: false,
     autoHideMenuBar: true,
     webPreferences: {
-      preload: join(__dirname, preloadFileName),
       nodeIntegration: true,
       contextIsolation: false,
       enableRemoteModule: true,

@@ -22,7 +22,7 @@
         <g id="connector" transform="translate(0 15.7)">
           <!--<use xlink:href="xlr.svg#xlr-f" x="0" y="0" /> -->
           <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#0060FF" />
-          <use xlink:href="../icons/svg/68.svg#icon" x="7.5" y="7.5" stroke="#ffffff"/>
+          <use xlink:href="../icons/svg/68.svg#icon" x="7.5" y="7.5" stroke="black"/>
         </g>
       </g>
       <g id="XLRi-2" transform="translate(94 0)">
@@ -54,7 +54,7 @@
         <g id="connector" transform="translate(0 15.7)">
           <!--<use xlink:href="xlr.svg#xlr-f" x="0" y="0" /> -->
           <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#35e72d" />
-          <use xlink:href="../icons/svg/72.svg#icon" x="7.5" y="7.5" stroke="#ffffff"/>
+          <use xlink:href="../icons/svg/72.svg#icon" x="7.5" y="7.5" stroke="black"/>
         </g>
       </g>
       <g id="XLRi-7" transform="translate(564 0)">
@@ -118,7 +118,7 @@
         <g id="connector" transform="translate(0 15.7)">
           <!--<use xlink:href="xlr.svg#xlr-f" x="0" y="0" /> -->
           <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#FCF300" />
-          <use xlink:href="../icons/svg/74.svg#icon" x="7.5" y="7.5" stroke="#ffffff"/>
+          <use xlink:href="../icons/svg/74.svg#icon" x="7.5" y="7.5" stroke="black"/>
         </g>
       </g>
     </g>
@@ -170,7 +170,7 @@
         <g id="connector" transform="translate(0 25.7)">
           <!--<use xlink:href="xlr.svg#xlr-m" x="0" y="0" /> -->
           <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#E72D2E" />
-          <use xlink:href="../icons/svg/73.svg#icon" x="7.5" y="7.5" stroke="#ffffff"/>
+          <use xlink:href="../icons/svg/73.svg#icon" x="7.5" y="7.5" stroke="black"/>
         </g>
       </g>
     </g>

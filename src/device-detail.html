@@ -7,11 +7,6 @@
     <link rel="stylesheet" href="./styles/style.css">
   </head>
   <body>
-    <!--<h1>Mixers routing tool</h1>
-    <p>👋</p>
-    <p id="info"></p>
-    <button type="button" onclick="document.getElementById('demo').innerHTML = Date()">Click Me!</button>
-    <p id="demo"></p>-->
     <div id="canvas">
     </div>
 
@@ -58,5 +53,17 @@
     </section>
     <div class="overlay hidden"></div>
   </body>
-  <script src="./js/device-detail-renderer.js"></script>
+
+  <!-- Main script -->
+  <script src="js/main/deviceDetailMain.js" crossorigin="anonymous"></script>
+  <!-- Constants -->
+  <script src="js/const.js"></script>
+  <!-- Beans -->
+  <script src="js/beans/device.js"></script>
+  <script src="js/beans/link.js"></script>
+  <script src="js/beans/connector.js"></script>
+  <script src="js/beans/deviceTypeLUT.js"></script>
+  <!-- Controllers and Workers -->
+  <script src="js/ctrl/deviceDetailCtrl.js"></script>
+  <script src="js/wrk/indexWrk.js"></script>
 </html>

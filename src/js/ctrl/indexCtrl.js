@@ -1,6 +1,7 @@
 const { ipcRenderer } = require("electron");
 
 const constants = new Const();
+
 class IndexCtrl {
 
   // MARK: Constructor
@@ -102,6 +103,8 @@ class IndexCtrl {
    */
   openDeviceDetail(e) {
     //TODO: Open new window
+    let id = $(e.target).parent().attr('deviceid');
+    ipcRenderer.send('window', { id: id, worker: indexWrk });
   }
 
   /**

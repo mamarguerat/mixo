@@ -115,6 +115,14 @@ class IndexWrk {
     this.devices[index].setName(name);
   }
 
+  getDeviceFromId(id) {
+    return this.getDeviceFromIndex(id2index(id, this.devices));
+  }
+
+  getDeviceFromIndex(index) {
+    return this.devices[index];
+  }
+
   /**
    * Get a device position in the devices array fom an id
    * @param {Number} id 
