@@ -303,6 +303,15 @@ ipcMain.on('file', (event, arg) => {
   }
 })
 
+// MARK: IPC windows
+ipcMain.on('forward-to-main', (event, arg) => {
+  win.webContents.send('request-data-changes', arg);
+});
+
+ipcMain.on('forward-to-childs', (event, arg) => {
+  childWindow.webContents.send('new-data', arg);
+});
+
 // MARK: Functions
 function loadFile() {
   dialog.showOpenDialog({

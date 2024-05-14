@@ -42,6 +42,14 @@ class Connector {
     return this._color + this._colorInvert ? "i" : "";
   }
 
+  getIcon() {
+    return this._icon;
+  }
+
+  setIcon(icon) {
+    this._icon = icon;
+  }
+
   setPhantomPower(pwr) {
     this._pwr = pwr;
   }

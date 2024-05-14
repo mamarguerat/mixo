@@ -10,6 +10,9 @@ class IndexCtrl {
     ipcRenderer.on('menu', (event, arg) => {
       this.menuClick(arg);
     })
+    ipcRenderer.on('request-data-changes', (event, arg) => {
+      this.requestDataChanges(arg);
+    })
     /* ----- DOM Event Listeners ----- */
     window.addEventListener("mousemove", (e) => {
       this.mouseMove(e);
@@ -104,6 +107,7 @@ class IndexCtrl {
   openDeviceDetail(e) {
     //TODO: Open new window
     let id = $(e.target).parent().attr('deviceid');
+    console.log(indexWrk);
     ipcRenderer.send('window', { id: id, worker: indexWrk });
   }
 
@@ -181,6 +185,14 @@ class IndexCtrl {
     }
   }
 
+  /**
+   * Data changes received from child windows IPC
+   * @param {*} arg 
+   */
+  requestDataChanges(arg) {
+    // TODO: Add IO parameters
+  }
+
   // MARK: Functions
   /**
    * Refresh DOM
@@ -196,6 +208,7 @@ class IndexCtrl {
     if (links.length > 0) {
       this.drawLines(links);
     }
+    ipcRenderer.send('forward-to-childs', indexWrk);
   }
 
   /**
