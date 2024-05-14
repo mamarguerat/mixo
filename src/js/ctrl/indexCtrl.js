@@ -190,7 +190,9 @@ class IndexCtrl {
    * @param {*} arg 
    */
   requestDataChanges(arg) {
-    // TODO: Add IO parameters
+    console.log(`[indexCtrl] got worker from child`);
+    indexWrk = constants.reconstructIndexWrk(arg.worker);
+    ipcRenderer.send('forward-to-childs', { worker: indexWrk });
   }
 
   // MARK: Functions
@@ -208,7 +210,7 @@ class IndexCtrl {
     if (links.length > 0) {
       this.drawLines(links);
     }
-    ipcRenderer.send('forward-to-childs', indexWrk);
+    ipcRenderer.send('forward-to-childs', { worker: indexWrk });
   }
 
   /**

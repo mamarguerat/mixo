@@ -3,7 +3,7 @@ class Connector {
     this._name = "";
     this._color = "OFF";
     this._colorInvert = false;
-    this._icon = "01";
+    this._icon = "1";
   }
 
   // MARK: RW properties
@@ -21,8 +21,8 @@ class Connector {
     this._color = color;
   }
 
-  getColor(color) {
-    this._color = color;
+  getColor() {
+    return this._color;
   }
 
   setColorInvert(colorInvert) {

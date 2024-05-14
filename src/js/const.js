@@ -32,4 +32,37 @@ class Const {
       { Name: "White", Color: "#FFFFFF", ID: "WH" }
     ];
   }
+
+  reconstructIndexWrk(wrk) {
+    var ret = new IndexWrk();
+    wrk.devices.forEach(device => {
+      ret.devices.push(new Device(device._type, device._id, 0, 0));
+      var devIdx = wrk.devices.length - 1;
+      ret.devices[devIdx].x = device.x;
+      ret.devices[devIdx].y = device.y;
+      ret.devices[devIdx].name = device.name;
+      device.inputs.forEach(input => {
+        ret.devices[devIdx].inputs.push(new Connector());
+        var connIdx = ret.devices[devIdx].inputs.length - 1;
+        ret.devices[devIdx].inputs[connIdx]._name = input._name;
+        ret.devices[devIdx].inputs[connIdx]._color = input._color;
+        ret.devices[devIdx].inputs[connIdx]._colorInvert = input._colorInvert;
+        ret.devices[devIdx].inputs[connIdx]._icon = input._icon;
+      });
+      device.outputs.forEach(output => {
+        ret.devices[devIdx].outputs.push(new Connector());
+        var connIdx = ret.devices[devIdx].outputs.length - 1;
+        ret.devices[devIdx].outputs[connIdx]._name = output._name;
+        ret.devices[devIdx].outputs[connIdx]._color = output._color;
+        ret.devices[devIdx].outputs[connIdx]._colorInvert = output._colorInvert;
+        ret.devices[devIdx].outputs[connIdx]._icon = output._icon;
+      });
+    });
+    wrk.links.forEach(link => {
+      ret.links.push(new link(link._device1, link._device2, link._aes50_1, link._aes50_2))
+    })
+    ret.devTypeLUT = new DeviceTypeLUT();
+    ret.id = wrk.id;
+    return ret;
+  }
 }

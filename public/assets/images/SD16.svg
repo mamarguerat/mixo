@@ -20,9 +20,7 @@
       <g id="XLRi-1" class="connector input" transform="translate(0 0)">
         <text x="78" y="26" class="number">1</text>
         <g id="connector" transform="translate(0 15.7)">
-          <!--<use xlink:href="xlr.svg#xlr-f" x="0" y="0" /> -->
-          <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#0060FF" />
-          <use xlink:href="../icons/svg/68.svg#icon" x="7.5" y="7.5" stroke="black"/>
+          <use xlink:href="xlr.svg#xlr-f" x="0" y="0" />
         </g>
       </g>
       <g id="XLRi-2" class="connector input" transform="translate(94 0)">
@@ -52,9 +50,7 @@
       <g id="XLRi-6" class="connector input" transform="translate(470 0)">
         <text x="78" y="26" class="number">6</text>
         <g id="connector" transform="translate(0 15.7)">
-          <!--<use xlink:href="xlr.svg#xlr-f" x="0" y="0" /> -->
-          <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#35e72d" />
-          <use xlink:href="../icons/svg/72.svg#icon" x="7.5" y="7.5" stroke="black"/>
+          <use xlink:href="xlr.svg#xlr-f" x="0" y="0" />
         </g>
       </g>
       <g id="XLRi-7" class="connector input" transform="translate(564 0)">
@@ -116,9 +112,7 @@
         <text x="78" y="26" class="number">16</text>
         <text x="39.5" y="14" class="hiz">HI-Z</text>
         <g id="connector" transform="translate(0 15.7)">
-          <!--<use xlink:href="xlr.svg#xlr-f" x="0" y="0" /> -->
-          <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#FCF300" />
-          <use xlink:href="../icons/svg/74.svg#icon" x="7.5" y="7.5" stroke="black"/>
+          <use xlink:href="xlr.svg#xlr-f" x="0" y="0" />
         </g>
       </g>
     </g>
@@ -168,9 +162,7 @@
       <g id="XLRo-8" class="connector input" transform="translate(658 0)">
         <text x="62" y="25" class="number">OUT 8</text>
         <g id="connector" transform="translate(0 25.7)">
-          <!--<use xlink:href="xlr.svg#xlr-m" x="0" y="0" /> -->
-          <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#E72D2E" />
-          <use xlink:href="../icons/svg/73.svg#icon" x="7.5" y="7.5" stroke="black"/>
+          <use xlink:href="xlr.svg#xlr-m" x="0" y="0" />
         </g>
       </g>
     </g>
