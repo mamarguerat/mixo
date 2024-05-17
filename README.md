@@ -8,6 +8,7 @@
   <img src="https://img.shields.io/github/issues/mamarguerat/mixo?color=red&style=for-the-badge">
   <img src="https://img.shields.io/github/license/mamarguerat/mixo?style=for-the-badge&color=blue">
   <img src="https://img.shields.io/github/downloads/mamarguerat/mixo/total?style=for-the-badge&color=lightgray">
+  <img src="https://tokei.rs/b1/github/mamarguerat/mixo?style=for-the-badge&color=gray">
 </p>
 
 <p align="center">

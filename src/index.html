@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script>
+    window.$ = window.jQuery = require("jquery");
+  </script>
+  <link rel="stylesheet" href="./styles/style.css">
+  <title>Mixo</title>
+</head>
+
+<body>
+  <div id="canvas">
+    <svg id="lines" class='line'></svg>
+  </div>
+</body>
+
+<!-- Main script -->
+<script src="js/main/indexMain.js" crossorigin="anonymous"></script>
+<!-- Constants -->
+<script src="js/const.js"></script>
+<!-- Beans -->
+<script src="js/beans/device.js"></script>
+<script src="js/beans/link.js"></script>
+<script src="js/beans/connector.js"></script>
+<script src="js/beans/deviceTypeLUT.js"></script>
+<!-- Controllers and Workers -->
+<script src="js/ctrl/indexCtrl.js"></script>
+<script src="js/wrk/indexWrk.js"></script>
+
+</html>
