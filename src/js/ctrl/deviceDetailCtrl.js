@@ -162,8 +162,20 @@ class DeviceDetailCtrl {
             colors.Back = temp;
           }
           val.querySelector('#connector').innerHTML =
-            "<circle id='back' r='39.5' cx='39.5' cy='39.5' fill='" + colors.Back + "' stroke='" + colors.Front + "' />" +
-            "<use xlink:href='../icons/svg/" + input.getIcon() + ".svg#icon' x='7.5' y='7.5' style='fill:" + colors.Front + "; stroke:" + colors.Front + ";'/>";
+            "<circle id='back' r='39.5' cx='39.5' cy='39.5' fill='" + colors.Back + "' stroke='" + colors.Front + "' />";
+          fetch("../public/assets/icons/svg/" + input.getIcon() + ".svg")
+            .then(response => response.text())
+            .then(svgText => {
+              const parser = new DOMParser();
+              const svgDocument = parser.parseFromString(svgText, 'image/svg+xml');
+              let iconGroup = svgDocument.getElementById('icon');
+              iconGroup.setAttribute("transform", "translate(7 7)");
+              iconGroup.setAttribute("style", "fill:" + colors.Front + ";stroke:" + colors.Front);
+              val.querySelector('#connector').appendChild(iconGroup);
+            })
+            .catch(error => {
+              console.error(`[deviceDetailCtrl] Error fetching the SVG file ${error}`);
+            });
         }
       });
       $.each($outputs, function (idx, val) {
@@ -178,8 +190,20 @@ class DeviceDetailCtrl {
             colors.Back = temp;
           }
           val.querySelector('#connector').innerHTML =
-            "<circle id='back' r='39.5' cx='39.5' cy='39.5' fill='" + colors.Back + "' stroke='" + colors.Front + "' />" +
-            "<use xlink:href='../icons/svg/" + output.getIcon() + ".svg#icon' x='7.5' y='7.5' style='fill:" + colors.Front + "; stroke:" + colors.Front + ";'/>";
+          "<circle id='back' r='39.5' cx='39.5' cy='39.5' fill='" + colors.Back + "' stroke='" + colors.Front + "' />";
+          fetch("../public/assets/icons/svg/" + output.getIcon() + ".svg")
+            .then(response => response.text())
+            .then(svgText => {
+              const parser = new DOMParser();
+              const svgDocument = parser.parseFromString(svgText, 'image/svg+xml');
+              let iconGroup = svgDocument.getElementById('icon');
+              iconGroup.setAttribute("transform", "translate(7.5 7.5)");
+              iconGroup.setAttribute("style", "fill:" + colors.Front + ";stroke:" + colors.Front);
+              val.querySelector('#connector').appendChild(iconGroup);
+            })
+            .catch(error => {
+              console.error(`[deviceDetailCtrl] Error fetching the SVG file ${error}`);
+            });
         }
       });
     });
