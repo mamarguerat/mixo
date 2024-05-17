@@ -44,7 +44,7 @@ class Const {
     var ret = new IndexWrk();
     wrk.devices.forEach(device => {
       ret.devices.push(new Device(device._type, device._id, 0, 0));
-      var devIdx = wrk.devices.length - 1;
+      var devIdx = ret.devices.length - 1;
       ret.devices[devIdx].x = device.x;
       ret.devices[devIdx].y = device.y;
       ret.devices[devIdx].name = device.name;
