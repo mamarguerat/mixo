@@ -47,7 +47,7 @@ class DeviceDetailCtrl {
       $('#color-list').append(
         "<button type='button' value='" + color.ID + "'' tabindex='0' class='dropdown-item'>" +
         "<svg aria-hidden='true' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50'>" +
-        "<circle r='24' cx='25' cy='25' fill='" + color.Color + "' stroke='#000000'></circle>" +
+        "<circle r='24' cx='25' cy='25' fill='" + color.ColorBack + "' stroke='#000000'></circle>" +
         "</svg>" +
         "<span>" + color.Name + "</span>" +
         "</button>"
@@ -116,6 +116,7 @@ class DeviceDetailCtrl {
   // MARK: Functions
 
   drawCanvas(device) {
+    console.log(`[deviceDetailCtrl] draw canvas`)
     $('#canvas').empty();
     $('#canvas').append(
       "<div id='device' class='device detail " + device.getName() +
@@ -139,6 +140,26 @@ class DeviceDetailCtrl {
           _this.selectedDevice = device;
           _this.openModal();
         });
+      });
+
+      $.each($inputs, function (idx, val) {
+        var input = indexWrk.getDeviceFromId(_this.deviceID).inputs[val.id.slice(5, 7) - 1];
+        var colors = constants.getColorCode(input.getColor());
+        if ((input.getName() != "") || (input.getIcon() != "1") || (input.getColor() != "OFF")) {
+          val.querySelector('#connector').innerHTML =
+            "<circle id='back' r='39.5' cx='39.5' cy='39.5' fill='" + colors.Back + "' />" +
+            "<use xlink:href='../icons/svg/" + input.getIcon() + ".svg#icon' x='7.5' y='7.5' stroke='" + colors.Front + "'/>";
+        }
+      });
+      $.each($outputs, function (idx, val) {
+        var output = indexWrk.getDeviceFromId(_this.deviceID).outputs[val.id.slice(5, 7) - 1];
+        console.log(output)
+        var colors = constants.getColorCode(output.getColor());
+        if ((output.getName() != "") || (output.getIcon() != "1") || (output.getColor() != "OFF")) {
+          val.querySelector('#connector').innerHTML =
+            "<circle id='back' r='39.5' cx='39.5' cy='39.5' fill='" + colors.Back + "' />" +
+            "<use xlink:href='../icons/svg/" + output.getIcon() + ".svg#icon' x='7.5' y='7.5' stroke='" + colors.Front + "'/>";
+        }
       });
     });
   }

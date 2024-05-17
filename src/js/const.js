@@ -22,15 +22,22 @@ class Const {
       "MixBus", "Matrix", "Routing", "Smiley"
     ];
     this.colors = [
-      { Name: "Off", Color: "#000000", ID: "OFF" },
-      { Name: "Red", Color: "#E72D2E", ID: "RD" },
-      { Name: "Green", Color: "#35e72d", ID: "GN" },
-      { Name: "Yellow", Color: "#FCF300", ID: "YE" },
-      { Name: "Blue", Color: "#0060FF", ID: "BL" },
-      { Name: "Magenta", Color: "#ED27AC", ID: "MG" },
-      { Name: "Cyan", Color: "#2DE0E7", ID: "CY" },
-      { Name: "White", Color: "#FFFFFF", ID: "WH" }
+      { Name: "Off",      ColorBack: "#000000", ColorFront: "#FFFFFF", ID: "OFF" },
+      { Name: "Red",      ColorBack: "#E72D2E", ColorFront: "#000000", ID: "RD" },
+      { Name: "Green",    ColorBack: "#35E72D", ColorFront: "#000000", ID: "GN" },
+      { Name: "Yellow",   ColorBack: "#FCF300", ColorFront: "#000000", ID: "YE" },
+      { Name: "Blue",     ColorBack: "#0060FF", ColorFront: "#FFFFFF", ID: "BL" },
+      { Name: "Magenta",  ColorBack: "#ED27AC", ColorFront: "#000000", ID: "MG" },
+      { Name: "Cyan",     ColorBack: "#2DE0E7", ColorFront: "#000000", ID: "CY" },
+      { Name: "White",    ColorBack: "#FFFFFF", ColorFront: "#000000", ID: "WH" }
     ];
+  }
+
+  getColorCode(colorID) {
+    var color = this.colors.find(color => {
+      return color.ID == colorID;
+    })
+    return { Back: color.ColorBack, Front: color.ColorFront };
   }
 
   reconstructIndexWrk(wrk) {
