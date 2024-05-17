@@ -236,6 +236,7 @@ ipcMain.on('window', (event, arg) => {
   createChildWindow(join(__dirname, '..', 'device-detail.html'));
   childWindows[childWindows.length - 1].webContents.on('did-finish-load', () => {
     childWindows[childWindows.length - 1].webContents.send('ready', arg);
+    childWindows[childWindows.length - 1].setTitle('Mixo • ' + arg.title)
   });
   childWindows[childWindows.length - 1].on('closed', function () {
     childWindows.splice(childWindows[childWindows.length - 1].index, 1);
@@ -314,8 +315,8 @@ function loadFile() {
 // function to create a child window
 function createChildWindow(fileName) {
   childWindows.push(new BrowserWindow({
-    width: 700,
-    height: 500,
+    width: 900,
+    height: 450,
     menuBarVisible: false,
     autoHideMenuBar: true,
     webPreferences: {

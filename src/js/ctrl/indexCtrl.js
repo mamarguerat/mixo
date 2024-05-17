@@ -113,7 +113,7 @@ class IndexCtrl {
    */
   openDeviceDetail(e) {
     let id = $(e.target).parent().attr('deviceid');
-    ipcRenderer.send('window', { id: id, worker: indexWrk });
+    ipcRenderer.send('window', { id: id, worker: indexWrk, title: indexWrk.getDeviceFromId(id).getName() });
   }
 
   /**

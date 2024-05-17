@@ -22,11 +22,11 @@ class Const {
       "MixBus", "Matrix", "Routing", "Smiley"
     ];
     this.colors = [
-      { Name: "Off",      ColorBack: "#000000", ColorFront: "#FFFFFF", ID: "OFF" },
+      { Name: "Off",      ColorBack: "#000000", ColorFront: "#606060", ID: "OFF" },
       { Name: "Red",      ColorBack: "#E72D2E", ColorFront: "#000000", ID: "RD" },
       { Name: "Green",    ColorBack: "#35E72D", ColorFront: "#000000", ID: "GN" },
       { Name: "Yellow",   ColorBack: "#FCF300", ColorFront: "#000000", ID: "YE" },
-      { Name: "Blue",     ColorBack: "#0060FF", ColorFront: "#FFFFFF", ID: "BL" },
+      { Name: "Blue",     ColorBack: "#0060FF", ColorFront: "#000000", ID: "BL" },
       { Name: "Magenta",  ColorBack: "#ED27AC", ColorFront: "#000000", ID: "MG" },
       { Name: "Cyan",     ColorBack: "#2DE0E7", ColorFront: "#000000", ID: "CY" },
       { Name: "White",    ColorBack: "#FFFFFF", ColorFront: "#000000", ID: "WH" }
@@ -66,7 +66,7 @@ class Const {
       });
     });
     wrk.links.forEach(link => {
-      ret.links.push(new link(link._device1, link._device2, link._aes50_1, link._aes50_2))
+      ret.links.push(new Link(link._device1, link._device2, link._aes50_1, link._aes50_2))
     })
     ret.devTypeLUT = new DeviceTypeLUT();
     ret.id = wrk.id;
