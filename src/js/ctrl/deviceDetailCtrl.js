@@ -37,7 +37,7 @@ class DeviceDetailCtrl {
     constants.icons.forEach((icon, index, fullArray) => {
       $('#icon-list').append(
         "<button type='button' value='" + (index + 1) + "'' tabindex='0' class='dropdown-item'>" +
-        "<object class='icon' data='" + path.join(constants.iconsPath, (index+1) + ".svg") + "' type='image/svg+xml'></object>" +
+        "<object class='icon' data='" + path.join(constants.iconsPath, (index + 1) + ".svg") + "' type='image/svg+xml'></object>" +
         "<span>" + icon + "</span>" +
         "</button>"
       )
@@ -54,24 +54,24 @@ class DeviceDetailCtrl {
       )
     });
 
-    $(document).click(function() {
+    $(document).click(function () {
       $('.dropdown-menu.show').removeClass('show');
     });
-    
-    $('body').on('click','.trigger-dropdown', function(e){
+
+    $('body').on('click', '.trigger-dropdown', function (e) {
       e.stopPropagation();
       $(this).closest('.dropdown-wrapper').find('.dropdown-menu').toggleClass('show');
     });
-    
-    $('body').on('click','.dropdown-item', function(e){
+
+    $('body').on('click', '.dropdown-item', function (e) {
       e.stopPropagation();
       let $selectedValue = $(this).val();
-      let $icon          = $(this).find('svg');
+      let $icon = $(this).find('svg');
       if ($icon.length <= 0) {
-        $icon            = $(this).find('object');
+        $icon = $(this).find('object');
       }
-      let $text          = $(this).find('span');
-      let $btn           = $(this).closest('.dropdown-wrapper').find('.trigger-dropdown');
+      let $text = $(this).find('span');
+      let $btn = $(this).closest('.dropdown-wrapper').find('.trigger-dropdown');
 
       $(this).closest('.dropdown-wrapper').find('.dropdown-menu').removeClass('show').attr('data-selected', $selectedValue);
       $btn.find('span').remove();
@@ -83,29 +83,24 @@ class DeviceDetailCtrl {
   }
 
   saveConnector() {
-    if (this.selectedType == "i") {
-      this.selectedDevice.inputs[this.selectedIO - 1].setName($('#channel-name').val());
-      this.selectedDevice.inputs[this.selectedIO - 1].setColor($('#color-list').attr('data-selected'));
-      this.selectedDevice.inputs[this.selectedIO - 1].setIcon($('#icon-list').attr('data-selected'));
-      this.selectedDevice.inputs[this.selectedIO - 1].setPhaseInvert($('#channel-phase').prop('checked'));
-      this.selectedDevice.inputs[this.selectedIO - 1].setColorInvert($('#channel-invert').prop('checked'));
-    }
-    else {
-      this.selectedDevice.outputs[this.selectedIO - 1].setName($('#channel-name').val());
-      this.selectedDevice.outputs[this.selectedIO - 1].setColor($('#color-list').attr('data-selected'));
-      this.selectedDevice.outputs[this.selectedIO - 1].setIcon($('#icon-list').attr('data-selected'));
-      this.selectedDevice.outputs[this.selectedIO - 1].setPhaseInvert($('#channel-phase').prop('checked'));
-      this.selectedDevice.outputs[this.selectedIO - 1].setColorInvert($('#channel-invert').prop('checked'));
-    }
+    indexWrk.updateConnector(
+      this.selectedDevice.getId(),
+      this.selectedType,
+      this.selectedIO,
+      $('#channel-name').val(),
+      $('#color-list').attr('data-selected'),
+      $('#icon-list').attr('data-selected'),
+      $('#channel-phase').prop('checked'),
+      $('#channel-invert').prop('checked')
+    );
     ipcRenderer.send('forward-to-main', { worker: indexWrk });
     this.closeModal();
   }
 
   // MARK: IPC events
   initialize(arg) {
-    indexWrk = constants.reconstructIndexWrk(arg.worker);
     this.deviceID = arg.id;
-    this.drawCanvas(indexWrk.getDeviceFromId(this.deviceID));
+    this.dataUpdated(arg);
   }
 
   /**
@@ -115,6 +110,7 @@ class DeviceDetailCtrl {
   dataUpdated(arg) {
     console.log(`[deviceDetailCtrl] got worker from main`);
     indexWrk = constants.reconstructIndexWrk(arg.worker);
+    this.drawCanvas(indexWrk.getDeviceFromId(this.deviceID));
   }
 
   // MARK: Functions
@@ -127,7 +123,7 @@ class DeviceDetailCtrl {
       "<object id='svg' class='detail' draggable='false' data='" + path.join(constants.imagesPath, device.getType() + ".svg") +
       "' type='image/svg+xml'></div>"
     )
-    
+
     var _this = this;
     $('#svg').on("load", function (ev) {
       var $svg = $(this).contents();
@@ -136,7 +132,7 @@ class DeviceDetailCtrl {
       var $outputs = $svg.find("#Outputs").children();
       var $allElements = $inputs.add($outputs);
 
-      $allElements.each(function() {
+      $allElements.each(function () {
         $(this).on("click", function (ev) {
           _this.selectedType = this.id.slice(3, 4);
           _this.selectedIO = this.id.slice(5, 7);
@@ -172,12 +168,10 @@ class DeviceDetailCtrl {
 
   selectColor(id) {
     let $selected = $(document).find('#color-list').find(':button[value="' + id + '"]');
-    let $selectedValue = $selected.val(); 
-    let $icon          = $selected.find('svg');
-    let $text          = $selected.find('span');
-    let $btn           = $selected.closest('.dropdown-wrapper').find('.trigger-dropdown');
-  
-    console.log($selected)
+    let $selectedValue = $selected.val();
+    let $icon = $selected.find('svg');
+    let $text = $selected.find('span');
+    let $btn = $selected.closest('.dropdown-wrapper').find('.trigger-dropdown');
 
     $selected.closest('.dropdown-wrapper').find('.dropdown-menu').removeClass('show').attr('data-selected', $selectedValue);
     $btn.find('span').remove();
@@ -186,14 +180,14 @@ class DeviceDetailCtrl {
     $btn.prepend($text[0].outerHTML);
     $btn.prepend($icon[0].outerHTML);
   }
-  
+
   selectIcon(id) {
     let $selected = $(document).find('#icon-list').find(':button[value="' + id + '"]');
     let $selectedValue = $selected.val();
-    let $icon          = $selected.find('object');
-    let $text          = $selected.find('span');
-    let $btn           = $selected.closest('.dropdown-wrapper').find('.trigger-dropdown');
-  
+    let $icon = $selected.find('object');
+    let $text = $selected.find('span');
+    let $btn = $selected.closest('.dropdown-wrapper').find('.trigger-dropdown');
+
     $selected.closest('.dropdown-wrapper').find('.dropdown-menu').removeClass('show').attr('data-selected', $selectedValue);
     $btn.find('span').remove();
     $btn.find('svg').remove();

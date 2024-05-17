@@ -34,7 +34,6 @@ class IndexWrk {
       console.log(`[indexWrk] add link from id ${fromID} ${fromAES} to id ${toID} ${toAES}`);
       this.links.push(new Link(fromID, fromAES, toID, toAES));
     }
-    console.log(this.links);
     indexCtrl.drawCanvas(this.devices, this.links);
   }
 
@@ -50,10 +49,6 @@ class IndexWrk {
     for (let idx = 0; idx < 2; idx++) {
       this.links.forEach((link, index, fullArray) => {
         // if link already on aes50
-        console.log((fromID == link.getFromDeviceId() && fromAES == link.getFromAes50()));
-        console.log((fromID == link.getToDeviceId() && fromAES == link.getToAes50()));
-        console.log((toID == link.getFromDeviceId() && toAES == link.getFromAes50()));
-        console.log((toID == link.getToDeviceId() && toAES == link.getToAes50()));
         if ((fromID == link.getFromDeviceId() && fromAES == link.getFromAes50()) ||
             (fromID == link.getToDeviceId() && fromAES == link.getToAes50()) ||
             (toID == link.getFromDeviceId() && toAES == link.getFromAes50()) ||
@@ -158,6 +153,24 @@ class IndexWrk {
     }
     else {
       return false;
+    }
+  }
+
+  updateConnector(deviceID, connectorType, connectorNbr, name, color, icon, phaseInvert, colorInvert) {
+    if (connectorType == "i") {
+      console.log(`[indexWrk] id ${deviceID}, index ${id2index(deviceID, this.devices)}`);
+      this.devices[id2index(deviceID, this.devices)].inputs[connectorNbr - 1].setName(name);
+      this.devices[id2index(deviceID, this.devices)].inputs[connectorNbr - 1].setColor(color);
+      this.devices[id2index(deviceID, this.devices)].inputs[connectorNbr - 1].setIcon(icon);
+      this.devices[id2index(deviceID, this.devices)].inputs[connectorNbr - 1].setPhaseInvert(phaseInvert);
+      this.devices[id2index(deviceID, this.devices)].inputs[connectorNbr - 1].setColorInvert(colorInvert);
+    }
+    else {
+      this.devices[id2index(deviceID, this.devices)].outputs[connectorNbr - 1].setName(name);
+      this.devices[id2index(deviceID, this.devices)].outputs[connectorNbr - 1].setColor(color);
+      this.devices[id2index(deviceID, this.devices)].outputs[connectorNbr - 1].setIcon(icon);
+      this.devices[id2index(deviceID, this.devices)].outputs[connectorNbr - 1].setPhaseInvert(phaseInvert);
+      this.devices[id2index(deviceID, this.devices)].outputs[connectorNbr - 1].setColorInvert(colorInvert);
     }
   }
 }

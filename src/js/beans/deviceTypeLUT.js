@@ -11,13 +11,13 @@ class DeviceTypeLUT {
 
   getInputsCnt(type) {
     let inputCnt = this._deviceInfo.filter((device) => (device.ID === type))[0].Inputs;
-    console.log("[deviceTypeLUT] Input Count for " + type + " is " + inputCnt);
+    console.log(`[deviceTypeLUT] Input Count for ${type} is ${inputCnt}`);
     return inputCnt;
   }
   
   getOutputsCnt(type) {
     let outputCnt = this._deviceInfo.filter((device) => (device.ID === type))[0].Outputs;
-    console.log("[deviceTypeLUT] Output Count for " + type + " is " + outputCnt);
+    console.log(`[deviceTypeLUT] Output Count for ${type} is ${outputCnt}`);
     return outputCnt;
   }
 

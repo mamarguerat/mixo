@@ -265,14 +265,17 @@ app.on('window-all-closed', () => {
   // }
 });
 
-var childWindow;
+var childWindows = [];
 
 // MARK: IPC events
 ipcMain.on('window', (event, arg) => {
   createChildWindow(join(__dirname, '..', 'device-detail.html'));
-  childWindow.webContents.on('did-finish-load', () => {
-    childWindow.webContents.send('ready', arg);
+  childWindows[childWindows.length - 1].webContents.on('did-finish-load', () => {
+    childWindows[childWindows.length - 1].webContents.send('ready', arg);
   });
+  childWindows[childWindows.length - 1].on('closed', function () {
+    childWindows.splice(childWindows[childWindows.length - 1].index, 1);
+  })
 });
 
 ipcMain.on('file', (event, arg) => {
@@ -309,7 +312,9 @@ ipcMain.on('forward-to-main', (event, arg) => {
 });
 
 ipcMain.on('forward-to-childs', (event, arg) => {
-  childWindow.webContents.send('new-data', arg);
+  childWindows.forEach(childWindow => {
+    childWindow.webContents.send('new-data', arg);
+  });
 });
 
 // MARK: Functions
@@ -345,18 +350,20 @@ function loadFile() {
 
 // function to create a child window
 function createChildWindow(fileName) {
-  childWindow = new BrowserWindow({
-    width: 700,
-    height: 500,
-    menuBarVisible: false,
-    autoHideMenuBar: true,
-    webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
-      enableRemoteModule: true,
-    }
-  })
-  childWindow.loadFile(fileName)
+  childWindows.push(new BrowserWindow({
+      width: 700,
+      height: 500,
+      menuBarVisible: false,
+      autoHideMenuBar: true,
+      webPreferences: {
+        nodeIntegration: true,
+        contextIsolation: false,
+        enableRemoteModule: true,
+      }
+    })
+  );
+  childWindows[childWindows.length - 1].index = childWindows.length - 1;
+  childWindows[childWindows.length - 1].loadFile(fileName)
 }
 
 function aboutWindow() {

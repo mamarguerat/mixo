@@ -53,7 +53,7 @@ class IndexCtrl {
       }
     }
     else if (this.selectedElement.Type === "Device") {
-      console.log(`new x ${this.selectedElement.NewX} new y ${this.selectedElement.NewY}`)
+      console.log(`[indexCtrl] new x ${this.selectedElement.NewX} new y ${this.selectedElement.NewY}`)
       indexWrk.moveDeviceId(this.selectedElement.Id, this.selectedElement.NewX, this.selectedElement.NewY);
     }
     this.selectedElement = {};
@@ -105,9 +105,7 @@ class IndexCtrl {
    * @param {Event} e 
    */
   openDeviceDetail(e) {
-    //TODO: Open new window
     let id = $(e.target).parent().attr('deviceid');
-    console.log(indexWrk);
     ipcRenderer.send('window', { id: id, worker: indexWrk });
   }
 
@@ -153,7 +151,6 @@ class IndexCtrl {
    * @param {Event} e 
    */
   deviceSelect(e) {
-    console.log(e.target);
     let parent = $(e.target).parent();
     let x = e.clientX;
     let y = e.clientY;
