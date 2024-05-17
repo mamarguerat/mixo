@@ -338,8 +338,7 @@ function loadFile() {
         // Extract the arrays
         win.webContents.send('file', {
           function: 'load',
-          devices: jsonData.devices,
-          links: jsonData.links
+          jsonData: jsonData
         });
       });
     }

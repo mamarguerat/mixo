@@ -27,11 +27,17 @@ class DeviceDetailCtrl {
   }
 
   // MARK: Event handling
+  /**
+   * Close modal form
+   */
   closeModal() {
     $('.modal').addClass("hidden");
     $('.overlay').addClass("hidden");
   };
 
+  /**
+   * Document ready, prepare icon and color lists
+   */
   documentReady() {
     // Create dropdowns
     constants.icons.forEach((icon, index, fullArray) => {
@@ -82,6 +88,9 @@ class DeviceDetailCtrl {
     });
   }
 
+  /**
+   * Save button pressed
+   */
   saveConnector() {
     indexWrk.updateConnector(
       this.selectedDevice.getId(),

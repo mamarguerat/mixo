@@ -156,6 +156,17 @@ class IndexWrk {
     }
   }
 
+  /**
+   * Update a connector of device
+   * @param {Number} deviceID 
+   * @param {String} connectorType 
+   * @param {String} connectorNbr 
+   * @param {String} name 
+   * @param {String} color 
+   * @param {String} icon 
+   * @param {Boolean} phaseInvert 
+   * @param {Boolean} colorInvert 
+   */
   updateConnector(deviceID, connectorType, connectorNbr, name, color, icon, phaseInvert, colorInvert) {
     if (connectorType == "i") {
       console.log(`[indexWrk] id ${deviceID}, index ${id2index(deviceID, this.devices)}`);
@@ -172,6 +183,13 @@ class IndexWrk {
       this.devices[id2index(deviceID, this.devices)].outputs[connectorNbr - 1].setPhaseInvert(phaseInvert);
       this.devices[id2index(deviceID, this.devices)].outputs[connectorNbr - 1].setColorInvert(colorInvert);
     }
+  }
+
+  /**
+   * Update worker and canvas
+   */
+  update() {
+    indexCtrl.drawCanvas(this.devices, this.links);
   }
 }
 

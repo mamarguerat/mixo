@@ -13,6 +13,9 @@ class IndexCtrl {
     ipcRenderer.on('request-data-changes', (event, arg) => {
       this.requestDataChanges(arg);
     })
+    ipcRenderer.on('file', (event, arg) => {
+      this.fileMenu(arg);
+    })
     /* ----- DOM Event Listeners ----- */
     window.addEventListener("mousemove", (e) => {
       this.mouseMove(e);
@@ -94,6 +97,10 @@ class IndexCtrl {
     }
   }
 
+  /**
+   * Right click event -> delete device
+   * @param {Event} e 
+   */
   deleteDevice(e) {
     let id = $(e.target).parent().attr('deviceid');
     indexWrk.removeDeviceId(id);
@@ -190,6 +197,27 @@ class IndexCtrl {
     console.log(`[indexCtrl] got worker from child`);
     indexWrk = constants.reconstructIndexWrk(arg.worker);
     ipcRenderer.send('forward-to-childs', { worker: indexWrk });
+  }
+
+  /**
+   * File menu event. Send or receive worker
+   * @param {*} arg 
+   */
+  fileMenu(arg) {
+    if ('save' == arg.function || 'saveas' == arg.function) {
+      console.log(`[indexCtrl] save file`);
+      // Convert the object to JSON
+      let json = JSON.stringify(indexWrk, null, 2);
+      ipcRenderer.send('file', {
+        function: arg.function,
+        json: json
+      });
+    }
+    else if ('load' == arg.function) {
+      console.log(`[indexCtrl] load file`);
+      indexWrk = constants.reconstructIndexWrk(arg.jsonData);
+      indexWrk.update();
+    }
   }
 
   // MARK: Functions
