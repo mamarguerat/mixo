@@ -1,0 +1,3 @@
+[submodule "public/assets/icons"]
+	path = public/assets/icons
+	url = https://github.com/mamarguerat/behringer-icons.git
