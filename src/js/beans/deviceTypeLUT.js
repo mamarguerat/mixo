@@ -2,10 +2,10 @@ class DeviceTypeLUT {
   constructor() {
     this._deviceInfo = [
     /* ----- Mixers ----- */
-      { Type: "Mixer", ID: "x32c", Inputs: 16, Outputs: 8, Brand: "Behringer", FullName: "X32 Compact" },
+      { Type: "Mixer", ID: "x32c", Inputs: 16, Outputs: 8, Brand: "Behringer", FullName: "X32 Compact", accelerator: "CmdOrCtrl+M" },
     /* ----- Stage boxes ----- */
-      { Type: "Stage Box", ID: "sd16", Inputs: 16, Outputs:  8, Brand: "Behringer", FullName: "SD16" },
-      { Type: "Stage Box", ID: "sd8",  Inputs:  8, Outputs:  8, Brand: "Behringer", FullName: "SD8" },
+      { Type: "Stage Box", ID: "sd16", Inputs: 16, Outputs:  8, Brand: "Behringer", FullName: "SD16", accelerator: "CmdOrCtrl+Shift+M" },
+      { Type: "Stage Box", ID: "sd8",  Inputs:  8, Outputs:  8, Brand: "Behringer", FullName: "SD8",  accelerator: "" },
     ];
   }
 
@@ -25,6 +25,10 @@ class DeviceTypeLUT {
     return [this.getInputsCnt(type), this.getOutputsCnt(type)];
   }
 
+  getBrands() {
+    return [...new Set(this._deviceInfo.map(item => item.Brand))];
+  }
+
   getBrandMixers(brand) {
     return this._deviceInfo.filter((device) => 
       (device.Type === "Mixer") && (device.Brand === brand)
@@ -39,3 +43,6 @@ class DeviceTypeLUT {
 }
 
 /*----- Private functions ---------------------------------------------------------------------------------------------------*/
+
+
+module.exports = DeviceTypeLUT;
