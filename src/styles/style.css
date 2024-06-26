@@ -1,3 +1,7 @@
+:root {
+    --header-height: 40px;
+}
+
 html,
 body {
     margin: 0;
@@ -384,4 +388,38 @@ button {
   
 .dropdown-item:hover {
     background-color:#e5e5e5;
+}
+
+/* MARK: HEADER TABS */
+.header {
+    background: white;
+    border-bottom: 1px solid black;
+    color: black;
+    display: flex;
+    flex-direction: row;
+    position: fixed;
+    justify-content: flex-start;
+    align-items: center;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.tab {
+    border-right: 1px solid black;
+    flex-grow: 1;
+    max-width: 150px;
+    text-align: center;
+    padding: 10px;
+    z-index: inherit;
+}
+
+.tab:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.active {
+    background-color: #333 !important;
+    color: white !important;
 }

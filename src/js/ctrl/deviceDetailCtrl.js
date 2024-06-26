@@ -25,6 +25,9 @@ class DeviceDetailCtrl {
     $('#save').on('click', (e) => {
       this.saveConnector();
     })
+    $('.tab').on('click', (e) => {
+      this.changeTab(e);
+    })
   }
 
   // MARK: Event handling
@@ -119,6 +122,17 @@ class DeviceDetailCtrl {
     );
     ipcRenderer.send('forward-to-main', { worker: indexWrk });
     this.closeModal();
+  }
+
+  changeTab(element) {
+    $('section').each(function () {
+      $(this).addClass('hidden');
+    });
+    $('.' + element.target.id).removeClass('hidden');
+    $('.tab').each(function () {
+      $(this).removeClass('active');
+    });
+    $('#' + element.target.id).addClass('active')
   }
 
   // MARK: IPC events
