@@ -2,7 +2,7 @@ class DeviceTypeLUT {
   constructor() {
     this._deviceInfo = [
     /* ----- Mixers ----- */
-      { Type: "Mixer", ID: "x32c", Inputs: 16, Outputs: 8, Brand: "Behringer", FullName: "X32 Compact", accelerator: "CmdOrCtrl+M" },
+      { Type: "Mixer", ID: "x32c", Inputs: 16, Outputs: 8, Channels: 32, Mixbuses: 16, Matrix: 6, Stereo: 1, FaderGroup: 8, Brand: "Behringer", FullName: "X32 Compact", accelerator: "CmdOrCtrl+M" },
     /* ----- Stage boxes ----- */
       { Type: "Stage Box", ID: "sd16", Inputs: 16, Outputs:  8, Brand: "Behringer", FullName: "SD16", accelerator: "CmdOrCtrl+Shift+M" },
       { Type: "Stage Box", ID: "sd8",  Inputs:  8, Outputs:  8, Brand: "Behringer", FullName: "SD8",  accelerator: "" },
