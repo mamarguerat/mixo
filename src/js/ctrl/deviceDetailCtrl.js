@@ -1,4 +1,5 @@
 const { ipcRenderer } = require("electron");
+require('jquery-sortablejs');
 
 const constants = new Const();
 class DeviceDetailCtrl {
@@ -85,6 +86,20 @@ class DeviceDetailCtrl {
       $btn.find('object').remove();
       $btn.prepend($text[0].outerHTML);
       $btn.prepend($icon[0].outerHTML);
+    });
+
+    // Create sortables
+    for (var i = 0; i < 32; i++) {
+      $('.channel-names-container').append("<div class='channel-name'>Channel " + (i+1) + "</div>");
+      $('.sortable-container').append("<div class='io-element'><div style='background-color: #999999;'><p>NO IO SELECTED</p></div><p>LOCAL " + (i+1) + "</p></div>");
+    }
+    $('#input-sortable').sortable({
+      multiDrag: true,
+      animation: 150,
+      ghostClass: "ghost",
+      dragClass: "drag",
+      chosenClass: "chosen",
+      selectedClass: "selected",
     });
   }
 

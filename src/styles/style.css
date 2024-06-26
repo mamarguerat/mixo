@@ -199,7 +199,66 @@ button {
     flex-grow: 1;
 }
 
-/* CUSTOM DROPDOWN */
+/* MARK: SORTABLE GRID */
+.channel-names-container {
+    position: absolute;
+    top: 0px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.sortable-container {
+    margin-top: 20px;
+    z-index: 10;
+}
+
+.sortable-container, .channel-names-container {
+    display: grid;
+    grid-template-columns: repeat(8, 120px);
+    column-gap: 10px;
+    row-gap: 40px;
+}
+
+.channel-name, .io-element {
+    width: 100%;
+    height: 60px;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+.io-element > div {
+    height: 100%;
+    border-radius: 5px;
+}
+
+.io-element > div > p {
+    margin: 0px;
+    padding: 5px;
+}
+
+.io-element > p {
+    margin-top: 2px;
+    font-size: xx-small;
+}
+
+.ghost {
+    opacity: 0.5;
+}
+
+.drag {
+    border: 1px solid green;
+}
+
+.chosen {
+    opacity: 0%;
+    border: 1px solid blue;
+}
+
+.selected {
+    border: 1px solid red;
+}
+
+/* MARK: CUSTOM DROPDOWN */
 .dropdown-wrapper {
     width: 100%;
     height: 45px;
