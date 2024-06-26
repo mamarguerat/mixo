@@ -2,14 +2,17 @@ const { ipcRenderer } = require("electron");
 require('jquery-sortablejs');
 
 const constants = new Const();
+const LUT = new DeviceTypeLUT();
 class DeviceDetailCtrl {
 
   // MARK: Constructor
   constructor() {
     /* ----- IPC ----- */
     ipcRenderer.on('ready', (event, arg) => {
+      console.log(arg)
       console.log(`[deviceDetailCtrl] window ready, load device ${arg.id}`);
       this.initialize(arg);
+      this.loadHTML(indexWrk.getDeviceFromId(this.deviceID).getType());
     });
     ipcRenderer.on('new-data', (event, arg) => {
       this.dataUpdated(arg);
@@ -25,12 +28,29 @@ class DeviceDetailCtrl {
     $('#save').on('click', (e) => {
       this.saveConnector();
     })
+  }
+
+  // MARK: Event handling
+  /**
+   * Load HTML components from device type
+   * @param {String} deviceType 
+   */
+  loadHTML(deviceType) {
+    // Load tabs
+    if (0 < LUT.getChannelsCnt(deviceType)) {
+      $('#tabs').append("<div class='tab' id='channel-input'>Input channels</div>");
+    }
+    if (0 < LUT.getMixbusCnt(deviceType)) {
+      $('#tabs').append("<div class='tab' id='channel-mixbus'>Mixbus channels</div>");
+    }
+    if (0 < LUT.getMatrixCnt(deviceType)) {
+      $('#tabs').append("<div class='tab' id='channel-matrix'>Matrix channels</div>");
+    }
     $('.tab').on('click', (e) => {
       this.changeTab(e);
     })
   }
 
-  // MARK: Event handling
   /**
    * Close modal form
    */
@@ -124,6 +144,10 @@ class DeviceDetailCtrl {
     this.closeModal();
   }
 
+  /**
+   * Change active tab
+   * @param {Event} element 
+   */
   changeTab(element) {
     $('section').each(function () {
       $(this).addClass('hidden');

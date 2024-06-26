@@ -25,6 +25,42 @@ class DeviceTypeLUT {
     return [this.getInputsCnt(type), this.getOutputsCnt(type)];
   }
 
+  getChannelsCnt(type) {
+    let channelsCnt;
+    try {
+      channelsCnt = this._deviceInfo.filter((device) => (device.ID === type))[0].Channels;
+    }
+    catch {
+      channelsCnt = 0;
+    }
+    console.log(`[deviceTypeLUT] Channels Count for ${type} is ${channelsCnt}`);
+    return channelsCnt;
+  }
+
+  getMixbusCnt(type) {
+    let mixbusCnt;
+    try {
+      mixbusCnt = this._deviceInfo.filter((device) => (device.ID === type))[0].Mixbuses;
+    }
+    catch {
+      mixbusCnt = 0;
+    }
+    console.log(`[deviceTypeLUT] Channels Count for ${type} is ${mixbusCnt}`);
+    return mixbusCnt;
+  }
+
+  getMatrixCnt(type) {
+    let matrixCnt;
+    try {
+      matrixCnt = this._deviceInfo.filter((device) => (device.ID === type))[0].Matrix;
+    }
+    catch {
+      matrixCnt = 0;
+    }
+    console.log(`[deviceTypeLUT] Channels Count for ${type} is ${matrixCnt}`);
+    return matrixCnt;
+  }
+
   getBrands() {
     return [...new Set(this._deviceInfo.map(item => item.Brand))];
   }
