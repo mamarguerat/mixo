@@ -37,15 +37,9 @@ class DeviceDetailCtrl {
    */
   loadHTML(deviceType) {
     // Load tabs
-    if (0 < LUT.getChannelsCnt(deviceType)) {
-      $('#tabs').append("<div class='tab' id='channel-input'>Input channels</div>");
-    }
-    if (0 < LUT.getMixbusCnt(deviceType)) {
-      $('#tabs').append("<div class='tab' id='channel-mixbus'>Mixbus channels</div>");
-    }
-    if (0 < LUT.getMatrixCnt(deviceType)) {
-      $('#tabs').append("<div class='tab' id='channel-matrix'>Matrix channels</div>");
-    }
+    this.addChannelTab("input", "Input channels", "Channel", LUT.getChannelsCnt(deviceType));
+    this.addChannelTab("mixbus", "Mixbus channels", "Mixbus", LUT.getMixbusCnt(deviceType));
+    this.addChannelTab("matrix", "Matrix channels", "Matrix", LUT.getMatrixCnt(deviceType));
     $('.tab').on('click', (e) => {
       this.changeTab(e);
     })
@@ -110,20 +104,6 @@ class DeviceDetailCtrl {
       $btn.prepend($text[0].outerHTML);
       $btn.prepend($icon[0].outerHTML);
     });
-
-    // Create sortables
-    for (var i = 0; i < 32; i++) {
-      $('.channel-names-container').append("<div class='channel-name'>Channel " + (i+1) + "</div>");
-      $('.sortable-container').append("<div class='io-element'><div style='background-color: #999999;'><p>NO IO SELECTED</p></div><p>LOCAL " + (i+1) + "</p></div>");
-    }
-    $('#input-sortable').sortable({
-      multiDrag: true,
-      animation: 150,
-      ghostClass: "ghost",
-      dragClass: "drag",
-      chosenClass: "chosen",
-      selectedClass: "selected",
-    });
   }
 
   /**
@@ -176,7 +156,6 @@ class DeviceDetailCtrl {
   }
 
   // MARK: Functions
-
   drawCanvas(device) {
     console.log(`[deviceDetailCtrl] draw canvas`)
     $('#canvas').empty();
@@ -260,6 +239,30 @@ class DeviceDetailCtrl {
         }
       });
     });
+  }
+
+  addChannelTab(id, name, channelName, channelCnt) {
+    if (0 < channelCnt) {
+      $('#tabs').append("<div class='tab' id='channel-" + id + "'>" + name + "</div>");
+      $('.io').after("<section class='channel-" + id + " hidden'>" +
+        "<div id='" + id + "-channel-names' class='channel-names-container'></div>" +
+        "<div id='" + id + "-sortable' class='sortable-container'></div>" +
+        "</section > ");
+
+      // Create sortables
+      for (var i = 0; i < channelCnt; i++) {
+        $('#' + id + '-channel-names').append("<div class='channel-name'>" + channelName + " " + (i+1) + "</div>");
+        $('#' + id + '-sortable').append("<div class='io-element'><div style='background-color: #999999;'><p>NO IO SELECTED</p></div><p>LOCAL " + (i+1) + "</p></div>");
+      }
+      $('#' + id + '-sortable').sortable({
+        multiDrag: true,
+        animation: 150,
+        ghostClass: "ghost",
+        dragClass: "drag",
+        chosenClass: "chosen",
+        selectedClass: "selected",
+      });
+    }
   }
 
   openModal() {
