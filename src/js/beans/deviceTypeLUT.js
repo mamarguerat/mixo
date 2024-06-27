@@ -2,7 +2,7 @@ class DeviceTypeLUT {
   constructor() {
     this._deviceInfo = [
     /* ----- Mixers ----- */
-      { Type: "Mixer", ID: "x32c", Inputs: 16, Outputs: 8, Channels: 32, Mixbuses: 16, Matrix: 6, Stereo: 1, FaderGroup: 8, Brand: "Behringer", FullName: "X32 Compact", accelerator: "CmdOrCtrl+M" },
+      { Type: "Mixer", ID: "x32c", Inputs: 16, Outputs: 8, Channels: 32, Mixbuses: 16, Matrix: 6, Stereo: 1, Dca: 8, Brand: "Behringer", FullName: "X32 Compact", accelerator: "CmdOrCtrl+M" },
     /* ----- Stage boxes ----- */
       { Type: "Stage Box", ID: "sd16", Inputs: 16, Outputs:  8, Brand: "Behringer", FullName: "SD16", accelerator: "CmdOrCtrl+Shift+M" },
       { Type: "Stage Box", ID: "sd8",  Inputs:  8, Outputs:  8, Brand: "Behringer", FullName: "SD8",  accelerator: "" },
@@ -45,7 +45,7 @@ class DeviceTypeLUT {
     catch {
       mixbusCnt = 0;
     }
-    console.log(`[deviceTypeLUT] Channels Count for ${type} is ${mixbusCnt}`);
+    console.log(`[deviceTypeLUT] Mixbus Count for ${type} is ${mixbusCnt}`);
     return mixbusCnt;
   }
 
@@ -57,8 +57,42 @@ class DeviceTypeLUT {
     catch {
       matrixCnt = 0;
     }
-    console.log(`[deviceTypeLUT] Channels Count for ${type} is ${matrixCnt}`);
+    console.log(`[deviceTypeLUT] Matrix Count for ${type} is ${matrixCnt}`);
     return matrixCnt;
+  }
+
+  getStereoCnt(type) {
+    let stereoCnt;
+    try {
+      stereoCnt = this._deviceInfo.filter((device) => (device.ID === type))[0].Stereo;
+    }
+    catch {
+      stereoCnt = 0;
+    }
+    console.log(`[deviceTypeLUT] Stereo Count for ${type} is ${stereoCnt}`);
+    return stereoCnt;
+  }
+
+  getDcaCnt(type) {
+    let dcaCnt;
+    try {
+      dcaCnt = this._deviceInfo.filter((device) => (device.ID === type))[0].Dca;
+    }
+    catch {
+      dcaCnt = 0;
+    }
+    console.log(`[deviceTypeLUT] DCA Count for ${type} is ${dcaCnt}`);
+    return dcaCnt;
+  }
+
+  getChCnt(type) {
+    return [
+      this.getChannelsCnt(type),
+      this.getMixbusCnt(type),
+      this.getMatrixCnt(type),
+      this.getStereoCnt(type),
+      this.getDcaCnt(type)
+    ]
   }
 
   getBrands() {

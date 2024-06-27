@@ -4,7 +4,6 @@ class IndexWrk {
   constructor() {
     this.devices = [];
     this.links = [];
-    this.devTypeLUT = new DeviceTypeLUT();
     this.id = 0;
   }
 
@@ -14,10 +13,13 @@ class IndexWrk {
    * @param {String} deviceType 
    */
   addDevice(deviceType) {
+    let LUT = new DeviceTypeLUT();
     let inputCnt, outputCnt;
+    let channelCnt, mixbusCnt, matrixCnt, stereoCnt, dcaCnt;
     console.log(`[indexWrk] add device`);
-    [inputCnt, outputCnt] = this.devTypeLUT.getIoCnt(deviceType);
-    this.devices.push(new Device(deviceType, this.id++, inputCnt, outputCnt));
+    [inputCnt, outputCnt] = LUT.getIoCnt(deviceType);
+    [channelCnt, mixbusCnt, matrixCnt, stereoCnt, dcaCnt] = LUT.getChCnt(deviceType);
+    this.devices.push(new Device(deviceType, this.id++, inputCnt, outputCnt, channelCnt, mixbusCnt, matrixCnt, stereoCnt, dcaCnt));
     indexCtrl.drawCanvas(this.devices, this.links);
   }
 

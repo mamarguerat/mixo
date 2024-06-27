@@ -1,5 +1,5 @@
 class Device {
-  constructor(type, id, totalInput, totalOutput) {
+  constructor(type, id, totalInput, totalOutput, totalChannels, totalMixbuses, totalMatrix, totalStereo, totalDca) {
     this.x = 10;
     this.y = 10;
     this._type = type;
@@ -7,6 +7,11 @@ class Device {
     this.name = type;
     this.inputs = [];
     this.outputs = [];
+    this.channels = [];
+    this.mixbuses = [];
+    this.matrix = [];
+    this.stereo = [];
+    this.dca = [];
 
     // Create array of inputs
     for (let i = 0; i < totalInput; i++) {
@@ -18,6 +23,26 @@ class Device {
     // Create array of outputs
     for (let i = 0; i < totalOutput; i++) {
       this.outputs.push(new Connector());
+    }
+    // Create array of channels
+    for (let i = 0; i < totalChannels; i++) {
+      this.channels.push(new Channel(i));
+    }
+    // Create array of mixbuses
+    for (let i = 0; i < totalMixbuses; i++) {
+      this.mixbuses.push(new Channel(i));
+    }
+    // Create array of matrix
+    for (let i = 0; i < totalMatrix; i++) {
+      this.matrix.push(new Channeli());
+    }
+    // Create array of stereo
+    for (let i = 0; i < totalStereo; i++) {
+      this.stereo.push(new Channel(i));
+    }
+    // Create array of dca
+    for (let i = 0; i < totalDca; i++) {
+      this.dca.push(new Channel(i));
     }
   }
 
