@@ -138,7 +138,8 @@ class DeviceDetailCtrl {
     $('.tab').each(function () {
       $(this).removeClass('active');
     });
-    $('#' + element.target.id).addClass('active')
+    $('#' + element.target.id).addClass('active');
+    this.selectedTab = element.target.id;
   }
 
   // MARK: IPC events
@@ -159,6 +160,7 @@ class DeviceDetailCtrl {
 
   // MARK: Functions
   drawCanvas(device) {
+    this.selectedDevice = device;
     console.log(`[deviceDetailCtrl] draw canvas`)
     $('#canvas').empty();
     $('#canvas').append(
@@ -180,8 +182,7 @@ class DeviceDetailCtrl {
         $(this).on("click", function (ev) {
           _this.selectedType = this.id.slice(3, 4);
           _this.selectedIO = this.id.slice(5, 7);
-          _this.selectedDevice = device;
-          _this.openModal();
+          _this.openConnectorModal();
         });
       });
 
@@ -257,17 +258,62 @@ class DeviceDetailCtrl {
         $('#' + id + '-sortable').append("<div class='io-element'><div style='background-color: #999999;'><p>NO IO SELECTED</p></div><p>LOCAL " + (i+1) + "</p></div>");
       }
       $('#' + id + '-sortable').sortable({
-        multiDrag: true,
+        multiDrag: false,
         animation: 150,
         ghostClass: "ghost",
         dragClass: "drag",
         chosenClass: "chosen",
         selectedClass: "selected",
       });
+
+      var _this = this;
+      $('.io-element').on("click", function (ev) {
+        _this.selectedChannel = 1;
+        _this.openChannelModal();
+      })
     }
   }
 
-  openModal() {
+  openChannelModal() {
+    console.log(`[deviceDetailCtrl] opening io ${this.selectedTab}${this.selectedIO}`)
+    let channel, connector, type;
+    if (this.selectedTab == "input") {
+      channel = this.selectedDevice.channel[this.selectedChannel - 1];
+      type = "Input";
+      connector = indexWrk.getConnector(channel.getDeviceId(), "i", channel.getIO());
+    }
+    else {
+      if (this.selectedTab == "mixbus") {
+        channel = this.selectedDevice.mixbus[this.selectedChannel - 1];
+        type = "Mixbus";
+      }
+      else if (this.selectedTab == "matrix") {
+        channel = this.selectedDevice.matrix[this.selectedChannel - 1];
+        type = "Matrix";
+      }
+      else if (this.selectedTab == "stereo") {
+        channel = this.selectedDevice.stereo[this.selectedChannel - 1];
+        type = "Stereo";
+      }
+      else if (this.selectedTab == "dca") {
+        channel = this.selectedDevice.dca[this.selectedChannel - 1];
+        type = "DCA";
+      }
+      connector = indexWrk.getConnector(channel.getDeviceId(), "o", channel.getIO());
+    }
+    $('#channel-modal').removeClass("hidden");
+    $('.overlay').removeClass("hidden");
+    $("#channel-modal-title").html(this.selectedDevice.getName() + " - " + type + " " + this.selectedIO);
+    $("#channel-name").val(connector.getName());
+    $('#color-list').attr('data-selected', connector.getColor());
+    this.selectColor(connector.getColor());
+    $('#icon-list').attr('data-selected', connector.getIcon());
+    this.selectIcon(connector.getIcon());
+    $('#channel-phase').prop('checked', connector.getPhaseInvert());
+    $('#channel-invert').prop('checked', connector.getColorInvert());
+  };
+
+  openConnectorModal() {
     console.log(`[deviceDetailCtrl] opening io ${this.selectedType}${this.selectedIO}`)
     let connector, type;
     if (this.selectedType == "i") {
@@ -278,9 +324,9 @@ class DeviceDetailCtrl {
       connector = this.selectedDevice.outputs[this.selectedIO - 1];
       type = "Output";
     }
-    $('.modal').removeClass("hidden");
+    $('#connector-modal').removeClass("hidden");
     $('.overlay').removeClass("hidden");
-    $("#modal-title").html(this.selectedDevice.getName() + " - " + type + " " + this.selectedIO);
+    $("#connector-modal-title").html(this.selectedDevice.getName() + " - " + type + " " + this.selectedIO);
     $("#channel-name").val(connector.getName());
     $('#color-list').attr('data-selected', connector.getColor());
     this.selectColor(connector.getColor());
