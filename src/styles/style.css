@@ -65,7 +65,7 @@ section {
     pointer-events: none;
 }
 
-.x32c object {
+.x32c object, .debug object {
     width: 260px;
 }
 

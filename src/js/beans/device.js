@@ -34,7 +34,7 @@ class Device {
     }
     // Create array of matrix
     for (let i = 0; i < totalMatrix; i++) {
-      this.matrix.push(new Channeli());
+      this.matrix.push(new Channel(i));
     }
     // Create array of stereo
     for (let i = 0; i < totalStereo; i++) {

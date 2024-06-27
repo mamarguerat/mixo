@@ -96,7 +96,7 @@ class Const {
       })
     });
     wrk.links.forEach(link => {
-      ret.links.push(new Link(link._device1, link._device2, link._aes50_1, link._aes50_2))
+      ret.links.push(new Link(link._device1, link._aes50_1, link._device2, link._aes50_2))
     })
     ret.id = wrk.id;
     return ret;

@@ -40,6 +40,8 @@ class DeviceDetailCtrl {
     this.addChannelTab("input", "Input channels", "Channel", LUT.getChannelsCnt(deviceType));
     this.addChannelTab("mixbus", "Mixbus channels", "Mixbus", LUT.getMixbusCnt(deviceType));
     this.addChannelTab("matrix", "Matrix channels", "Matrix", LUT.getMatrixCnt(deviceType));
+    this.addChannelTab("stereo", "Stereo channels", "Stereo", LUT.getStereoCnt(deviceType));
+    this.addChannelTab("dca", "DCA channels", "DCA", LUT.getDcaCnt(deviceType));
     $('.tab').on('click', (e) => {
       this.changeTab(e);
     })
