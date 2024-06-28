@@ -25,8 +25,11 @@ class DeviceDetailCtrl {
     $('.overlay').on('click', (e) => {
       this.closeModal();
     });
-    $('#save').on('click', (e) => {
+    $('#save-connector').on('click', (e) => {
       this.saveConnector();
+    })
+    $('#save-channel').on('click', (e) => {
+      this.saveChannel();
     })
   }
 
@@ -127,10 +130,25 @@ class DeviceDetailCtrl {
   }
 
   /**
+   * Save button pressed
+   */
+  saveChannel() {
+    indexWrk.saveChannel(
+      this.selectedDevice.getId(),
+      this.selectedTab,
+      this.selectedChannel,
+      this._connectorList[$('#channel-list'.attr('data-selected'))]
+    );
+    ipcRenderer.send('forward-to-main', { worker: indexWrk });
+    this.closeModal();
+  }
+
+  /**
    * Change active tab
    * @param {Event} element 
    */
   changeTab(element) {
+    this.closeModal();
     $('section').each(function () {
       $(this).addClass('hidden');
     });
@@ -242,7 +260,9 @@ class DeviceDetailCtrl {
         }
       });
     });
-    indexWrk.getAllUsedConnectors(this.selectedDevice.getId(), 'i').forEach((input, index, fullArray) => {
+    $('#channel-list').empty();
+    this._connectorList = indexWrk.getAllUsedConnectors(this.selectedDevice.getId(), 'i');
+    this._connectorList.forEach((input, index, fullArray) => {
       console.log(input)
       let connector = indexWrk.getConnector(input.deviceID, 'i', input.index);
       console.log(connector)
@@ -257,7 +277,7 @@ class DeviceDetailCtrl {
         "<button type='button' value='" + (index + 1) + "'' tabindex='0' class='dropdown-item'>" + "<svg aria-hidden='true' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50'>" +
         "<circle r='24' cx='25' cy='25' fill='" + colors.Back + "' stroke='" + colors.Front + "' />" +
         "</svg>" +
-        "<span>" + connector.getName() + "</span>" +
+        "<span>" + connector.getName() + "</br><span class='source'>" + input.source + (input.index + 1) + "</span></span>" +
         "</button"
       );
       fetch("../public/assets/icons/svg/" + connector.getIcon() + ".svg")

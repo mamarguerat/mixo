@@ -187,6 +187,21 @@ class IndexWrk {
   }
 
   /**
+   * Update a channel of device
+   * @param {Number} deviceID 
+   * @param {String} channelType 
+   * @param {String} channelIndex 
+   * @param {*} connector 
+   */
+  updateChannel(deviceID, channelType, channelIndex, connector) {
+    if (channelType == "input") {
+      console.log(`[indexWrk] id ${deviceID}, index ${id2index(deviceID, this.devices)}`);
+      this.devices[id2index(deviceID, this.devices)].channels[channelIndex - 1].setDeviceId(connector.deviceId);
+      this.devices[id2index(deviceID, this.devices)].channels[channelIndex - 1].setIO(connector.index);
+    }
+  }
+
+  /**
    * Update worker and canvas
    */
   update() {
@@ -201,7 +216,8 @@ class IndexWrk {
    */
   getAllUsedConnectors(deviceID, connectorType) {
     let scannedDevices = [];
-    return this._getUsedConnectors(deviceID, connectorType, scannedDevices, this.links);
+    let recurseLevel = 0;
+    return this._getUsedConnectors(deviceID, connectorType, scannedDevices, this.links, "Local ");
   }
 
   /**
@@ -209,10 +225,12 @@ class IndexWrk {
    * @param {Device} deviceID 
    * @param {String} connectorType 
    * @param {*} scannedDevices
+   * @param {String} source
    * @returns The connectors that has been assigned
    */
-  _getUsedConnectors(deviceID, connectorType, scannedDevices) {
+  _getUsedConnectors(deviceID, connectorType, scannedDevices, source) {
     let usedConnectors = [];
+    this.recurseLevel++;
   
     console.log(`[indexWrk] getAllUsedConnectors(${deviceID}, ${connectorType})`);
     scannedDevices.push(deviceID);
@@ -225,12 +243,12 @@ class IndexWrk {
       console.log(`[indexWrk] Found link between ${link.getFromDeviceId()} and ${link.getToDeviceId()}`);
       if (link.getFromDeviceId() !== deviceID) {
         if (false == scannedDevices.includes(link.getFromDeviceId())) {
-          usedConnectors = usedConnectors.concat(this._getUsedConnectors(link.getFromDeviceId(), connectorType, scannedDevices));
+          usedConnectors = usedConnectors.concat(this._getUsedConnectors(link.getFromDeviceId(), connectorType, scannedDevices, link.getToAes50()));
         }
       }
       else {
         if (false == scannedDevices.includes(link.getToDeviceId())) {
-          usedConnectors = usedConnectors.concat(this._getUsedConnectors(link.getToDeviceId(), connectorType, scannedDevices));
+          usedConnectors = usedConnectors.concat(this._getUsedConnectors(link.getToDeviceId(), connectorType, scannedDevices, link.getFromAes50()));
         }
       }
     });
@@ -240,18 +258,19 @@ class IndexWrk {
     if (connectorType == 'i') {
       device.inputs.forEach((input, index, fullArray) => {
         if (input.getName() != "" || input.getColor() != "OFF" || input.getIcon() != "1") {
-          usedConnectors.push({ deviceID, index });
+          usedConnectors.push({ deviceID, index, source });
         }
       });
     }
     else {
       device.outputs.forEach((output, index, fullArray) => {
         if (output.getName() != "" || output.getColor() != "OFF" || output.getIcon() != "1") {
-          usedConnectors.push({ deviceID, index });
+          usedConnectors.push({ deviceID, index, source });
         }
       });
     }
   
+    this.recurseLevel--;
     return usedConnectors;
   }
 

@@ -399,6 +399,11 @@ button {
     background-color:#e5e5e5;
 }
 
+.source {
+    font-size: 9px;
+    color: grey;
+}
+
 /* MARK: HEADER TABS */
 .header {
     background: white;

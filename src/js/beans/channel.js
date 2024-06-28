@@ -3,6 +3,7 @@ class Channel {
     this._id = id;
     this._deviceId = "";
     this._IO = "";
+    this._source = "";
   }
 
   // MARK: RW properties
@@ -21,5 +22,13 @@ class Channel {
 
   setIO(io) {
     this._IO = io;
+  }
+
+  getSource() {
+    return this._source;
+  }
+
+  setSource(source) {
+    this._source = source;
   }
 }
