@@ -328,7 +328,6 @@ button {
 }
   
 .dropdown-menu {
-    width: calc(200% + 10px);
     display:none;
     z-index: 1;
     position: absolute;
@@ -343,6 +342,10 @@ button {
     flex-wrap: wrap;
     gap: 0px;
     background-color: #fff;
+}
+
+#icon-list, #color-list {
+    width: calc(200% + 10px);
 }
 
 .dropdown-menu button {

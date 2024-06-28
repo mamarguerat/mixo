@@ -44,7 +44,7 @@ class DeviceDetailCtrl {
     this.addChannelTab("dca", "DCA channels", "DCA", LUT.getDcaCnt(deviceType));
     $('.tab').on('click', (e) => {
       this.changeTab(e);
-    })
+    });
   }
 
   /**
@@ -66,7 +66,7 @@ class DeviceDetailCtrl {
         "<object class='icon' data='" + path.join(constants.iconsPath, (index + 1) + ".svg") + "' type='image/svg+xml'></object>" +
         "<span>" + icon + "</span>" +
         "</button>"
-      )
+      );
     });
 
     constants.colors.forEach((color, index, fullArray) => {
@@ -77,7 +77,7 @@ class DeviceDetailCtrl {
         "</svg>" +
         "<span>" + color.Name + "</span>" +
         "</button>"
-      )
+      );
     });
 
     $(document).click(function () {
@@ -242,6 +242,38 @@ class DeviceDetailCtrl {
         }
       });
     });
+    indexWrk.getAllUsedConnectors(this.selectedDevice.getId(), 'i').forEach((input, index, fullArray) => {
+      console.log(input)
+      let connector = indexWrk.getConnector(input.deviceID, 'i', input.index);
+      console.log(connector)
+      var colors = constants.getColorCode(connector.getColor());
+      if (connector.getColorInvert() == true)
+      {
+        var temp = colors.Front;
+        colors.Front = colors.Back;
+        colors.Back = temp;
+      }
+      $('#channel-list').append(
+        "<button type='button' value='" + (index + 1) + "'' tabindex='0' class='dropdown-item'>" + "<svg aria-hidden='true' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50'>" +
+        "<circle r='24' cx='25' cy='25' fill='" + colors.Back + "' stroke='" + colors.Front + "' />" +
+        "</svg>" +
+        "<span>" + connector.getName() + "</span>" +
+        "</button"
+      );
+      fetch("../public/assets/icons/svg/" + connector.getIcon() + ".svg")
+      .then(response => response.text())
+      .then(svgText => {
+        const parser = new DOMParser();
+        const svgDocument = parser.parseFromString(svgText, 'image/svg+xml');
+        let iconGroup = svgDocument.getElementById('icon');
+        iconGroup.setAttribute("transform", "scale(0.7) translate(4 4)");
+        iconGroup.setAttribute("style", "fill:" + colors.Front + ";stroke:" + colors.Front);
+        document.querySelector('#channel-list').querySelector('[value="' + (index + 1) + '"]').querySelector('svg').appendChild(iconGroup);
+      })
+      .catch(error => {
+        console.error(`[deviceDetailCtrl] Error fetching the SVG file ${error}`);
+      });
+    });
   }
 
   addChannelTab(id, name, channelName, channelCnt) {
@@ -275,12 +307,12 @@ class DeviceDetailCtrl {
   }
 
   openChannelModal() {
-    console.log(`[deviceDetailCtrl] opening io ${this.selectedTab}${this.selectedIO}`)
+    console.log(`[deviceDetailCtrl] opening channel ${this.selectedTab}${this.selectedIO}`)
     let channel, connector, type;
     if (this.selectedTab == "input") {
       channel = this.selectedDevice.channel[this.selectedChannel - 1];
       type = "Input";
-      connector = indexWrk.getConnector(channel.getDeviceId(), "i", channel.getIO());
+      // connector = indexWrk.getConnector(channel.getDeviceId(), "i", channel.getIO());
     }
     else {
       if (this.selectedTab == "mixbus") {
@@ -299,18 +331,18 @@ class DeviceDetailCtrl {
         channel = this.selectedDevice.dca[this.selectedChannel - 1];
         type = "DCA";
       }
-      connector = indexWrk.getConnector(channel.getDeviceId(), "o", channel.getIO());
+      // connector = indexWrk.getConnector(channel.getDeviceId(), "o", channel.getIO());
     }
     $('#channel-modal').removeClass("hidden");
     $('.overlay').removeClass("hidden");
-    $("#channel-modal-title").html(this.selectedDevice.getName() + " - " + type + " " + this.selectedIO);
-    $("#channel-name").val(connector.getName());
-    $('#color-list').attr('data-selected', connector.getColor());
-    this.selectColor(connector.getColor());
-    $('#icon-list').attr('data-selected', connector.getIcon());
-    this.selectIcon(connector.getIcon());
-    $('#channel-phase').prop('checked', connector.getPhaseInvert());
-    $('#channel-invert').prop('checked', connector.getColorInvert());
+    $("#channel-modal-title").html(this.selectedDevice.getName() + " - " + type + " " + this.selectedChannel);
+    // $("#channel-name").val(connector.getName());
+    // $('#color-list').attr('data-selected', connector.getColor());
+    // this.selectColor(connector.getColor());
+    // $('#icon-list').attr('data-selected', connector.getIcon());
+    // this.selectIcon(connector.getIcon());
+    // $('#channel-phase').prop('checked', connector.getPhaseInvert());
+    // $('#channel-invert').prop('checked', connector.getColorInvert());
   };
 
   openConnectorModal() {

@@ -254,6 +254,24 @@ class IndexWrk {
   
     return usedConnectors;
   }
+
+  /**
+   * Get a specific connector
+   * @param {Number} deviceID 
+   * @param {String} type 
+   * @param {Number} index 
+   * @returns The connector of type at index for deviceID
+   */
+  getConnector(deviceID, type, index) {
+    console.log(`[indexWrk] Get connector ${type}${index} of device ${deviceID}`);
+    let device = this.getDeviceFromId(deviceID);
+    if (type == 'i') {
+      return device.inputs[index];
+    }
+    else {
+      return device.outputs[index];
+    }
+  }
 }
 
 // MARK: Private funcitons
