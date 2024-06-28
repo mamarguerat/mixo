@@ -9,10 +9,10 @@ class DeviceDetailCtrl {
   constructor() {
     /* ----- IPC ----- */
     ipcRenderer.on('ready', (event, arg) => {
-      console.log(arg)
       console.log(`[deviceDetailCtrl] window ready, load device ${arg.id}`);
       this.initialize(arg);
       this.loadHTML(indexWrk.getDeviceFromId(this.deviceID).getType());
+      this.drawCanvas(indexWrk.getDeviceFromId(this.deviceID))
     });
     ipcRenderer.on('new-data', (event, arg) => {
       this.dataUpdated(arg);
@@ -133,11 +133,11 @@ class DeviceDetailCtrl {
    * Save button pressed
    */
   saveChannel() {
-    indexWrk.saveChannel(
+    indexWrk.updateChannel(
       this.selectedDevice.getId(),
       this.selectedTab,
       this.selectedChannel,
-      this._connectorList[$('#channel-list'.attr('data-selected'))]
+      this._connectorList[$('#channel-list').attr('data-selected')]
     );
     ipcRenderer.send('forward-to-main', { worker: indexWrk });
     this.closeModal();
@@ -233,7 +233,6 @@ class DeviceDetailCtrl {
       });
       $.each($outputs, function (idx, val) {
         var output = indexWrk.getDeviceFromId(_this.deviceID).outputs[val.id.slice(5, 7) - 1];
-        console.log(output)
         if ((output.getName() != "") || (output.getIcon() != "1") || (output.getColor() != "OFF")) {
           var colors = constants.getColorCode(output.getColor());
           if (output.getColorInvert() == true)
@@ -263,9 +262,7 @@ class DeviceDetailCtrl {
     $('#channel-list').empty();
     this._connectorList = indexWrk.getAllUsedConnectors(this.selectedDevice.getId(), 'i');
     this._connectorList.forEach((input, index, fullArray) => {
-      console.log(input)
       let connector = indexWrk.getConnector(input.deviceID, 'i', input.index);
-      console.log(connector)
       var colors = constants.getColorCode(connector.getColor());
       if (connector.getColorInvert() == true)
       {
@@ -293,6 +290,25 @@ class DeviceDetailCtrl {
       .catch(error => {
         console.error(`[deviceDetailCtrl] Error fetching the SVG file ${error}`);
       });
+    });
+    device.channels.forEach((channel, index, fullArray) => {
+      let $element = $('#input-sortable').children('.io-element');
+      let connector = indexWrk.getConnector(channel.getDeviceId(), 'i', channel.getIO());
+      if (typeof connector !== 'undefined') {
+        var colors = constants.getColorCode(connector.getColor());
+        if (connector.getColorInvert() == true)
+        {
+          var temp = colors.Front;
+          colors.Front = colors.Back;
+          colors.Back = temp;
+        }
+        $element.eq(index).children("div").children("p").text(connector.getName());
+        $element.eq(index).children("div").css("background-color", colors.Back);
+        $element.eq(index).children("div").css("color", colors.Front);
+        $element.eq(index).children("div").css("border", "3px solid " + colors.Front);
+        console.log($element.eq(index).children("div").children("p").text())
+        console.log($element.eq(index).children("div").css("background-color"))
+      }
     });
   }
 
