@@ -52,7 +52,7 @@ class IndexCtrl {
       let Aes50Cible = e.target.getAttribute('aes50');
       $('#currentline').remove();
       if (null != Aes50Cible) {
-        indexWrk.addLink(this.selectedElement.Id, this.selectedElement.Aes50Source, id, Aes50Cible);
+        indexWrk.addLink(Number(this.selectedElement.Id), this.selectedElement.Aes50Source, Number(id), Aes50Cible);
       }
     }
     else if (this.selectedElement.Type === "Device") {

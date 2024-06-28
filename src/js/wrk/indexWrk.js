@@ -132,7 +132,6 @@ class IndexWrk {
    * Get a device position in the devices array fom an index
    * @param {Number} id 
    */
-
   getDevicePosIndex(index) {
     return this.devices[index].getPos();
   }
@@ -192,6 +191,68 @@ class IndexWrk {
    */
   update() {
     indexCtrl.drawCanvas(this.devices, this.links);
+  }
+
+  /**
+   * Get all used connectors from a device
+   * @param {Number} deviceID
+   * @param {String} connectorType
+   * @returns All assigned connectors in array of { deviceID, index }
+   */
+  getAllUsedConnectors(deviceID, connectorType) {
+    let scannedDevices = [];
+    return this._getUsedConnectors(deviceID, connectorType, scannedDevices, this.links);
+  }
+
+  /**
+   * Get Used connectors of device, and recurse to all connected devices
+   * @param {Device} deviceID 
+   * @param {String} connectorType 
+   * @param {*} scannedDevices
+   * @returns The connectors that has been assigned
+   */
+  _getUsedConnectors(deviceID, connectorType, scannedDevices) {
+    let usedConnectors = [];
+  
+    console.log(`[indexWrk] getAllUsedConnectors(${deviceID}, ${connectorType})`);
+    scannedDevices.push(deviceID);
+  
+    // Recurse condition
+    let deviceLinks = this.links.filter((link) =>
+      (link.getFromDeviceId() === deviceID) || (link.getToDeviceId() === deviceID)
+    );
+    deviceLinks.forEach((link, index, fullArray) => {
+      console.log(`[indexWrk] Found link between ${link.getFromDeviceId()} and ${link.getToDeviceId()}`);
+      if (link.getFromDeviceId() !== deviceID) {
+        if (false == scannedDevices.includes(link.getFromDeviceId())) {
+          usedConnectors = usedConnectors.concat(this._getUsedConnectors(link.getFromDeviceId(), connectorType, scannedDevices));
+        }
+      }
+      else {
+        if (false == scannedDevices.includes(link.getToDeviceId())) {
+          usedConnectors = usedConnectors.concat(this._getUsedConnectors(link.getToDeviceId(), connectorType, scannedDevices));
+        }
+      }
+    });
+  
+    // Function
+    let device = this.getDeviceFromId(deviceID);
+    if (connectorType == 'i') {
+      device.inputs.forEach((input, index, fullArray) => {
+        if (input.getName() != "" || input.getColor() != "OFF" || input.getIcon() != "1") {
+          usedConnectors.push({ deviceID, index });
+        }
+      });
+    }
+    else {
+      device.outputs.forEach((output, index, fullArray) => {
+        if (output.getName() != "" || output.getColor() != "OFF" || output.getIcon() != "1") {
+          usedConnectors.push({ deviceID, index });
+        }
+      });
+    }
+  
+    return usedConnectors;
   }
 }
 
