@@ -243,7 +243,7 @@ button {
 
 .io-element > div > p {
     margin: 0px;
-    padding: 5px;
+    padding: 5px 5px 0px 5px;
 }
 
 .io-element > p {
@@ -328,6 +328,7 @@ button {
 }
   
 .dropdown-menu {
+    width: 100%;
     display:none;
     z-index: 1;
     position: absolute;

@@ -305,9 +305,22 @@ class DeviceDetailCtrl {
         $element.eq(index).children("div").children("p").text(connector.getName());
         $element.eq(index).children("div").css("background-color", colors.Back);
         $element.eq(index).children("div").css("color", colors.Front);
-        $element.eq(index).children("div").css("border", "3px solid " + colors.Front);
-        console.log($element.eq(index).children("div").children("p").text())
-        console.log($element.eq(index).children("div").css("background-color"))
+        $element.eq(index).children("div").css("border", "1px solid " + colors.Front);
+        $element.eq(index).children("p").text(channel.getSource() + channel.getIO());
+        fetch("../public/assets/icons/svg/" + connector.getIcon() + ".svg")
+        .then(response => response.text())
+        .then(svgText => {
+          const parser = new DOMParser();
+          const svgDocument = parser.parseFromString(svgText, 'image/svg+xml');
+          let iconGroup = svgDocument.getElementById('icon');
+          iconGroup.setAttribute("transform", "scale(0.8) translate(-8 -10)");
+          iconGroup.setAttribute("style", "fill:" + colors.Front + ";stroke:" + colors.Front);
+          $element.eq(index).children("div").children("svg").empty();
+          $element.eq(index).children("div").children("svg").append(iconGroup);
+        })
+        .catch(error => {
+          console.error(`[deviceDetailCtrl] Error fetching the SVG file ${error}`);
+        });
       }
     });
   }
@@ -323,7 +336,7 @@ class DeviceDetailCtrl {
       // Create sortables
       for (var i = 0; i < channelCnt; i++) {
         $('#' + id + '-channel-names').append("<div class='channel-name'>" + channelName + " " + (i+1) + "</div>");
-        $('#' + id + '-sortable').append("<div class='io-element'><div style='background-color: #999999;'><p>NO IO SELECTED</p></div><p>LOCAL " + (i+1) + "</p></div>");
+        $('#' + id + '-sortable').append("<div class='io-element'><div style='background-color: #999999;'><p>NO IO SELECTED</p><svg height='40px' width='50px'></svg></div><p>LOCAL " + (i+1) + "</p></div>");
       }
       $('#' + id + '-sortable').sortable({
         multiDrag: false,
