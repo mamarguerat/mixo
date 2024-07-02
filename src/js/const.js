@@ -43,7 +43,7 @@ class Const {
   reconstructIndexWrk(wrk) {
     var ret = new IndexWrk();
     wrk.devices.forEach(device => {
-      ret.devices.push(new Device(device._type, device._id, 0, 0));
+      ret.devices.push(new Device(device._type, device._id, 0, 0, 0, 0, 0, 0, 0));
       var devIdx = ret.devices.length - 1;
       ret.devices[devIdx].x = device.x;
       ret.devices[devIdx].y = device.y;
@@ -64,11 +64,45 @@ class Const {
         ret.devices[devIdx].outputs[connIdx]._colorInvert = output._colorInvert;
         ret.devices[devIdx].outputs[connIdx]._icon = output._icon;
       });
+      device.channels.forEach(channel => {
+        ret.devices[devIdx].channels.push(new Channel());
+        var chIdx = ret.devices[devIdx].channels.length - 1;
+        ret.devices[devIdx].channels[chIdx]._deviceId = channel._deviceId;
+        ret.devices[devIdx].channels[chIdx]._IO = channel._IO;
+        ret.devices[devIdx].channels[chIdx]._source = channel._source;
+      })
+      device.mixbuses.forEach(mixbus => {
+        ret.devices[devIdx].mixbuses.push(new Channel());
+        var chIdx = ret.devices[devIdx].mixbuses.length - 1;
+        ret.devices[devIdx].mixbuses[chIdx]._deviceId = mixbus._deviceId;
+        ret.devices[devIdx].mixbuses[chIdx]._IO = mixbus._IO;
+        ret.devices[devIdx].mixbuses[chIdx]._source = mixbus._source;
+      })
+      device.matrix.forEach(matrix => {
+        ret.devices[devIdx].matrix.push(new Channel());
+        var chIdx = ret.devices[devIdx].matrix.length - 1;
+        ret.devices[devIdx].matrix[chIdx]._deviceId = matrix._deviceId;
+        ret.devices[devIdx].matrix[chIdx]._IO = matrix._IO;
+        ret.devices[devIdx].matrix[chIdx]._source = matrix._source;
+      })
+      device.stereo.forEach(stereo => {
+        ret.devices[devIdx].stereo.push(new Channel());
+        var chIdx = ret.devices[devIdx].stereo.length - 1;
+        ret.devices[devIdx].stereo[chIdx]._deviceId = stereo._deviceId;
+        ret.devices[devIdx].stereo[chIdx]._IO = stereo._IO;
+        ret.devices[devIdx].stereo[chIdx]._source = stereo._source;
+      })
+      device.dca.forEach(dca => {
+        ret.devices[devIdx].dca.push(new Channel());
+        var chIdx = ret.devices[devIdx].dca.length - 1;
+        ret.devices[devIdx].dca[chIdx]._deviceId = dca._deviceId;
+        ret.devices[devIdx].dca[chIdx]._IO = dca._IO;
+        ret.devices[devIdx].dca[chIdx]._source = dca._source;
+      })
     });
     wrk.links.forEach(link => {
-      ret.links.push(new Link(link._device1, link._device2, link._aes50_1, link._aes50_2))
+      ret.links.push(new Link(link._device1, link._aes50_1, link._device2, link._aes50_2))
     })
-    ret.devTypeLUT = new DeviceTypeLUT();
     ret.id = wrk.id;
     return ret;
   }

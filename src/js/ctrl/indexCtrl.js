@@ -52,7 +52,7 @@ class IndexCtrl {
       let Aes50Cible = e.target.getAttribute('aes50');
       $('#currentline').remove();
       if (null != Aes50Cible) {
-        indexWrk.addLink(this.selectedElement.Id, this.selectedElement.Aes50Source, id, Aes50Cible);
+        indexWrk.addLink(Number(this.selectedElement.Id), this.selectedElement.Aes50Source, Number(id), Aes50Cible);
       }
     }
     else if (this.selectedElement.Type === "Device") {
@@ -207,7 +207,7 @@ class IndexCtrl {
     if ('save' == arg.function || 'saveas' == arg.function) {
       console.log(`[indexCtrl] save file`);
       // Convert the object to JSON
-      let json = JSON.stringify(indexWrk, null, 2);
+      let json = JSON.stringify(indexWrk, null, 0);
       ipcRenderer.send('file', {
         function: arg.function,
         json: json

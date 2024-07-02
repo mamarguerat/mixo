@@ -7,12 +7,17 @@
     <link rel="stylesheet" href="./styles/style.css">
   </head>
   <body>
-    <div id="canvas">
+    <!-- Top menu -->
+    <div class="header" id="tabs">
+      <div class="tab active" id="io">IO mapping</div>
     </div>
-
-    <section class="modal hidden">
+    <section class="io">
+      <div id="canvas">
+      </div>
+    </section>
+    <section id="connector-modal" class="modal hidden">
       <div class="flex">
-        <h3 id="modal-title">[Device] - [Input/Output] [Number]</h3>
+        <h3 id="connector-modal-title">[Device] - [Input/Output] [Number]</h3>
         <button class="btn-close">⨉</button>
       </div>
       <input type="text" id="channel-name" placeholder="Channel name" />
@@ -47,8 +52,25 @@
         </div>
       </div>
       <div class="column-container buttons">
-        <button id="cancel" class="btn cancel column">Cancel</button>
-        <button id="save" class="btn column">Save</button>
+        <button id="cancel-connector" class="btn cancel column">Cancel</button>
+        <button id="save-connector" class="btn column">Save</button>
+      </div>
+    </section>
+    <section id="channel-modal" class="modal hidden">
+      <div class="flex">
+        <h3 id="channel-modal-title">[Device] - [Channel] [Number]</h3>
+        <button class="btn-close">⨉</button>
+      </div>
+      <div class="dropdown-wrapper channel-picker">
+        <button class="trigger-dropdown">
+          <p class="fa-caret-down">v</p>
+        </button>
+        <div id="channel-list" class="dropdown-menu" data-selected="">
+        </div>
+      </div>
+      <div class="column-container buttons">
+        <button id="cancel-channel" class="btn cancel column">Cancel</button>
+        <button id="save-channel" class="btn column">Save</button>
       </div>
     </section>
     <div class="overlay hidden"></div>
@@ -62,6 +84,7 @@
   <script src="js/beans/device.js"></script>
   <script src="js/beans/link.js"></script>
   <script src="js/beans/connector.js"></script>
+  <script src="js/beans/channel.js"></script>
   <script src="js/beans/deviceTypeLUT.js"></script>
   <!-- Controllers and Workers -->
   <script src="js/ctrl/deviceDetailCtrl.js"></script>

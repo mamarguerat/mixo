@@ -244,6 +244,9 @@ ipcMain.on('window', (event, arg) => {
 });
 
 ipcMain.on('file', (event, arg) => {
+  let jsonObject = JSON.parse(arg.json);
+  jsonObject.version = app.getVersion();
+  arg.json = JSON.stringify(jsonObject, null, 2);
   if ('saveas' == arg.function || ('save' == arg.function && filePath == "")) {
     dialog.showSaveDialog({
       title: 'Save Mixo project',
