@@ -291,6 +291,18 @@ class IndexWrk {
       return device.outputs[index];
     }
   }
+
+  /**
+   * Move a channel from index to index
+   * @param {Number} deviceID 
+   * @param {String} channelType 
+   * @param {Number} fromIndex 
+   * @param {Number} toIndex 
+   */
+  moveChannel(deviceID, channelType, fromIndex, toIndex) {
+    console.log(`[indexWrk] Move channel ${channelType} from ${fromIndex} to ${toIndex}`);
+    this.devices[id2index(deviceID, this.devices)].moveChannel(channelType, fromIndex, toIndex);
+  }
 }
 
 // MARK: Private funcitons

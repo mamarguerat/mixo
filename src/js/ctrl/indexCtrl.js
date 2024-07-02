@@ -207,7 +207,7 @@ class IndexCtrl {
     if ('save' == arg.function || 'saveas' == arg.function) {
       console.log(`[indexCtrl] save file`);
       // Convert the object to JSON
-      let json = JSON.stringify(indexWrk, null, 2);
+      let json = JSON.stringify(indexWrk, null, 0);
       ipcRenderer.send('file', {
         function: arg.function,
         json: json

@@ -1,6 +1,5 @@
 class Channel {
-  constructor(id) {
-    this._id = id;
+  constructor() {
     this._deviceId = "";
     this._IO = "";
     this._source = "";

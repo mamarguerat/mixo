@@ -112,6 +112,13 @@ class DeviceDetailCtrl {
   }
 
   /**
+   * Channel position changed
+   */
+  moveChannel() {
+    ipcRenderer.send('forward-to-main', { worker: indexWrk });
+  }
+
+  /**
    * Save button pressed
    */
   saveConnector() {
@@ -322,6 +329,14 @@ class DeviceDetailCtrl {
           console.error(`[deviceDetailCtrl] Error fetching the SVG file ${error}`);
         });
       }
+      else {
+        $element.eq(index).children("div").children("p").text("NO IO SELECTED");
+        $element.eq(index).children("div").css("background-color", "#999999");
+        $element.eq(index).children("div").css("color", "#000000");
+        $element.eq(index).children("div").css("border", "none");
+        $element.eq(index).children("p").text("");
+        $element.eq(index).children("div").children("svg").empty();
+      }
     });
   }
 
@@ -336,7 +351,7 @@ class DeviceDetailCtrl {
       // Create sortables
       for (var i = 0; i < channelCnt; i++) {
         $('#' + id + '-channel-names').append("<div class='channel-name'>" + channelName + " " + (i+1) + "</div>");
-        $('#' + id + '-sortable').append("<div class='io-element'><div style='background-color: #999999;'><p>NO IO SELECTED</p><svg height='40px' width='50px'></svg></div><p>LOCAL " + (i+1) + "</p></div>");
+        $('#' + id + '-sortable').append("<div class='io-element'><div style='background-color: #999999;'><p>NO IO SELECTED</p><svg height='40px' width='50px'></svg></div><p></p></div>");
       }
       $('#' + id + '-sortable').sortable({
         multiDrag: false,
@@ -348,10 +363,15 @@ class DeviceDetailCtrl {
       });
 
       var _this = this;
+      $('#' + id + '-sortable').on("end", function (ev) {
+        indexWrk.moveChannel(_this.deviceID, "input", ev.originalEvent.oldIndex, ev.originalEvent.newIndex);
+        _this.moveChannel();
+      });
+
       $('.io-element').on("click", function (ev) {
         _this.selectedChannel = 1;
         _this.openChannelModal();
-      })
+      });
     }
   }
 

@@ -65,35 +65,35 @@ class Const {
         ret.devices[devIdx].outputs[connIdx]._icon = output._icon;
       });
       device.channels.forEach(channel => {
-        ret.devices[devIdx].channels.push(new Channel(channel._id));
+        ret.devices[devIdx].channels.push(new Channel());
         var chIdx = ret.devices[devIdx].channels.length - 1;
         ret.devices[devIdx].channels[chIdx]._deviceId = channel._deviceId;
         ret.devices[devIdx].channels[chIdx]._IO = channel._IO;
         ret.devices[devIdx].channels[chIdx]._source = channel._source;
       })
       device.mixbuses.forEach(mixbus => {
-        ret.devices[devIdx].mixbuses.push(new Channel(mixbus._id));
+        ret.devices[devIdx].mixbuses.push(new Channel());
         var chIdx = ret.devices[devIdx].mixbuses.length - 1;
         ret.devices[devIdx].mixbuses[chIdx]._deviceId = mixbus._deviceId;
         ret.devices[devIdx].mixbuses[chIdx]._IO = mixbus._IO;
         ret.devices[devIdx].mixbuses[chIdx]._source = mixbus._source;
       })
       device.matrix.forEach(matrix => {
-        ret.devices[devIdx].matrix.push(new Channel(matrix._id));
+        ret.devices[devIdx].matrix.push(new Channel());
         var chIdx = ret.devices[devIdx].matrix.length - 1;
         ret.devices[devIdx].matrix[chIdx]._deviceId = matrix._deviceId;
         ret.devices[devIdx].matrix[chIdx]._IO = matrix._IO;
         ret.devices[devIdx].matrix[chIdx]._source = matrix._source;
       })
       device.stereo.forEach(stereo => {
-        ret.devices[devIdx].stereo.push(new Channel(stereo._id));
+        ret.devices[devIdx].stereo.push(new Channel());
         var chIdx = ret.devices[devIdx].stereo.length - 1;
         ret.devices[devIdx].stereo[chIdx]._deviceId = stereo._deviceId;
         ret.devices[devIdx].stereo[chIdx]._IO = stereo._IO;
         ret.devices[devIdx].stereo[chIdx]._source = stereo._source;
       })
       device.dca.forEach(dca => {
-        ret.devices[devIdx].dca.push(new Channel(dca._id));
+        ret.devices[devIdx].dca.push(new Channel());
         var chIdx = ret.devices[devIdx].dca.length - 1;
         ret.devices[devIdx].dca[chIdx]._deviceId = dca._deviceId;
         ret.devices[devIdx].dca[chIdx]._IO = dca._IO;
