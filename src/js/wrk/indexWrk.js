@@ -193,11 +193,15 @@ class IndexWrk {
    * @param {String} channelIndex 
    * @param {*} connector 
    */
-  updateChannel(deviceID, channelType, channelIndex, connector) {
-    if (channelType == "input") {
+  updateChannel(deviceID, channelType, channelIndex, connectorDeviceId, connectorIndex, connectorSource) {
+    if (channelType == "channel-input") {
       console.log(`[indexWrk] id ${deviceID}, index ${id2index(deviceID, this.devices)}`);
-      this.devices[id2index(deviceID, this.devices)].channels[channelIndex - 1].setDeviceId(connector.deviceId);
-      this.devices[id2index(deviceID, this.devices)].channels[channelIndex - 1].setIO(connector.index);
+      this.devices[id2index(deviceID, this.devices)].channels[channelIndex].setDeviceId(connectorDeviceId);
+      this.devices[id2index(deviceID, this.devices)].channels[channelIndex].setIO(connectorIndex);
+      this.devices[id2index(deviceID, this.devices)].channels[channelIndex].setSource(connectorSource);
+    }
+    else {
+      console.error(`[indexWrk] invalid tab id ${channelType}`);
     }
   }
 
@@ -284,11 +288,16 @@ class IndexWrk {
   getConnector(deviceID, type, index) {
     console.log(`[indexWrk] Get connector ${type}${index} of device ${deviceID}`);
     let device = this.getDeviceFromId(deviceID);
-    if (type == 'i') {
-      return device.inputs[index];
+    try {
+      if (type == 'i') {
+        return device.inputs[index];
+      }
+      else {
+        return device.outputs[index];
+      }
     }
-    else {
-      return device.outputs[index];
+    catch {
+      return;
     }
   }
 

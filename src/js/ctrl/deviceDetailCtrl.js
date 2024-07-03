@@ -140,11 +140,15 @@ class DeviceDetailCtrl {
    * Save button pressed
    */
   saveChannel() {
+    let dataSelected = $('#channel-list').attr('data-selected').split('-');
+    // index0: deviceID, index1: type, index2: IO index
+    let source = $('#channel-modal').children('.dropdown-wrapper').children('button').children('span').children('.source').text().match('[a-zA-Z]+')[0];
     indexWrk.updateChannel(
       this.selectedDevice.getId(),
       this.selectedTab,
       this.selectedChannel,
-      this._connectorList[$('#channel-list').attr('data-selected')]
+      dataSelected[0], dataSelected[2],
+      source
     );
     ipcRenderer.send('forward-to-main', { worker: indexWrk });
     this.closeModal();
@@ -267,6 +271,12 @@ class DeviceDetailCtrl {
       });
     });
     $('#channel-list').empty();
+    $('#channel-list').append(
+      "<button type='button' value='0' tabindex='0' class='dropdown-item'>" + "<svg aria-hidden='true' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50'>" +
+      "</svg>" +
+      "<span>Empty</br><span class='source'></span></span>" +
+      "</button"
+    );
     this._connectorList = indexWrk.getAllUsedConnectors(this.selectedDevice.getId(), 'i');
     this._connectorList.forEach((input, index, fullArray) => {
       let connector = indexWrk.getConnector(input.deviceID, 'i', input.index);
@@ -278,7 +288,7 @@ class DeviceDetailCtrl {
         colors.Back = temp;
       }
       $('#channel-list').append(
-        "<button type='button' value='" + (index + 1) + "'' tabindex='0' class='dropdown-item'>" + "<svg aria-hidden='true' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50'>" +
+        "<button type='button' value='" + input.deviceID + '-i-' + index + "' tabindex='0' class='dropdown-item'>" + "<svg aria-hidden='true' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50'>" +
         "<circle r='24' cx='25' cy='25' fill='" + colors.Back + "' stroke='" + colors.Front + "' />" +
         "</svg>" +
         "<span>" + connector.getName() + "</br><span class='source'>" + input.source + (input.index + 1) + "</span></span>" +
@@ -313,7 +323,7 @@ class DeviceDetailCtrl {
         $element.eq(index).children("div").css("background-color", colors.Back);
         $element.eq(index).children("div").css("color", colors.Front);
         $element.eq(index).children("div").css("border", "1px solid " + colors.Front);
-        $element.eq(index).children("p").text(channel.getSource() + channel.getIO());
+        $element.eq(index).children("p").text(channel.getSource() + (Number(channel.getIO()) + 1));
         fetch("../public/assets/icons/svg/" + connector.getIcon() + ".svg")
         .then(response => response.text())
         .then(svgText => {
@@ -369,49 +379,59 @@ class DeviceDetailCtrl {
       });
 
       $('.io-element').on("click", function (ev) {
-        _this.selectedChannel = 1;
+        _this.selectedChannel = $(this).index();
         _this.openChannelModal();
       });
     }
   }
 
   openChannelModal() {
-    console.log(`[deviceDetailCtrl] opening channel ${this.selectedTab}${this.selectedIO}`)
-    let channel, connector, type;
-    if (this.selectedTab == "input") {
-      channel = this.selectedDevice.channel[this.selectedChannel - 1];
+    console.log(`[deviceDetailCtrl] opening channel ${this.selectedTab}${this.selectedChannel}`)
+    let channel, connector, type, value;
+    if (this.selectedTab == "channel-input") {
+      channel = this.selectedDevice.channels[this.selectedChannel];
       type = "Input";
-      // connector = indexWrk.getConnector(channel.getDeviceId(), "i", channel.getIO());
+      connector = indexWrk.getConnector(channel.getDeviceId(), "i", channel.getIO());
+      if (channel.getIO() != "") {
+        value = channel.getDeviceId() + '-i-' + channel.getIO();
+      }
+      else {
+        value = "0";
+      }
     }
     else {
-      if (this.selectedTab == "mixbus") {
+      if (this.selectedTab == "channel-mixbus") {
         channel = this.selectedDevice.mixbus[this.selectedChannel - 1];
         type = "Mixbus";
       }
-      else if (this.selectedTab == "matrix") {
+      else if (this.selectedTab == "channel-matrix") {
         channel = this.selectedDevice.matrix[this.selectedChannel - 1];
         type = "Matrix";
       }
-      else if (this.selectedTab == "stereo") {
+      else if (this.selectedTab == "channel-stereo") {
         channel = this.selectedDevice.stereo[this.selectedChannel - 1];
         type = "Stereo";
       }
-      else if (this.selectedTab == "dca") {
+      else if (this.selectedTab == "channel-dca") {
         channel = this.selectedDevice.dca[this.selectedChannel - 1];
         type = "DCA";
       }
-      // connector = indexWrk.getConnector(channel.getDeviceId(), "o", channel.getIO());
+      else {
+        console.error(`[deviceDetailCtrl] invalid tab id ${this.selectedTab}`)
+      }
+      if (channel.getIO() >= 0) {
+        value = channel.getDeviceId() + '-i-' + channel.getIO();
+      }
+      else {
+        value = "0";
+      }
+      connector = indexWrk.getConnector(channel.getDeviceId(), "o", channel.getIO());
     }
     $('#channel-modal').removeClass("hidden");
     $('.overlay').removeClass("hidden");
     $("#channel-modal-title").html(this.selectedDevice.getName() + " - " + type + " " + this.selectedChannel);
-    // $("#channel-name").val(connector.getName());
-    // $('#color-list').attr('data-selected', connector.getColor());
-    // this.selectColor(connector.getColor());
-    // $('#icon-list').attr('data-selected', connector.getIcon());
-    // this.selectIcon(connector.getIcon());
-    // $('#channel-phase').prop('checked', connector.getPhaseInvert());
-    // $('#channel-invert').prop('checked', connector.getColorInvert());
+    $('#channel-list').attr('data-selected', value);
+    this.selectChannel(value);
   };
 
   openConnectorModal() {
@@ -456,6 +476,21 @@ class DeviceDetailCtrl {
     let $selected = $(document).find('#icon-list').find(':button[value="' + id + '"]');
     let $selectedValue = $selected.val();
     let $icon = $selected.find('object');
+    let $text = $selected.find('span');
+    let $btn = $selected.closest('.dropdown-wrapper').find('.trigger-dropdown');
+
+    $selected.closest('.dropdown-wrapper').find('.dropdown-menu').removeClass('show').attr('data-selected', $selectedValue);
+    $btn.find('span').remove();
+    $btn.find('svg').remove();
+    $btn.find('object').remove();
+    $btn.prepend($text[0].outerHTML);
+    $btn.prepend($icon[0].outerHTML);
+  }
+
+  selectChannel(id) {
+    let $selected = $(document).find('#channel-list').find(':button[value="' + id + '"]');
+    let $selectedValue = $selected.val();
+    let $icon = $selected.find('svg');  // TODO: Check that full icon is loaded
     let $text = $selected.find('span');
     let $btn = $selected.closest('.dropdown-wrapper').find('.trigger-dropdown');
 
