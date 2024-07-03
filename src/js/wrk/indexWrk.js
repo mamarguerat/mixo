@@ -4,7 +4,6 @@ class IndexWrk {
   constructor() {
     this.devices = [];
     this.links = [];
-    this.devTypeLUT = new DeviceTypeLUT();
     this.id = 0;
   }
 
@@ -14,10 +13,13 @@ class IndexWrk {
    * @param {String} deviceType 
    */
   addDevice(deviceType) {
+    let LUT = new DeviceTypeLUT();
     let inputCnt, outputCnt;
+    let channelCnt, mixbusCnt, matrixCnt, stereoCnt, dcaCnt;
     console.log(`[indexWrk] add device`);
-    [inputCnt, outputCnt] = this.devTypeLUT.getIoCnt(deviceType);
-    this.devices.push(new Device(deviceType, this.id++, inputCnt, outputCnt));
+    [inputCnt, outputCnt] = LUT.getIoCnt(deviceType);
+    [channelCnt, mixbusCnt, matrixCnt, stereoCnt, dcaCnt] = LUT.getChCnt(deviceType);
+    this.devices.push(new Device(deviceType, this.id++, inputCnt, outputCnt, channelCnt, mixbusCnt, matrixCnt, stereoCnt, dcaCnt));
     indexCtrl.drawCanvas(this.devices, this.links);
   }
 
@@ -130,7 +132,6 @@ class IndexWrk {
    * Get a device position in the devices array fom an index
    * @param {Number} id 
    */
-
   getDevicePosIndex(index) {
     return this.devices[index].getPos();
   }
@@ -186,10 +187,130 @@ class IndexWrk {
   }
 
   /**
+   * Update a channel of device
+   * @param {Number} deviceID 
+   * @param {String} channelType 
+   * @param {String} channelIndex 
+   * @param {*} connector 
+   */
+  updateChannel(deviceID, channelType, channelIndex, connectorDeviceId, connectorIndex, connectorSource) {
+    if (channelType == "channel-input") {
+      console.log(`[indexWrk] id ${deviceID}, index ${id2index(deviceID, this.devices)}`);
+      this.devices[id2index(deviceID, this.devices)].channels[channelIndex].setDeviceId(connectorDeviceId);
+      this.devices[id2index(deviceID, this.devices)].channels[channelIndex].setIO(connectorIndex);
+      this.devices[id2index(deviceID, this.devices)].channels[channelIndex].setSource(connectorSource);
+    }
+    else {
+      console.error(`[indexWrk] invalid tab id ${channelType}`);
+    }
+  }
+
+  /**
    * Update worker and canvas
    */
   update() {
     indexCtrl.drawCanvas(this.devices, this.links);
+  }
+
+  /**
+   * Get all used connectors from a device
+   * @param {Number} deviceID
+   * @param {String} connectorType
+   * @returns All assigned connectors in array of { deviceID, index }
+   */
+  getAllUsedConnectors(deviceID, connectorType) {
+    let scannedDevices = [];
+    let recurseLevel = 0;
+    return this._getUsedConnectors(deviceID, connectorType, scannedDevices, this.links, "Local ");
+  }
+
+  /**
+   * Get Used connectors of device, and recurse to all connected devices
+   * @param {Device} deviceID 
+   * @param {String} connectorType 
+   * @param {*} scannedDevices
+   * @param {String} source
+   * @returns The connectors that has been assigned
+   */
+  _getUsedConnectors(deviceID, connectorType, scannedDevices, source) {
+    let usedConnectors = [];
+    this.recurseLevel++;
+  
+    console.log(`[indexWrk] getAllUsedConnectors(${deviceID}, ${connectorType})`);
+    scannedDevices.push(deviceID);
+  
+    // Recurse condition
+    let deviceLinks = this.links.filter((link) =>
+      (link.getFromDeviceId() === deviceID) || (link.getToDeviceId() === deviceID)
+    );
+    deviceLinks.forEach((link, index, fullArray) => {
+      console.log(`[indexWrk] Found link between ${link.getFromDeviceId()} and ${link.getToDeviceId()}`);
+      if (link.getFromDeviceId() !== deviceID) {
+        if (false == scannedDevices.includes(link.getFromDeviceId())) {
+          usedConnectors = usedConnectors.concat(this._getUsedConnectors(link.getFromDeviceId(), connectorType, scannedDevices, link.getToAes50()));
+        }
+      }
+      else {
+        if (false == scannedDevices.includes(link.getToDeviceId())) {
+          usedConnectors = usedConnectors.concat(this._getUsedConnectors(link.getToDeviceId(), connectorType, scannedDevices, link.getFromAes50()));
+        }
+      }
+    });
+  
+    // Function
+    let device = this.getDeviceFromId(deviceID);
+    if (connectorType == 'i') {
+      device.inputs.forEach((input, index, fullArray) => {
+        if (input.getName() != "" || input.getColor() != "OFF" || input.getIcon() != "1") {
+          usedConnectors.push({ deviceID, index, source });
+        }
+      });
+    }
+    else {
+      device.outputs.forEach((output, index, fullArray) => {
+        if (output.getName() != "" || output.getColor() != "OFF" || output.getIcon() != "1") {
+          usedConnectors.push({ deviceID, index, source });
+        }
+      });
+    }
+  
+    this.recurseLevel--;
+    return usedConnectors;
+  }
+
+  /**
+   * Get a specific connector
+   * @param {Number} deviceID 
+   * @param {String} type 
+   * @param {Number} index 
+   * @returns The connector of type at index for deviceID
+   */
+  getConnector(deviceID, type, index) {
+    console.log(`[indexWrk] Get connector ${type}${index} of device ${deviceID}`);
+    let device = this.getDeviceFromId(deviceID);
+    try {
+      if (type == 'i') {
+        return device.inputs[index];
+      }
+      else {
+        return device.outputs[index];
+      }
+    }
+    catch {
+      return;
+    }
+  }
+
+  /**
+   * Move a channel from index to index
+   * @param {Number} deviceID 
+   * @param {String} channelType 
+   * @param {Number} fromIndex 
+   * @param {Number} toIndex 
+   */
+  moveChannel(deviceID, channelType, fromIndex, toIndex) {
+    console.log(`[indexWrk] Move channel ${channelType} from ${fromIndex} to ${toIndex}`);
+    this.devices[id2index(deviceID, this.devices)].moveChannel(channelType, fromIndex, toIndex);
   }
 }
 
