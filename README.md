@@ -16,7 +16,8 @@ A tool to simplify routing with behringer x-consoles, midas m-consoles.
 
 This app create a routing procedure based on hardware availabilities instead of software capabilities. It aims to simplify routing and create automatic documentation.
 
-<img src="public/assets/images/quick-demo.gif" >
+<img width="500px" src="doc/images/quick-demo.gif" >
+<img width="300px" src="doc/images/Screenshot 2024-05-17 154753.png" >
 
 </p>
 
@@ -35,7 +36,6 @@ This tool can generate `.pdf` files for documenting the routing. The documentati
 _This project is under development and may not be working at the moment. Please always use the latest release to avoid any problems_
 
 ## Contributions
-I will not accept any contributions until I have a working prototype
 
 ### Build from scratch
 Install npm and nodejs

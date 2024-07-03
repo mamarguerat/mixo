@@ -1,6 +1,6 @@
 {
   "name": "Mixo",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Routing tool for behringer x32 based on hardware availabilities instead of software capabilities. Aim to simplify routing and create automatic documentation.",
   "main": "src/js/main.js",
   "scripts": {
@@ -39,7 +39,8 @@
     "@electron-forge/maker-squirrel": "^6.0.5",
     "@electron-forge/maker-zip": "^6.0.5",
     "electron": "^29.1.0",
-    "electron-builder": "^24.13.3"
+    "electron-builder": "^24.13.3",
+    "jquery-sortablejs": "^1.0.1"
   },
   "dependencies": {
     "@electron/remote": "^2.1.2",

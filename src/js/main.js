@@ -2,7 +2,9 @@ const { dialog, app, BrowserWindow, ipcMain, Menu } = require('electron');
 const join = require('path').join;
 const fs = require('fs');
 const openAboutWindow = require('about-window').default;
+const deviceTypeLUT = require('./beans/deviceTypeLUT.js');
 const isMac = process.platform === 'darwin'
+const devType = new deviceTypeLUT();
 let win
 let filePath = "";
 
@@ -10,34 +12,34 @@ let filePath = "";
 const { autoUpdater } = require("electron-updater")
 
 app.on("ready", () => {
-	autoUpdater.checkForUpdatesAndNotify();
+  autoUpdater.checkForUpdatesAndNotify();
 });
 
 // MARK: Menu template
-const menuTemplate = [
+var menuTemplate = [
   // { role: 'appMenu' },
   ...(isMac
     ? [
-        {
-          label: app.name,
-          submenu: [
-            {
-              label: 'About',
-              click: () => aboutWindow()
-            },
-            { type: 'separator' },
-            { role: 'services' },
-            { type: 'separator' },
-            { role: 'hide' },
-            { role: 'hideOthers' },
-            { role: 'unhide' },
-            { type: 'separator' },
-            { role: 'quit' }
-          ]
-        }
-      ]
+      {
+        label: app.name,
+        submenu: [
+          {
+            label: 'About',
+            click: () => aboutWindow()
+          },
+          { type: 'separator' },
+          { role: 'services' },
+          { type: 'separator' },
+          { role: 'hide' },
+          { role: 'hideOthers' },
+          { role: 'unhide' },
+          { type: 'separator' },
+          { role: 'quit' }
+        ]
+      }
+    ]
     : []),
-    
+
   // { role: 'fileMenu' }
   {
     label: 'File',
@@ -68,11 +70,11 @@ const menuTemplate = [
       { type: 'separator' },
       ...(isMac
         ? [
-            { role: 'close' }
-          ]
+          { role: 'close' }
+        ]
         : [
-            { role: 'quit' }
-          ]
+          { role: 'quit' }
+        ]
       ),
     ]
   },
@@ -88,94 +90,28 @@ const menuTemplate = [
       { role: 'paste' },
       ...(isMac
         ? [
-            { role: 'pasteAndMatchStyle' },
-            { role: 'delete' },
-            { role: 'selectAll' },
-            { type: 'separator' },
-            {
-              label: 'Speech',
-              submenu: [
-                { role: 'startSpeaking' },
-                { role: 'stopSpeaking' }
-              ]
-            }
-          ]
+          { role: 'pasteAndMatchStyle' },
+          { role: 'delete' },
+          { role: 'selectAll' },
+          { type: 'separator' },
+          {
+            label: 'Speech',
+            submenu: [
+              { role: 'startSpeaking' },
+              { role: 'stopSpeaking' }
+            ]
+          }
+        ]
         : [
-            { role: 'delete' },
-            { type: 'separator' },
-            { role: 'selectAll' }
-          ])
+          { role: 'delete' },
+          { type: 'separator' },
+          { role: 'selectAll' }
+        ])
     ]
   },
   {
     label: 'Add',
-    submenu: [
-      {
-        label: 'Behringer',
-        submenu: [
-          {
-            label: 'X32',
-          },
-          {
-            label: 'X32 Compact',
-            accelerator: 'CmdOrCtrl+M',
-            click: () => win.webContents.send('menu', { action: 'add', type: 'x32c' }),
-          },
-          {
-            label: 'X32 Producer'
-          },
-          {
-            label: 'X32 Rack'
-          },
-          {
-            label: 'X32 Core'
-          },
-          { type: 'separator' },
-          {
-            label: 'SD8',
-            click: () => win.webContents.send('menu', { action: 'add', type: 'sd8' }),
-          },
-          {
-            label: 'SD16',
-            accelerator: 'CmdOrCtrl+Shift+M',
-            click: () => win.webContents.send('menu', { action: 'add', type: 'sd16' }),
-          },
-          {
-            label: 'S32'
-          }
-        ]
-      },
-      {
-        label: 'Midas',
-        submenu: [
-          {
-            label: 'M32 Live'
-          },
-          {
-            label: 'M32R'
-          },
-          {
-            label: 'M32R Live'
-          },
-          {
-            label: 'M32C'
-          },
-          { type: 'separator' },
-          {
-            label: 'DL16'
-          },
-          {
-            label: 'DL32'
-          },
-          {
-            label: 'DL231'
-          },
-          {
-            label: 'DL251'
-          }
-        ]
-      }
-    ]
+    submenu: []
   },
   // { role: 'windowMenu' }
   {
@@ -185,14 +121,14 @@ const menuTemplate = [
       { role: 'zoom' },
       ...(isMac
         ? [
-            { type: 'separator' },
-            { role: 'front' },
-            { type: 'separator' },
-            { role: 'window' }
-          ]
+          { type: 'separator' },
+          { role: 'front' },
+          { type: 'separator' },
+          { role: 'window' }
+        ]
         : [
-            { role: 'close' }
-          ])
+          { role: 'close' }
+        ])
     ]
   },
   ...(app.isPackaged
@@ -205,11 +141,11 @@ const menuTemplate = [
       ...(isMac
         ? []
         : [
-            {
-              label: 'About',
-              click: () => aboutWindow()
-            },
-          ]),
+          {
+            label: 'About',
+            click: () => aboutWindow()
+          },
+        ]),
       {
         label: 'Learn More',
         click: async () => {
@@ -227,7 +163,6 @@ const menuTemplate = [
     ]
   },
 ];
-const menu = Menu.buildFromTemplate(menuTemplate)
 
 // MARK: Create window
 const createWindow = () => {
@@ -243,10 +178,39 @@ const createWindow = () => {
 };
 
 app.whenReady().then(() => {
-  if (!app.isPackaged)
-  {
+  if (!app.isPackaged) {
     process.env.NODE_ENV = 'development';
   }
+
+  let submenu = new Array();
+  let brands = devType.getBrands();
+
+  brands.forEach(function (brand, idx, brands) {
+    submenu.push({ label: brand, submenu: [] });
+  
+    mixers = devType.getBrandMixers(brand);
+    mixers.forEach(mixer => {
+      let object = {
+        label: mixer.FullName,
+        accelerator: mixer.accelerator,
+        click: () => win.webContents.send('menu', { action: 'add', type: mixer.ID }),
+      }
+      submenu[idx].submenu.push(object);
+    })
+    submenu[idx].submenu.push({ type: 'separator' });
+    stageBoxes = devType.getBrandStageBoxes(brand);
+    stageBoxes.forEach(stageBox => {
+      let object = {
+        label: stageBox.FullName,
+        accelerator: stageBox.accelerator,
+        click: () => win.webContents.send('menu', { action: 'add', type: stageBox.ID }),
+      }
+      submenu[idx].submenu.push(object);
+    })
+  })
+
+  menuTemplate[isMac?3:2].submenu = submenu;
+  const menu = Menu.buildFromTemplate(menuTemplate)
 
   Menu.setApplicationMenu(menu);
   createWindow();
@@ -261,7 +225,7 @@ app.whenReady().then(() => {
 
 app.on('window-all-closed', () => {
   // if (process.platform !== 'darwin') {
-    app.quit();
+  app.quit();
   // }
 });
 
@@ -272,6 +236,7 @@ ipcMain.on('window', (event, arg) => {
   createChildWindow(join(__dirname, '..', 'device-detail.html'));
   childWindows[childWindows.length - 1].webContents.on('did-finish-load', () => {
     childWindows[childWindows.length - 1].webContents.send('ready', arg);
+    childWindows[childWindows.length - 1].setTitle('Mixo • ' + arg.title)
   });
   childWindows[childWindows.length - 1].on('closed', function () {
     childWindows.splice(childWindows[childWindows.length - 1].index, 1);
@@ -279,6 +244,9 @@ ipcMain.on('window', (event, arg) => {
 });
 
 ipcMain.on('file', (event, arg) => {
+  let jsonObject = JSON.parse(arg.json);
+  jsonObject.version = app.getVersion();
+  arg.json = JSON.stringify(jsonObject, null, 2);
   if ('saveas' == arg.function || ('save' == arg.function && filePath == "")) {
     dialog.showSaveDialog({
       title: 'Save Mixo project',
@@ -321,7 +289,7 @@ ipcMain.on('forward-to-childs', (event, arg) => {
 function loadFile() {
   dialog.showOpenDialog({
     title: 'Open Mixo project',
-    filters:  [
+    filters: [
       { name: 'Mixo project', extensions: ['mixo_prj'] },
       { name: 'All Files', extensions: ['*'] }
     ],
@@ -350,16 +318,16 @@ function loadFile() {
 // function to create a child window
 function createChildWindow(fileName) {
   childWindows.push(new BrowserWindow({
-      width: 700,
-      height: 500,
-      menuBarVisible: false,
-      autoHideMenuBar: true,
-      webPreferences: {
-        nodeIntegration: true,
-        contextIsolation: false,
-        enableRemoteModule: true,
-      }
-    })
+    width: 900,
+    height: 450,
+    menuBarVisible: false,
+    autoHideMenuBar: true,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true,
+    }
+  })
   );
   childWindows[childWindows.length - 1].index = childWindows.length - 1;
   childWindows[childWindows.length - 1].loadFile(fileName)
@@ -369,13 +337,13 @@ function aboutWindow() {
   openAboutWindow({
     icon_path: (
       process.env.NODE_ENV === 'development'
-      ? '../../public/assets/icon.png'
-      : join(process.resourcesPath, 'public', 'assets', 'icon.png')
+        ? '../../public/assets/icon.png'
+        : join(process.resourcesPath, 'public', 'assets', 'icon.png')
     ),
     package_json_dir: (
       process.env.NODE_ENV === 'development'
-      ? join(__dirname, '..', '..')
-      : process.resourcesPath
+        ? join(__dirname, '..', '..')
+        : process.resourcesPath
     ),
     win_options: {
       parent: win,
