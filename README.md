@@ -36,7 +36,6 @@ This tool can generate `.pdf` files for documenting the routing. The documentati
 _This project is under development and may not be working at the moment. Please always use the latest release to avoid any problems_
 
 ## Contributions
-I will not accept any contributions until I have a working prototype
 
 ### Build from scratch
 Install npm and nodejs
