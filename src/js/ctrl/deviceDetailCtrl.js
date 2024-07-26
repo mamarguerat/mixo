@@ -25,12 +25,15 @@ class DeviceDetailCtrl {
     $('.overlay').on('click', (e) => {
       this.closeModal();
     });
+    $('#cancel-channel, #cancel-connector').on('click', (e) => {
+      this.closeModal();
+    });
     $('#save-connector').on('click', (e) => {
       this.saveConnector();
-    })
+    });
     $('#save-channel').on('click', (e) => {
       this.saveChannel();
-    })
+    });
   }
 
   // MARK: Event handling
@@ -41,10 +44,10 @@ class DeviceDetailCtrl {
   loadHTML(deviceType) {
     // Load tabs
     this.addChannelTab("input", "Input channels", "Channel", LUT.getChannelsCnt(deviceType));
-    this.addChannelTab("mixbus", "Mixbus channels", "Mixbus", LUT.getMixbusCnt(deviceType));
-    this.addChannelTab("matrix", "Matrix channels", "Matrix", LUT.getMatrixCnt(deviceType));
-    this.addChannelTab("stereo", "Stereo channels", "Stereo", LUT.getStereoCnt(deviceType));
-    this.addChannelTab("dca", "DCA channels", "DCA", LUT.getDcaCnt(deviceType));
+    // this.addChannelTab("mixbus", "Mixbus channels", "Mixbus", LUT.getMixbusCnt(deviceType));
+    // this.addChannelTab("matrix", "Matrix channels", "Matrix", LUT.getMatrixCnt(deviceType));
+    // this.addChannelTab("stereo", "Stereo channels", "Stereo", LUT.getStereoCnt(deviceType));
+    // this.addChannelTab("dca", "DCA channels", "DCA", LUT.getDcaCnt(deviceType));
     $('.tab').on('click', (e) => {
       this.changeTab(e);
     });
@@ -240,6 +243,7 @@ class DeviceDetailCtrl {
             .catch(error => {
               console.error(`[deviceDetailCtrl] Error fetching the SVG file ${error}`);
             });
+          val.querySelector('#connector').innerHTML += "<text font-family='arial' font-size='12px' fill='" + colors.Front + "' text-anchor='middle' x='39.5' y='72'>" + input.getName() + "</text>";
         }
       });
       $.each($outputs, function (idx, val) {
@@ -267,6 +271,7 @@ class DeviceDetailCtrl {
             .catch(error => {
               console.error(`[deviceDetailCtrl] Error fetching the SVG file ${error}`);
             });
+            val.querySelector('#connector').innerHTML += "<text font-family='arial' font-size='12px' fill='" + colors.Front + "' text-anchor='middle' x='39.5' y='72'>" + output.getName() + "</text>";
         }
       });
     });
@@ -302,7 +307,7 @@ class DeviceDetailCtrl {
         let iconGroup = svgDocument.getElementById('icon');
         iconGroup.setAttribute("transform", "scale(0.7) translate(4 4)");
         iconGroup.setAttribute("style", "fill:" + colors.Front + ";stroke:" + colors.Front);
-        document.querySelector('#channel-list').querySelector('[value="' + (index + 1) + '"]').querySelector('svg').appendChild(iconGroup);
+        document.querySelector('#channel-list').querySelector('[value="' + input.deviceID + '-i-' + input.index + '"]').querySelector('svg').appendChild(iconGroup);
       })
       .catch(error => {
         console.error(`[deviceDetailCtrl] Error fetching the SVG file ${error}`);

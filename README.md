@@ -16,8 +16,8 @@ A tool to simplify routing with behringer x-consoles, midas m-consoles.
 
 This app create a routing procedure based on hardware availabilities instead of software capabilities. It aims to simplify routing and create automatic documentation.
 
-<img width="500px" src="doc/images/quick-demo.gif" >
-<img width="300px" src="doc/images/Screenshot 2024-05-17 154753.png" >
+<img src="doc/images/app.png" >
+<img src="doc/images/quick-demo.gif" >
 
 </p>
 
