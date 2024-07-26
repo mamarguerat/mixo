@@ -318,8 +318,8 @@ function loadFile() {
 // function to create a child window
 function createChildWindow(fileName) {
   childWindows.push(new BrowserWindow({
-    width: 900,
-    height: 450,
+    width: 1030,
+    height: 460,
     menuBarVisible: false,
     autoHideMenuBar: true,
     webPreferences: {
