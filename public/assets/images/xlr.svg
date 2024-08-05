@@ -19,4 +19,10 @@
     <circle id="xlr-2" r="4" cx="25.5" cy="39.5" fill="#B2B2B2" />
     <circle id="xlr-3" r="4" cx="53.5" cy="39.5" fill="#B2B2B2" />
   </g>
+  <g id="xlr-m-180">
+    <circle id="back" r="39.5" cx="39.5" cy="39.5" fill="#454545" />
+    <circle id="xlr-1" r="4" cx="39.5" cy="54.5" fill="#B2B2B2" />
+    <circle id="xlr-2" r="4" cx="25.5" cy="39.5" fill="#B2B2B2" />
+    <circle id="xlr-3" r="4" cx="53.5" cy="39.5" fill="#B2B2B2" />
+  </g>
 </svg>

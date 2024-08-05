@@ -300,74 +300,74 @@
     <g id="Outputs" transform="translate(248 216)">
       <g id="XLRo-1" class="connector output" transform="translate(322 0)">
         <g class="number-container-o" >
-          <rect class="number-background-o" x="0" y="47" width="41" height="11" rx="3" ry="3" />
-          <text x="20" y="56" class="number-o">OUT 1</text>
+          <rect class="number-background-o" x="0" y="46" width="41" height="11" rx="3" ry="3" />
+          <text x="20" y="55" class="number-o">OUT 1</text>
         </g>
-        <g id="connector" transform="translate(39.5 39.5) scale(0.5) rotate(180)">
-          <use xlink:href="xlr.svg#xlr-m" x="0" y="0" />
+        <g id="connector" transform="translate(0 0) scale(0.5)">
+          <use xlink:href="xlr.svg#xlr-m-180" x="0" y="0" />
         </g>
       </g>
       <g id="XLRo-2" class="connector output" transform="translate(276 0)">
         <g class="number-container-o" >
-          <rect class="number-background-o" x="0" y="47" width="41" height="11" rx="3" ry="3" />
-          <text x="20" y="56" class="number-o">OUT 2</text>
+          <rect class="number-background-o" x="0" y="46" width="41" height="11" rx="3" ry="3" />
+          <text x="20" y="55" class="number-o">OUT 2</text>
         </g>
-        <g id="connector" transform="translate(39.5 39.5) scale(0.5) rotate(180)">
-          <use xlink:href="xlr.svg#xlr-m" x="0" y="0" />
+        <g id="connector" transform="translate(0 0) scale(0.5)">
+          <use xlink:href="xlr.svg#xlr-m-180" x="0" y="0" />
         </g>
       </g>
       <g id="XLRo-3" class="connector output" transform="translate(230 0)">
         <g class="number-container-o" >
-          <rect class="number-background-o" x="0" y="47" width="41" height="11" rx="3" ry="3" />
-          <text x="20" y="56" class="number-o">OUT 3</text>
+          <rect class="number-background-o" x="0" y="46" width="41" height="11" rx="3" ry="3" />
+          <text x="20" y="55" class="number-o">OUT 3</text>
         </g>
-        <g id="connector" transform="translate(39.5 39.5) scale(0.5) rotate(180)">
-          <use xlink:href="xlr.svg#xlr-m" x="0" y="0" />
+        <g id="connector" transform="translate(0 0) scale(0.5)">
+          <use xlink:href="xlr.svg#xlr-m-180" x="0" y="0" />
         </g>
       </g>
       <g id="XLRo-4" class="connector output" transform="translate(184 0)">
         <g class="number-container-o" >
-          <rect class="number-background-o" x="0" y="47" width="41" height="11" rx="3" ry="3" />
-          <text x="20" y="56" class="number-o">OUT 4</text>
+          <rect class="number-background-o" x="0" y="46" width="41" height="11" rx="3" ry="3" />
+          <text x="20" y="55" class="number-o">OUT 4</text>
         </g>
-        <g id="connector" transform="translate(39.5 39.5) scale(0.5) rotate(180)">
-          <use xlink:href="xlr.svg#xlr-m" x="0" y="0" />
+        <g id="connector" transform="translate(0 0) scale(0.5)">
+          <use xlink:href="xlr.svg#xlr-m-180" x="0" y="0" />
         </g>
       </g>
       <g id="XLRo-5" class="connector output" transform="translate(138 0)">
         <g class="number-container-o" >
-          <rect class="number-background-o" x="0" y="47" width="41" height="11" rx="3" ry="3" />
-          <text x="20" y="56" class="number-o">OUT 5</text>
+          <rect class="number-background-o" x="0" y="46" width="41" height="11" rx="3" ry="3" />
+          <text x="20" y="55" class="number-o">OUT 5</text>
         </g>
-        <g id="connector" transform="translate(39.5 39.5) scale(0.5) rotate(180)">
-          <use xlink:href="xlr.svg#xlr-m" x="0" y="0" />
+        <g id="connector" transform="translate(0 0) scale(0.5)">
+          <use xlink:href="xlr.svg#xlr-m-180" x="0" y="0" />
         </g>
       </g>
       <g id="XLRo-6" class="connector output" transform="translate(92 0)">
         <g class="number-container-o" >
-          <rect class="number-background-o" x="0" y="47" width="41" height="11" rx="3" ry="3" />
-          <text x="20" y="56" class="number-o">OUT 6</text>
+          <rect class="number-background-o" x="0" y="46" width="41" height="11" rx="3" ry="3" />
+          <text x="20" y="55" class="number-o">OUT 6</text>
         </g>
-        <g id="connector" transform="translate(39.5 39.5) scale(0.5) rotate(180)">
-          <use xlink:href="xlr.svg#xlr-m" x="0" y="0" />
+        <g id="connector" transform="translate(0 0) scale(0.5)">
+          <use xlink:href="xlr.svg#xlr-m-180" x="0" y="0" />
         </g>
       </g>
       <g id="XLRo-7" class="connector output" transform="translate(46 0)">
         <g class="number-container-o" >
-          <rect class="number-background-o" x="0" y="47" width="41" height="11" rx="3" ry="3" />
-          <text x="20" y="56" class="number-o">OUT 7</text>
+          <rect class="number-background-o" x="0" y="46" width="41" height="11" rx="3" ry="3" />
+          <text x="20" y="55" class="number-o">OUT 7</text>
         </g>
-        <g id="connector" transform="translate(39.5 39.5) scale(0.5) rotate(180)">
-          <use xlink:href="xlr.svg#xlr-m" x="0" y="0" />
+        <g id="connector" transform="translate(0 0) scale(0.5)">
+          <use xlink:href="xlr.svg#xlr-m-180" x="0" y="0" />
         </g>
       </g>
       <g id="XLRo-8" class="connector output" transform="translate(0 0)">
         <g class="number-container-o" >
-          <rect class="number-background-o" x="0" y="47" width="41" height="11" rx="3" ry="3" />
-          <text x="20" y="56" class="number-o">OUT 8</text>
+          <rect class="number-background-o" x="0" y="46" width="41" height="11" rx="3" ry="3" />
+          <text x="20" y="55" class="number-o">OUT 8</text>
         </g>
-        <g id="connector" transform="translate(39.5 39.5) scale(0.5) rotate(180)">
-          <use xlink:href="xlr.svg#xlr-m" x="0" y="0" />
+        <g id="connector" transform="translate(0 0) scale(0.5)">
+          <use xlink:href="xlr.svg#xlr-m-180" x="0" y="0" />
         </g>
       </g>
     </g>
