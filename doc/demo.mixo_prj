@@ -129,7 +129,7 @@
           "_name": "HF 2",
           "_color": "WH",
           "_colorInvert": false,
-          "_icon": "50"
+          "_icon": "51"
         },
         {
           "_name": "HF 3",
@@ -242,28 +242,28 @@
           "_icon": "1"
         },
         {
-          "_name": "",
-          "_color": "OFF",
+          "_name": "REC L",
+          "_color": "RD",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "62"
         },
         {
-          "_name": "",
-          "_color": "OFF",
+          "_name": "REC R",
+          "_color": "RD",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "62"
         },
         {
-          "_name": "",
-          "_color": "OFF",
+          "_name": "MAIN L",
+          "_color": "WH",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "64"
         },
         {
-          "_name": "",
-          "_color": "OFF",
+          "_name": "MAIN R",
+          "_color": "WH",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "65"
         }
       ],
       "channels": [
