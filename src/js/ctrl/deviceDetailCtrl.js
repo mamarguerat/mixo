@@ -500,7 +500,7 @@ class DeviceDetailCtrl {
   selectChannel(id) {
     let $selected = $(document).find('#channel-list').find(':button[value="' + id + '"]');
     let $selectedValue = $selected.val();
-    let $icon = $selected.find('svg');  // TODO: Check that full icon is loaded
+    let $icon = $selected.find('svg');
     let $text = $selected.find('span');
     let $btn = $selected.closest('.dropdown-wrapper').find('.trigger-dropdown');
 

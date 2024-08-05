@@ -220,8 +220,8 @@ class IndexWrk {
    */
   getAllUsedConnectors(deviceID, connectorType) {
     let scannedDevices = [];
-    let recurseLevel = 0;
-    return this._getUsedConnectors(deviceID, connectorType, scannedDevices, this.links, "Local ");
+    this.recurseLevel = 0;
+    return this._getUsedConnectors(deviceID, connectorType, scannedDevices, "Local ");
   }
 
   /**
@@ -239,24 +239,6 @@ class IndexWrk {
     console.log(`[indexWrk] getAllUsedConnectors(${deviceID}, ${connectorType})`);
     scannedDevices.push(deviceID);
   
-    // Recurse condition
-    let deviceLinks = this.links.filter((link) =>
-      (link.getFromDeviceId() === deviceID) || (link.getToDeviceId() === deviceID)
-    );
-    deviceLinks.forEach((link, index, fullArray) => {
-      console.log(`[indexWrk] Found link between ${link.getFromDeviceId()} and ${link.getToDeviceId()}`);
-      if (link.getFromDeviceId() !== deviceID) {
-        if (false == scannedDevices.includes(link.getFromDeviceId())) {
-          usedConnectors = usedConnectors.concat(this._getUsedConnectors(link.getFromDeviceId(), connectorType, scannedDevices, link.getToAes50()));
-        }
-      }
-      else {
-        if (false == scannedDevices.includes(link.getToDeviceId())) {
-          usedConnectors = usedConnectors.concat(this._getUsedConnectors(link.getToDeviceId(), connectorType, scannedDevices, link.getFromAes50()));
-        }
-      }
-    });
-  
     // Function
     let device = this.getDeviceFromId(deviceID);
     if (connectorType == 'i') {
@@ -273,6 +255,26 @@ class IndexWrk {
         }
       });
     }
+  
+    // Recurse condition
+    let deviceLinks = this.links.filter((link) =>
+      (link.getFromDeviceId() === deviceID) || (link.getToDeviceId() === deviceID)
+    );
+    deviceLinks.forEach((link, index, fullArray) => {
+      let newSource = this.recurseLevel == 1 ? link.getToAes50() : source;
+      console.log(`[indexWrk] Found link between ${link.getFromDeviceId()} and ${link.getToDeviceId()} with source ${newSource} and recurseLevel ${this.recurseLevel}`);
+      console.log(source)
+      if (link.getFromDeviceId() !== deviceID) {
+        if (false == scannedDevices.includes(link.getFromDeviceId())) {
+          usedConnectors = usedConnectors.concat(this._getUsedConnectors(link.getFromDeviceId(), connectorType, scannedDevices, newSource));
+        }
+      }
+      else {
+        if (false == scannedDevices.includes(link.getToDeviceId())) {
+          usedConnectors = usedConnectors.concat(this._getUsedConnectors(link.getToDeviceId(), connectorType, scannedDevices, newSource));
+        }
+      }
+    });
   
     this.recurseLevel--;
     return usedConnectors;
