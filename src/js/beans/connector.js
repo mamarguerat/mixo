@@ -4,6 +4,8 @@ class Connector {
     this._color = "OFF";
     this._colorInvert = false;
     this._icon = "1";
+    this._phaseInvert = false;
+    this._pwr = false;
   }
 
   // MARK: RW properties

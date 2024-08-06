@@ -11,49 +11,65 @@
           "_name": "KICK",
           "_color": "RD",
           "_colorInvert": false,
-          "_icon": "2"
+          "_icon": "2",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "SNARE",
           "_color": "RD",
           "_colorInvert": false,
-          "_icon": "4"
+          "_icon": "4",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "HI-HAT",
           "_color": "RD",
           "_colorInvert": false,
-          "_icon": "9"
+          "_icon": "9",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "HI-TOM",
           "_color": "RD",
           "_colorInvert": false,
-          "_icon": "6"
+          "_icon": "6",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "MID-TOM",
           "_color": "RD",
           "_colorInvert": false,
-          "_icon": "7"
+          "_icon": "7",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "FLOOR-TOM",
           "_color": "RD",
           "_colorInvert": false,
-          "_icon": "8"
+          "_icon": "8",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "OH L",
           "_color": "RD",
           "_colorInvert": false,
-          "_icon": "11"
+          "_icon": "11",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "OH R",
           "_color": "RD",
           "_colorInvert": false,
-          "_icon": "11"
+          "_icon": "11",
+          "_phaseInvert": false,
+          "_pwr": false
         }
       ],
       "outputs": [
@@ -61,49 +77,65 @@
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         }
       ],
       "channels": [],
@@ -123,97 +155,129 @@
           "_name": "HF 1",
           "_color": "WH",
           "_colorInvert": false,
-          "_icon": "51"
+          "_icon": "51",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "HF 2",
           "_color": "WH",
           "_colorInvert": false,
-          "_icon": "51"
+          "_icon": "51",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "HF 3",
           "_color": "WH",
           "_colorInvert": false,
-          "_icon": "53"
+          "_icon": "53",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "HF 4",
           "_color": "WH",
           "_colorInvert": false,
-          "_icon": "53"
+          "_icon": "53",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         }
       ],
       "outputs": [
@@ -221,49 +285,65 @@
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "REC L",
           "_color": "RD",
           "_colorInvert": false,
-          "_icon": "62"
+          "_icon": "62",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "REC R",
           "_color": "RD",
           "_colorInvert": false,
-          "_icon": "62"
+          "_icon": "62",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "MAIN L",
           "_color": "WH",
           "_colorInvert": false,
-          "_icon": "64"
+          "_icon": "64",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "MAIN R",
           "_color": "WH",
           "_colorInvert": false,
-          "_icon": "65"
+          "_icon": "65",
+          "_phaseInvert": false,
+          "_pwr": false
         }
       ],
       "channels": [
@@ -666,97 +746,129 @@
           "_name": "LEAD",
           "_color": "YE",
           "_colorInvert": false,
-          "_icon": "50"
+          "_icon": "50",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "VOX 1",
           "_color": "YE",
           "_colorInvert": false,
-          "_icon": "50"
+          "_icon": "50",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "VOX 2",
           "_color": "YE",
           "_colorInvert": false,
-          "_icon": "50"
+          "_icon": "50",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "VOX 3",
           "_color": "YE",
           "_colorInvert": false,
-          "_icon": "50"
+          "_icon": "50",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "VLN",
           "_color": "CY",
           "_colorInvert": false,
-          "_icon": "39"
+          "_icon": "39",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "CELLO",
           "_color": "CY",
           "_colorInvert": false,
-          "_icon": "40"
+          "_icon": "40",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "FLUTE",
           "_color": "CY",
           "_colorInvert": false,
-          "_icon": "38"
+          "_icon": "38",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "SAXOPHONE",
           "_color": "CY",
           "_colorInvert": false,
-          "_icon": "37"
+          "_icon": "37",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "KEY L",
           "_color": "GN",
           "_colorInvert": false,
-          "_icon": "30"
+          "_icon": "30",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "KEY R",
           "_color": "GN",
           "_colorInvert": false,
-          "_icon": "30"
+          "_icon": "30",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "SYNTH L",
           "_color": "MG",
           "_colorInvert": false,
-          "_icon": "31"
+          "_icon": "31",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "SYNTH R",
           "_color": "MG",
           "_colorInvert": false,
-          "_icon": "31"
+          "_icon": "31",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "E-GTR",
           "_color": "BL",
           "_colorInvert": false,
-          "_icon": "25"
+          "_icon": "25",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "E-BASS",
           "_color": "BL",
           "_colorInvert": false,
-          "_icon": "24"
+          "_icon": "24",
+          "_phaseInvert": false,
+          "_pwr": false
         }
       ],
       "outputs": [
@@ -764,49 +876,65 @@
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         },
         {
           "_name": "",
           "_color": "OFF",
           "_colorInvert": false,
-          "_icon": "1"
+          "_icon": "1",
+          "_phaseInvert": false,
+          "_pwr": false
         }
       ],
       "channels": [],
