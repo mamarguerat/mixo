@@ -55,6 +55,12 @@ class Const {
         ret.devices[devIdx].inputs[connIdx]._color = input._color;
         ret.devices[devIdx].inputs[connIdx]._colorInvert = input._colorInvert;
         ret.devices[devIdx].inputs[connIdx]._icon = input._icon;
+        if (input._pwr) {
+          ret.devices[devIdx].inputs[connIdx]._pwr = input._pwr;
+        }
+        if (input._phaseInvert) {
+          ret.devices[devIdx].inputs[connIdx]._phaseInvert = input._phaseInvert;
+        }
       });
       device.outputs.forEach(output => {
         ret.devices[devIdx].outputs.push(new Connector());
@@ -63,6 +69,12 @@ class Const {
         ret.devices[devIdx].outputs[connIdx]._color = output._color;
         ret.devices[devIdx].outputs[connIdx]._colorInvert = output._colorInvert;
         ret.devices[devIdx].outputs[connIdx]._icon = output._icon;
+        if (output._pwr) {
+          ret.devices[devIdx].inputs[connIdx]._pwr = output._pwr;
+        }
+        if (output._phaseInvert) {
+          ret.devices[devIdx].inputs[connIdx]._phaseInvert = output._phaseInvert;
+        }
       });
       device.channels.forEach(channel => {
         ret.devices[devIdx].channels.push(new Channel());
