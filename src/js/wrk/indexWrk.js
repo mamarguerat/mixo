@@ -221,6 +221,7 @@ class IndexWrk {
   getAllUsedConnectors(deviceID, connectorType) {
     let scannedDevices = [];
     this.recurseLevel = 0;
+    this.previousChannels = 0;
     return this._getUsedConnectors(deviceID, connectorType, scannedDevices, "Local ");
   }
 
@@ -234,6 +235,13 @@ class IndexWrk {
    */
   _getUsedConnectors(deviceID, connectorType, scannedDevices, source) {
     let usedConnectors = [];
+    let previousChannels;
+    let inputCnt = 0;
+    if (this.recurseLevel <= 1)
+    {
+      this.previousChannels = 0;
+    }
+    previousChannels = this.previousChannels;
     this.recurseLevel++;
   
     console.log(`[indexWrk] getAllUsedConnectors(${deviceID}, ${connectorType})`);
@@ -244,14 +252,18 @@ class IndexWrk {
     if (connectorType == 'i') {
       device.inputs.forEach((input, index, fullArray) => {
         if (input.getName() != "" || input.getColor() != "OFF" || input.getIcon() != "1") {
-          usedConnectors.push({ deviceID, index, source });
+          inputCnt = index + previousChannels;
+          this.previousChannels++;
+          usedConnectors.push({ deviceID, index, source, inputCnt });
         }
       });
     }
     else {
       device.outputs.forEach((output, index, fullArray) => {
         if (output.getName() != "" || output.getColor() != "OFF" || output.getIcon() != "1") {
-          usedConnectors.push({ deviceID, index, source });
+          inputCnt = index + previousChannels;
+          this.previousChannels++;
+          usedConnectors.push({ deviceID, index, source, inputCnt });
         }
       });
     }

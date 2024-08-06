@@ -301,7 +301,7 @@ class DeviceDetailCtrl {
         "<button type='button' value='" + input.deviceID + '-i-' + input.index + "' tabindex='0' class='dropdown-item'>" + "<svg aria-hidden='true' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50'>" +
         "<circle r='24' cx='25' cy='25' fill='" + colors.Back + "' stroke='" + colors.Front + "' />" +
         "</svg>" +
-        "<span>" + connector.getName() + "</br><span class='source'>" + input.source + (input.index + 1) + "</span></span>" +
+        "<span>" + connector.getName() + "</br><span class='source'>" + input.source + (input.inputCnt + 1) + "</span></span>" +
         "</button"
       );
       fetch("../public/assets/icons/svg/" + connector.getIcon() + ".svg")
