@@ -70,6 +70,9 @@ class Const {
         ret.devices[devIdx].channels[chIdx]._deviceId = channel._deviceId;
         ret.devices[devIdx].channels[chIdx]._IO = channel._IO;
         ret.devices[devIdx].channels[chIdx]._source = channel._source;
+        if (channel._channelCnt) {
+          ret.devices[devIdx].channels[chIdx]._channelCnt = channel._channelCnt;
+        }
       })
       device.mixbuses.forEach(mixbus => {
         ret.devices[devIdx].mixbuses.push(new Channel());
@@ -77,6 +80,9 @@ class Const {
         ret.devices[devIdx].mixbuses[chIdx]._deviceId = mixbus._deviceId;
         ret.devices[devIdx].mixbuses[chIdx]._IO = mixbus._IO;
         ret.devices[devIdx].mixbuses[chIdx]._source = mixbus._source;
+        if (mixbus._channelCnt) {
+          ret.devices[devIdx].mixbuses[chIdx]._channelCnt = mixbus._channelCnt;
+        }
       })
       device.matrix.forEach(matrix => {
         ret.devices[devIdx].matrix.push(new Channel());
@@ -84,6 +90,9 @@ class Const {
         ret.devices[devIdx].matrix[chIdx]._deviceId = matrix._deviceId;
         ret.devices[devIdx].matrix[chIdx]._IO = matrix._IO;
         ret.devices[devIdx].matrix[chIdx]._source = matrix._source;
+        if (matrix._channelCnt) {
+          ret.devices[devIdx].matrix[chIdx]._channelCnt = matrix._channelCnt;
+        }
       })
       device.stereo.forEach(stereo => {
         ret.devices[devIdx].stereo.push(new Channel());
@@ -91,6 +100,9 @@ class Const {
         ret.devices[devIdx].stereo[chIdx]._deviceId = stereo._deviceId;
         ret.devices[devIdx].stereo[chIdx]._IO = stereo._IO;
         ret.devices[devIdx].stereo[chIdx]._source = stereo._source;
+        if (stereo._channelCnt) {
+          ret.devices[devIdx].stereo[chIdx]._channelCnt = stereo._channelCnt;
+        }
       })
       device.dca.forEach(dca => {
         ret.devices[devIdx].dca.push(new Channel());
@@ -98,6 +110,9 @@ class Const {
         ret.devices[devIdx].dca[chIdx]._deviceId = dca._deviceId;
         ret.devices[devIdx].dca[chIdx]._IO = dca._IO;
         ret.devices[devIdx].dca[chIdx]._source = dca._source;
+        if (dca._channelCnt) {
+          ret.devices[devIdx].dca[chIdx]._channelCnt = dca._channelCnt;
+        }
       })
     });
     wrk.links.forEach(link => {
