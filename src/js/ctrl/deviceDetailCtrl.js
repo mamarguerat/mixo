@@ -192,13 +192,18 @@ class DeviceDetailCtrl {
 
   // MARK: Functions
   drawCanvas(device) {
+    let imageFileName = "";
     this.selectedDevice = device;
     console.log(`[deviceDetailCtrl] draw canvas`)
+    imageFileName = device.getType();
+    if (LUT.getTypeFromId(this.selectedDevice.getType()) == "Mixer") {
+      imageFileName += "-back";
+    }
     $('#canvas').empty();
     $('#canvas').append(
       "<div id='device' class='device detail " + device.getName() +
       "' style='top: 0px; left: 0px;'>" +
-      "<object id='svg' class='detail' draggable='false' data='" + path.join(constants.imagesPath, device.getType() + ".svg") +
+      "<object id='svg' class='detail' draggable='false' data='" + path.join(constants.imagesPath, imageFileName + ".svg") +
       "' type='image/svg+xml'></div>"
     )
 
@@ -495,7 +500,7 @@ class DeviceDetailCtrl {
   selectChannel(id) {
     let $selected = $(document).find('#channel-list').find(':button[value="' + id + '"]');
     let $selectedValue = $selected.val();
-    let $icon = $selected.find('svg');  // TODO: Check that full icon is loaded
+    let $icon = $selected.find('svg');
     let $text = $selected.find('span');
     let $btn = $selected.closest('.dropdown-wrapper').find('.trigger-dropdown');
 

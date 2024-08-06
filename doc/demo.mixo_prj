@@ -1,0 +1,772 @@
+{
+  "devices": [
+    {
+      "x": 290,
+      "y": 110,
+      "_type": "sd8",
+      "_id": 1,
+      "name": "Drums",
+      "inputs": [
+        {
+          "_name": "KICK",
+          "_color": "RD",
+          "_colorInvert": false,
+          "_icon": "2"
+        },
+        {
+          "_name": "SNARE",
+          "_color": "RD",
+          "_colorInvert": false,
+          "_icon": "4"
+        },
+        {
+          "_name": "HI-HAT",
+          "_color": "RD",
+          "_colorInvert": false,
+          "_icon": "9"
+        },
+        {
+          "_name": "HI-TOM",
+          "_color": "RD",
+          "_colorInvert": false,
+          "_icon": "6"
+        },
+        {
+          "_name": "MID-TOM",
+          "_color": "RD",
+          "_colorInvert": false,
+          "_icon": "7"
+        },
+        {
+          "_name": "FLOOR-TOM",
+          "_color": "RD",
+          "_colorInvert": false,
+          "_icon": "8"
+        },
+        {
+          "_name": "OH L",
+          "_color": "RD",
+          "_colorInvert": false,
+          "_icon": "11"
+        },
+        {
+          "_name": "OH R",
+          "_color": "RD",
+          "_colorInvert": false,
+          "_icon": "11"
+        }
+      ],
+      "outputs": [
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        },
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        },
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        },
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        },
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        },
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        },
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        },
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        }
+      ],
+      "channels": [],
+      "mixbuses": [],
+      "matrix": [],
+      "stereo": [],
+      "dca": []
+    },
+    {
+      "x": 20,
+      "y": 110,
+      "_type": "x32c",
+      "_id": 2,
+      "name": "FOH",
+      "inputs": [
+        {
+          "_name": "HF 1",
+          "_color": "WH",
+          "_colorInvert": false,
+          "_icon": "51"
+        },
+        {
+          "_name": "HF 2",
+          "_color": "WH",
+          "_colorInvert": false,
+          "_icon": "51"
+        },
+        {
+          "_name": "HF 3",
+          "_color": "WH",
+          "_colorInvert": false,
+          "_icon": "53"
+        },
+        {
+          "_name": "HF 4",
+          "_color": "WH",
+          "_colorInvert": false,
+          "_icon": "53"
+        },
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        },
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        },
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        },
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        },
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        },
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        },
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        },
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        },
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        },
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        },
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        },
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        }
+      ],
+      "outputs": [
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        },
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        },
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        },
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        },
+        {
+          "_name": "REC L",
+          "_color": "RD",
+          "_colorInvert": false,
+          "_icon": "62"
+        },
+        {
+          "_name": "REC R",
+          "_color": "RD",
+          "_colorInvert": false,
+          "_icon": "62"
+        },
+        {
+          "_name": "MAIN L",
+          "_color": "WH",
+          "_colorInvert": false,
+          "_icon": "64"
+        },
+        {
+          "_name": "MAIN R",
+          "_color": "WH",
+          "_colorInvert": false,
+          "_icon": "65"
+        }
+      ],
+      "channels": [
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        }
+      ],
+      "mixbuses": [
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        }
+      ],
+      "matrix": [
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        }
+      ],
+      "stereo": [
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        }
+      ],
+      "dca": [
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        },
+        {
+          "_deviceId": "",
+          "_IO": "",
+          "_source": ""
+        }
+      ]
+    },
+    {
+      "x": 500,
+      "y": 110,
+      "_type": "sd16",
+      "_id": 3,
+      "name": "Stage center",
+      "inputs": [
+        {
+          "_name": "LEAD",
+          "_color": "YE",
+          "_colorInvert": false,
+          "_icon": "50"
+        },
+        {
+          "_name": "VOX 1",
+          "_color": "YE",
+          "_colorInvert": false,
+          "_icon": "50"
+        },
+        {
+          "_name": "VOX 2",
+          "_color": "YE",
+          "_colorInvert": false,
+          "_icon": "50"
+        },
+        {
+          "_name": "VOX 3",
+          "_color": "YE",
+          "_colorInvert": false,
+          "_icon": "50"
+        },
+        {
+          "_name": "VLN",
+          "_color": "CY",
+          "_colorInvert": false,
+          "_icon": "39"
+        },
+        {
+          "_name": "CELLO",
+          "_color": "CY",
+          "_colorInvert": false,
+          "_icon": "40"
+        },
+        {
+          "_name": "FLUTE",
+          "_color": "CY",
+          "_colorInvert": false,
+          "_icon": "38"
+        },
+        {
+          "_name": "SAXOPHONE",
+          "_color": "CY",
+          "_colorInvert": false,
+          "_icon": "37"
+        },
+        {
+          "_name": "KEY L",
+          "_color": "GN",
+          "_colorInvert": false,
+          "_icon": "30"
+        },
+        {
+          "_name": "KEY R",
+          "_color": "GN",
+          "_colorInvert": false,
+          "_icon": "30"
+        },
+        {
+          "_name": "SYNTH L",
+          "_color": "MG",
+          "_colorInvert": false,
+          "_icon": "31"
+        },
+        {
+          "_name": "SYNTH R",
+          "_color": "MG",
+          "_colorInvert": false,
+          "_icon": "31"
+        },
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        },
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        },
+        {
+          "_name": "E-GTR",
+          "_color": "BL",
+          "_colorInvert": false,
+          "_icon": "25"
+        },
+        {
+          "_name": "E-BASS",
+          "_color": "BL",
+          "_colorInvert": false,
+          "_icon": "24"
+        }
+      ],
+      "outputs": [
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        },
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        },
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        },
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        },
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        },
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        },
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        },
+        {
+          "_name": "",
+          "_color": "OFF",
+          "_colorInvert": false,
+          "_icon": "1"
+        }
+      ],
+      "channels": [],
+      "mixbuses": [],
+      "matrix": [],
+      "stereo": [],
+      "dca": []
+    }
+  ],
+  "links": [
+    {
+      "_device1": 2,
+      "_device2": 1,
+      "_aes50_1": "A",
+      "_aes50_2": "A"
+    },
+    {
+      "_device1": 1,
+      "_device2": 3,
+      "_aes50_1": "B",
+      "_aes50_2": "A"
+    }
+  ],
+  "id": 4,
+  "version": "0.0.8"
+}
