@@ -145,13 +145,21 @@ class DeviceDetailCtrl {
   saveChannel() {
     let dataSelected = $('#channel-list').attr('data-selected').split('-');
     // index0: deviceID, index1: type, index2: IO index
-    let source = $('#channel-modal').children('.dropdown-wrapper').children('button').children('span').children('.source').text().match('[a-zA-Z]+')[0];
+    let source, channelCnt;
+    try {
+      source = $('#channel-modal').children('.dropdown-wrapper').children('button').children('span').children('.source').text().match('[a-zA-Z]+')[0];
+      channelCnt = $('#channel-modal').children('.dropdown-wrapper').children('button').children('span').children('.source').text().match('[0-9]+')[0];
+    }
+    catch {
+      source = "";
+      channelCnt = "";
+    }
     indexWrk.updateChannel(
       this.selectedDevice.getId(),
       this.selectedTab,
       this.selectedChannel,
       dataSelected[0], dataSelected[2],
-      source
+      source, channelCnt
     );
     ipcRenderer.send('forward-to-main', { worker: indexWrk });
     this.closeModal();
@@ -333,7 +341,7 @@ class DeviceDetailCtrl {
         $element.eq(index).children("div").css("background-color", colors.Back);
         $element.eq(index).children("div").css("color", colors.Front);
         $element.eq(index).children("div").css("border", "1px solid " + colors.Front);
-        $element.eq(index).children("p").text(channel.getSource() + (Number(channel.getIO()) + 1));
+        $element.eq(index).children("p").text(channel.getSource() + channel.getChannelCnt());
         fetch("../public/assets/icons/svg/" + connector.getIcon() + ".svg")
         .then(response => response.text())
         .then(svgText => {

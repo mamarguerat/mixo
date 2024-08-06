@@ -193,12 +193,13 @@ class IndexWrk {
    * @param {String} channelIndex 
    * @param {*} connector 
    */
-  updateChannel(deviceID, channelType, channelIndex, connectorDeviceId, connectorIndex, connectorSource) {
+  updateChannel(deviceID, channelType, channelIndex, connectorDeviceId, connectorIndex, connectorSource, channelCnt) {
     if (channelType == "channel-input") {
       console.log(`[indexWrk] id ${deviceID}, index ${id2index(deviceID, this.devices)}`);
       this.devices[id2index(deviceID, this.devices)].channels[channelIndex].setDeviceId(connectorDeviceId);
       this.devices[id2index(deviceID, this.devices)].channels[channelIndex].setIO(connectorIndex);
       this.devices[id2index(deviceID, this.devices)].channels[channelIndex].setSource(connectorSource);
+      this.devices[id2index(deviceID, this.devices)].channels[channelIndex].setChannelCnt(channelCnt);
     }
     else {
       console.error(`[indexWrk] invalid tab id ${channelType}`);
@@ -222,7 +223,7 @@ class IndexWrk {
     let scannedDevices = [];
     this.recurseLevel = 0;
     this.previousChannels = 0;
-    return this._getUsedConnectors(deviceID, connectorType, scannedDevices, "Local ");
+    return this._getUsedConnectors(deviceID, connectorType, scannedDevices, "Local");
   }
 
   /**
