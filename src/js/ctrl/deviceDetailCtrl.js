@@ -133,7 +133,8 @@ class DeviceDetailCtrl {
       $('#color-list').attr('data-selected'),
       $('#icon-list').attr('data-selected'),
       $('#channel-phase').prop('checked'),
-      $('#channel-invert').prop('checked')
+      $('#channel-invert').prop('checked'),
+      $('#channel-phantom').prop('checked')
     );
     ipcRenderer.send('forward-to-main', { worker: indexWrk });
     this.closeModal();
@@ -257,6 +258,12 @@ class DeviceDetailCtrl {
               console.error(`[deviceDetailCtrl] Error fetching the SVG file ${error}`);
             });
           val.querySelector('#connector').innerHTML += "<text font-family='arial' font-size='12px' fill='" + colors.Front + "' text-anchor='middle' x='39.5' y='72'>" + input.getName() + "</text>";
+          try {
+            val.querySelector('circle').setAttribute("fill", input.getPhantomPower() == true ? "#E41414" : "#742121");
+          }
+          catch {
+            console.log(`[deviceDetailCtrl] No phantom power indicator`);
+          }
         }
       });
       $.each($outputs, function (idx, val) {
@@ -473,6 +480,7 @@ class DeviceDetailCtrl {
     this.selectIcon(connector.getIcon());
     $('#channel-phase').prop('checked', connector.getPhaseInvert());
     $('#channel-invert').prop('checked', connector.getColorInvert());
+    $('#channel-phantom').prop('checked', connector.getPhantomPower());
   };
 
   selectColor(id) {

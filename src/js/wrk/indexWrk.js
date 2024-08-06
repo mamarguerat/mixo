@@ -168,21 +168,20 @@ class IndexWrk {
    * @param {Boolean} phaseInvert 
    * @param {Boolean} colorInvert 
    */
-  updateConnector(deviceID, connectorType, connectorNbr, name, color, icon, phaseInvert, colorInvert) {
+  updateConnector(deviceID, connectorType, connectorNbr, name, color, icon, phaseInvert, colorInvert, phantomPower) {
     if (connectorType == "i") {
       console.log(`[indexWrk] id ${deviceID}, index ${id2index(deviceID, this.devices)}`);
       this.devices[id2index(deviceID, this.devices)].inputs[connectorNbr - 1].setName(name);
       this.devices[id2index(deviceID, this.devices)].inputs[connectorNbr - 1].setColor(color);
       this.devices[id2index(deviceID, this.devices)].inputs[connectorNbr - 1].setIcon(icon);
-      this.devices[id2index(deviceID, this.devices)].inputs[connectorNbr - 1].setPhaseInvert(phaseInvert);
+      this.devices[id2index(deviceID, this.devices)].inputs[connectorNbr - 1].setPhaseInvert(true);
       this.devices[id2index(deviceID, this.devices)].inputs[connectorNbr - 1].setColorInvert(colorInvert);
+      this.devices[id2index(deviceID, this.devices)].inputs[connectorNbr - 1].setPhantomPower(false);
     }
     else {
       this.devices[id2index(deviceID, this.devices)].outputs[connectorNbr - 1].setName(name);
       this.devices[id2index(deviceID, this.devices)].outputs[connectorNbr - 1].setColor(color);
       this.devices[id2index(deviceID, this.devices)].outputs[connectorNbr - 1].setIcon(icon);
-      this.devices[id2index(deviceID, this.devices)].outputs[connectorNbr - 1].setPhaseInvert(phaseInvert);
-      this.devices[id2index(deviceID, this.devices)].outputs[connectorNbr - 1].setColorInvert(colorInvert);
     }
   }
 
@@ -276,7 +275,6 @@ class IndexWrk {
     deviceLinks.forEach((link, index, fullArray) => {
       let newSource = this.recurseLevel == 1 ? link.getToAes50() : source;
       console.log(`[indexWrk] Found link between ${link.getFromDeviceId()} and ${link.getToDeviceId()} with source ${newSource} and recurseLevel ${this.recurseLevel}`);
-      console.log(source)
       if (link.getFromDeviceId() !== deviceID) {
         if (false == scannedDevices.includes(link.getFromDeviceId())) {
           usedConnectors = usedConnectors.concat(this._getUsedConnectors(link.getFromDeviceId(), connectorType, scannedDevices, newSource));
