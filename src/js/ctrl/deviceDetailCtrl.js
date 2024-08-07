@@ -259,7 +259,7 @@ class DeviceDetailCtrl {
             });
           val.querySelector('#connector').innerHTML += "<text font-family='arial' font-size='12px' fill='" + colors.Front + "' text-anchor='middle' x='39.5' y='72'>" + input.getName() + "</text>";
           try {
-            val.querySelector('circle').setAttribute("fill", input.getPhantomPower() == true ? "#E41414" : "#742121");
+            val.querySelector('#pwr').setAttribute("fill", input.getPhantomPower() == true ? "#E41414" : "#742121");
           }
           catch {
             console.log(`[deviceDetailCtrl] No phantom power indicator`);

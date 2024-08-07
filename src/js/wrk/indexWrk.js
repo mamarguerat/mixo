@@ -174,9 +174,9 @@ class IndexWrk {
       this.devices[id2index(deviceID, this.devices)].inputs[connectorNbr - 1].setName(name);
       this.devices[id2index(deviceID, this.devices)].inputs[connectorNbr - 1].setColor(color);
       this.devices[id2index(deviceID, this.devices)].inputs[connectorNbr - 1].setIcon(icon);
-      this.devices[id2index(deviceID, this.devices)].inputs[connectorNbr - 1].setPhaseInvert(true);
+      this.devices[id2index(deviceID, this.devices)].inputs[connectorNbr - 1].setPhaseInvert(phaseInvert);
       this.devices[id2index(deviceID, this.devices)].inputs[connectorNbr - 1].setColorInvert(colorInvert);
-      this.devices[id2index(deviceID, this.devices)].inputs[connectorNbr - 1].setPhantomPower(false);
+      this.devices[id2index(deviceID, this.devices)].inputs[connectorNbr - 1].setPhantomPower(phantomPower);
     }
     else {
       this.devices[id2index(deviceID, this.devices)].outputs[connectorNbr - 1].setName(name);

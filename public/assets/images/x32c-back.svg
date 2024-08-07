@@ -141,7 +141,7 @@
           <rect class="number-background-i" x="2" y="0" width="41" height="11" rx="3" ry="3" />
           <text x="22" y="9" class="number-i">IN 1</text>
         </g>
-        <circle cx="3" cy="59" r="2.5" fill="#742121"/>
+        <circle id="pwr" cx="3" cy="59" r="2.5" fill="#742121"/>
         <g id="connector" transform="translate(3 22) scale(0.5)">
           <use xlink:href="xlr.svg#xlr-f" x="0" y="0" />
         </g>
@@ -151,7 +151,7 @@
           <rect class="number-background-i" x="2" y="0" width="41" height="11" rx="3" ry="3" />
           <text x="22" y="9" class="number-i">IN 2</text>
         </g>
-        <circle cx="3" cy="59" r="2.5" fill="#742121"/>
+        <circle id="pwr" cx="3" cy="59" r="2.5" fill="#742121"/>
         <g id="connector" transform="translate(3 22) scale(0.5)">
           <use xlink:href="xlr.svg#xlr-f" x="0" y="0" />
         </g>
@@ -161,7 +161,7 @@
           <rect class="number-background-i" x="2" y="0" width="41" height="11" rx="3" ry="3" />
           <text x="22" y="9" class="number-i">IN 3</text>
         </g>
-        <circle cx="3" cy="59" r="2.5" fill="#742121"/>
+        <circle id="pwr" cx="3" cy="59" r="2.5" fill="#742121"/>
         <g id="connector" transform="translate(3 22) scale(0.5)">
           <use xlink:href="xlr.svg#xlr-f" x="0" y="0" />
         </g>
@@ -171,7 +171,7 @@
           <rect class="number-background-i" x="2" y="0" width="41" height="11" rx="3" ry="3" />
           <text x="22" y="9" class="number-i">IN 4</text>
         </g>
-        <circle cx="3" cy="59" r="2.5" fill="#742121"/>
+        <circle id="pwr" cx="3" cy="59" r="2.5" fill="#742121"/>
         <g id="connector" transform="translate(3 22) scale(0.5)">
           <use xlink:href="xlr.svg#xlr-f" x="0" y="0" />
         </g>
@@ -181,7 +181,7 @@
           <rect class="number-background-i" x="2" y="0" width="41" height="11" rx="3" ry="3" />
           <text x="22" y="9" class="number-i">IN 5</text>
         </g>
-        <circle cx="3" cy="59" r="2.5" fill="#742121"/>
+        <circle id="pwr" cx="3" cy="59" r="2.5" fill="#742121"/>
         <g id="connector" transform="translate(3 22) scale(0.5)">
           <use xlink:href="xlr.svg#xlr-f" x="0" y="0" />
         </g>
@@ -191,7 +191,7 @@
           <rect class="number-background-i" x="2" y="0" width="41" height="11" rx="3" ry="3" />
           <text x="22" y="9" class="number-i">IN 6</text>
         </g>
-        <circle cx="3" cy="59" r="2.5" fill="#742121"/>
+        <circle id="pwr" cx="3" cy="59" r="2.5" fill="#742121"/>
         <g id="connector" transform="translate(3 22) scale(0.5)">
           <use xlink:href="xlr.svg#xlr-f" x="0" y="0" />
         </g>
@@ -201,7 +201,7 @@
           <rect class="number-background-i" x="2" y="0" width="41" height="11" rx="3" ry="3" />
           <text x="22" y="9" class="number-i">IN 7</text>
         </g>
-        <circle cx="3" cy="59" r="2.5" fill="#742121"/>
+        <circle id="pwr" cx="3" cy="59" r="2.5" fill="#742121"/>
         <g id="connector" transform="translate(3 22) scale(0.5)">
           <use xlink:href="xlr.svg#xlr-f" x="0" y="0" />
         </g>
@@ -211,7 +211,7 @@
           <rect class="number-background-i" x="2" y="0" width="41" height="11" rx="3" ry="3" />
           <text x="22" y="9" class="number-i">IN 8</text>
         </g>
-        <circle cx="3" cy="59" r="2.5" fill="#742121"/>
+        <circle id="pwr" cx="3" cy="59" r="2.5" fill="#742121"/>
         <g id="connector" transform="translate(3 22) scale(0.5)">
           <use xlink:href="xlr.svg#xlr-f" x="0" y="0" />
         </g>
@@ -221,7 +221,7 @@
           <rect class="number-background-i" x="2" y="0" width="41" height="11" rx="3" ry="3" />
           <text x="22" y="9" class="number-i">IN 9</text>
         </g>
-        <circle cx="3" cy="59" r="2.5" fill="#742121"/>
+        <circle id="pwr" cx="3" cy="59" r="2.5" fill="#742121"/>
         <g id="connector" transform="translate(3 22) scale(0.5)">
           <use xlink:href="xlr.svg#xlr-f" x="0" y="0" />
         </g>
@@ -231,7 +231,7 @@
           <rect class="number-background-i" x="2" y="0" width="41" height="11" rx="3" ry="3" />
           <text x="22" y="9" class="number-i">IN 10</text>
         </g>
-        <circle cx="3" cy="59" r="2.5" fill="#742121"/>
+        <circle id="pwr" cx="3" cy="59" r="2.5" fill="#742121"/>
         <g id="connector" transform="translate(3 22) scale(0.5)">
           <use xlink:href="xlr.svg#xlr-f" x="0" y="0" />
         </g>
@@ -241,7 +241,7 @@
           <rect class="number-background-i" x="2" y="0" width="41" height="11" rx="3" ry="3" />
           <text x="22" y="9" class="number-i">IN 11</text>
         </g>
-        <circle cx="3" cy="59" r="2.5" fill="#742121"/>
+        <circle id="pwr" cx="3" cy="59" r="2.5" fill="#742121"/>
         <g id="connector" transform="translate(3 22) scale(0.5)">
           <use xlink:href="xlr.svg#xlr-f" x="0" y="0" />
         </g>
@@ -251,7 +251,7 @@
           <rect class="number-background-i" x="2" y="0" width="41" height="11" rx="3" ry="3" />
           <text x="22" y="9" class="number-i">IN 12</text>
         </g>
-        <circle cx="3" cy="59" r="2.5" fill="#742121"/>
+        <circle id="pwr" cx="3" cy="59" r="2.5" fill="#742121"/>
         <g id="connector" transform="translate(3 22) scale(0.5)">
           <use xlink:href="xlr.svg#xlr-f" x="0" y="0" />
         </g>
@@ -261,7 +261,7 @@
           <rect class="number-background-i" x="2" y="0" width="41" height="11" rx="3" ry="3" />
           <text x="22" y="9" class="number-i">IN 13</text>
         </g>
-        <circle cx="3" cy="59" r="2.5" fill="#742121"/>
+        <circle id="pwr" cx="3" cy="59" r="2.5" fill="#742121"/>
         <g id="connector" transform="translate(3 22) scale(0.5)">
           <use xlink:href="xlr.svg#xlr-f" x="0" y="0" />
         </g>
@@ -271,7 +271,7 @@
           <rect class="number-background-i" x="2" y="0" width="41" height="11" rx="3" ry="3" />
           <text x="22" y="9" class="number-i">IN 14</text>
         </g>
-        <circle cx="3" cy="59" r="2.5" fill="#742121"/>
+        <circle id="pwr" cx="3" cy="59" r="2.5" fill="#742121"/>
         <g id="connector" transform="translate(3 22) scale(0.5)">
           <use xlink:href="xlr.svg#xlr-f" x="0" y="0" />
         </g>
@@ -281,7 +281,7 @@
           <rect class="number-background-i" x="2" y="0" width="41" height="11" rx="3" ry="3" />
           <text x="22" y="9" class="number-i">IN 15</text>
         </g>
-        <circle cx="3" cy="59" r="2.5" fill="#742121"/>
+        <circle id="pwr" cx="3" cy="59" r="2.5" fill="#742121"/>
         <g id="connector" transform="translate(3 22) scale(0.5)">
           <use xlink:href="xlr.svg#xlr-f" x="0" y="0" />
         </g>
@@ -291,7 +291,7 @@
           <rect class="number-background-i" x="2" y="0" width="41" height="11" rx="3" ry="3" />
           <text x="22" y="9" class="number-i">IN 16</text>
         </g>
-        <circle cx="3" cy="59" r="2.5" fill="#742121"/>
+        <circle id="pwr" cx="3" cy="59" r="2.5" fill="#742121"/>
         <g id="connector" transform="translate(3 22) scale(0.5)">
           <use xlink:href="xlr.svg#xlr-f" x="0" y="0" />
         </g>
