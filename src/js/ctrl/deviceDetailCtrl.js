@@ -186,6 +186,7 @@ class DeviceDetailCtrl {
       $('#mixbus-name').val(),
       $('#mixbus-color-list').attr('data-selected'),
       $('#mixbus-icon-list').attr('data-selected'),
+      $('#mixbus-invert').prop('checked'),
     );
     ipcRenderer.send('forward-to-main', { worker: indexWrk });
     this.closeModal();
@@ -526,6 +527,7 @@ class DeviceDetailCtrl {
     this.selectMixbusColor(mixbus.getColor());
     $('#mixbus-icon-list').attr('data-selected', mixbus.getIcon());
     this.selectMixbusIcon(mixbus.getIcon());
+    $('#mixbus-invert').prop('checked', mixbus.getColorInvert());
   }
 
   openConnectorModal() {
