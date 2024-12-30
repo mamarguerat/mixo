@@ -26,14 +26,14 @@
           <button class="trigger-dropdown">
             <p class="fa-caret-down">v</p>
           </button>
-          <div id="color-list" class="dropdown-menu" data-selected="">
+          <div id="channel-color-list" class="dropdown-menu" data-selected="">
           </div>
         </div>
         <div class="dropdown-wrapper icon-picker">
           <button class="trigger-dropdown">
             <p class="fa-caret-down">v</p>
           </button>
-          <div id="icon-list" class="dropdown-menu right" data-selected="">
+          <div id="channel-icon-list" class="dropdown-menu right" data-selected="">
           </div>
         </div>
       </div>
@@ -54,6 +54,33 @@
       <div class="column-container buttons">
         <button id="cancel-connector" class="btn cancel column">Cancel</button>
         <button id="save-connector" class="btn column">Save</button>
+      </div>
+    </section>
+    <section id="mixbus-modal" class="modal hidden">
+      <div class="flex">
+        <h3 id="mixbus-modal-title">[Device] - Mixbus [Number]</h3>
+        <button class="btn-close">⨉</button>
+      </div>
+      <input type="text" id="mixbus-name" placeholder="Mixbus name" />
+      <div class="column-container">
+        <div class="dropdown-wrapper color-picker">
+          <button class="trigger-dropdown">
+            <p class="fa-caret-down">v</p>
+          </button>
+          <div id="mixbus-color-list" class="dropdown-menu" data-selected="">
+          </div>
+        </div>
+        <div class="dropdown-wrapper icon-picker">
+          <button class="trigger-dropdown">
+            <p class="fa-caret-down">v</p>
+          </button>
+          <div id="mixbus-icon-list" class="dropdown-menu right" data-selected="">
+          </div>
+        </div>
+      </div>
+      <div class="column-container buttons">
+        <button id="cancel-mixbus" class="btn cancel column">Cancel</button>
+        <button id="save-mixbus" class="btn column">Save</button>
       </div>
     </section>
     <section id="channel-modal" class="modal hidden">
@@ -84,6 +111,7 @@
   <script src="js/beans/device.js"></script>
   <script src="js/beans/link.js"></script>
   <script src="js/beans/connector.js"></script>
+  <script src="js/beans/mixbus.js"></script>
   <script src="js/beans/channel.js"></script>
   <script src="js/beans/deviceTypeLUT.js"></script>
   <!-- Controllers and Workers -->

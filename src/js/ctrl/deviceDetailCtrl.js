@@ -31,6 +31,9 @@ class DeviceDetailCtrl {
     $('#save-connector').on('click', (e) => {
       this.saveConnector();
     });
+    $('#save-mixbus').on('click', (e) => {
+      this.saveMixbus();
+    });
     $('#save-channel').on('click', (e) => {
       this.saveChannel();
     });
@@ -44,7 +47,7 @@ class DeviceDetailCtrl {
   loadHTML(deviceType) {
     // Load tabs
     this.addChannelTab("input", "Input channels", "Channel", LUT.getChannelsCnt(deviceType));
-    // this.addChannelTab("mixbus", "Mixbus channels", "Mixbus", LUT.getMixbusCnt(deviceType));
+    this.addChannelTab("mixbus", "Mixbus channels", "Mixbus", LUT.getMixbusCnt(deviceType));
     // this.addChannelTab("matrix", "Matrix channels", "Matrix", LUT.getMatrixCnt(deviceType));
     // this.addChannelTab("stereo", "Stereo channels", "Stereo", LUT.getStereoCnt(deviceType));
     // this.addChannelTab("dca", "DCA channels", "DCA", LUT.getDcaCnt(deviceType));
@@ -66,24 +69,30 @@ class DeviceDetailCtrl {
    */
   documentReady() {
     // Create dropdowns
-    constants.icons.forEach((icon, index, fullArray) => {
-      $('#icon-list').append(
-        "<button type='button' value='" + (index + 1) + "'' tabindex='0' class='dropdown-item'>" +
-        "<object class='icon' data='" + path.join(constants.iconsPath, (index + 1) + ".svg") + "' type='image/svg+xml'></object>" +
-        "<span>" + icon + "</span>" +
-        "</button>"
-      );
+    let iconLists = [$('#channel-icon-list'), $('#mixbus-icon-list')];
+    iconLists.forEach((iconList, index, fullArray) => {
+      constants.icons.forEach((icon, index, fullArray) => {
+        iconList.append(
+          "<button type='button' value='" + (index + 1) + "'' tabindex='0' class='dropdown-item'>" +
+          "<object class='icon' data='" + path.join(constants.iconsPath, (index + 1) + ".svg") + "' type='image/svg+xml'></object>" +
+          "<span>" + icon + "</span>" +
+          "</button>"
+        );
+      });
     });
 
     constants.colors.forEach((color, index, fullArray) => {
-      $('#color-list').append(
-        "<button type='button' value='" + color.ID + "'' tabindex='0' class='dropdown-item'>" +
-        "<svg aria-hidden='true' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50'>" +
-        "<circle r='24' cx='25' cy='25' fill='" + color.ColorBack + "' stroke='#000000'></circle>" +
-        "</svg>" +
-        "<span>" + color.Name + "</span>" +
-        "</button>"
-      );
+      let colorLists = [$('#channel-color-list'), $('#mixbus-color-list')];
+      colorLists.forEach((colorList, index, fullArray) => {
+        colorList.append(
+          "<button type='button' value='" + color.ID + "'' tabindex='0' class='dropdown-item'>" +
+          "<svg aria-hidden='true' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50'>" +
+          "<circle r='24' cx='25' cy='25' fill='" + color.ColorBack + "' stroke='#000000'></circle>" +
+          "</svg>" +
+          "<span>" + color.Name + "</span>" +
+          "</button>"
+        );
+      });
     });
 
     $(document).click(function () {
@@ -130,8 +139,8 @@ class DeviceDetailCtrl {
       this.selectedType,
       this.selectedIO,
       $('#channel-name').val(),
-      $('#color-list').attr('data-selected'),
-      $('#icon-list').attr('data-selected'),
+      $('#channel-color-list').attr('data-selected'),
+      $('#channel-icon-list').attr('data-selected'),
       $('#channel-phase').prop('checked'),
       $('#channel-invert').prop('checked'),
       $('#channel-phantom').prop('checked')
@@ -161,6 +170,22 @@ class DeviceDetailCtrl {
       this.selectedChannel,
       dataSelected[0], dataSelected[2],
       source, channelCnt
+    );
+    ipcRenderer.send('forward-to-main', { worker: indexWrk });
+    this.closeModal();
+  }
+
+  /**
+   * Save button pressed
+   */
+  saveMixbus() {
+    console.log(indexWrk);
+    indexWrk.updateMixbus(
+      this.selectedDevice.getId(),
+      this.selectedChannel,
+      $('#mixbus-name').val(),
+      $('#mixbus-color-list').attr('data-selected'),
+      $('#mixbus-icon-list').attr('data-selected'),
     );
     ipcRenderer.send('forward-to-main', { worker: indexWrk });
     this.closeModal();
@@ -236,8 +261,7 @@ class DeviceDetailCtrl {
         var input = indexWrk.getDeviceFromId(_this.deviceID).inputs[val.id.slice(5, 7) - 1];
         if ((input.getName() != "") || (input.getIcon() != "1") || (input.getColor() != "OFF")) {
           var colors = constants.getColorCode(input.getColor());
-          if (input.getColorInvert() == true)
-          {
+          if (input.getColorInvert() == true) {
             var temp = colors.Front;
             colors.Front = colors.Back;
             colors.Back = temp;
@@ -270,14 +294,13 @@ class DeviceDetailCtrl {
         var output = indexWrk.getDeviceFromId(_this.deviceID).outputs[val.id.slice(5, 7) - 1];
         if ((output.getName() != "") || (output.getIcon() != "1") || (output.getColor() != "OFF")) {
           var colors = constants.getColorCode(output.getColor());
-          if (output.getColorInvert() == true)
-          {
+          if (output.getColorInvert() == true) {
             var temp = colors.Front;
             colors.Front = colors.Back;
             colors.Back = temp;
           }
           val.querySelector('#connector').innerHTML =
-          "<circle id='back' r='39.5' cx='39.5' cy='39.5' fill='" + colors.Back + "' stroke='" + colors.Front + "' />";
+            "<circle id='back' r='39.5' cx='39.5' cy='39.5' fill='" + colors.Back + "' stroke='" + colors.Front + "' />";
           fetch("../public/assets/icons/svg/" + output.getIcon() + ".svg")
             .then(response => response.text())
             .then(svgText => {
@@ -291,7 +314,7 @@ class DeviceDetailCtrl {
             .catch(error => {
               console.error(`[deviceDetailCtrl] Error fetching the SVG file ${error}`);
             });
-            val.querySelector('#connector').innerHTML += "<text font-family='arial' font-size='12px' fill='" + colors.Front + "' text-anchor='middle' x='39.5' y='72'>" + output.getName() + "</text>";
+          val.querySelector('#connector').innerHTML += "<text font-family='arial' font-size='12px' fill='" + colors.Front + "' text-anchor='middle' x='39.5' y='72'>" + output.getName() + "</text>";
         }
       });
     });
@@ -306,8 +329,7 @@ class DeviceDetailCtrl {
     this._connectorList.forEach((input, index, fullArray) => {
       let connector = indexWrk.getConnector(input.deviceID, 'i', input.index);
       var colors = constants.getColorCode(connector.getColor());
-      if (connector.getColorInvert() == true)
-      {
+      if (connector.getColorInvert() == true) {
         var temp = colors.Front;
         colors.Front = colors.Back;
         colors.Back = temp;
@@ -320,26 +342,25 @@ class DeviceDetailCtrl {
         "</button"
       );
       fetch("../public/assets/icons/svg/" + connector.getIcon() + ".svg")
-      .then(response => response.text())
-      .then(svgText => {
-        const parser = new DOMParser();
-        const svgDocument = parser.parseFromString(svgText, 'image/svg+xml');
-        let iconGroup = svgDocument.getElementById('icon');
-        iconGroup.setAttribute("transform", "scale(0.7) translate(4 4)");
-        iconGroup.setAttribute("style", "fill:" + colors.Front + ";stroke:" + colors.Front);
-        document.querySelector('#channel-list').querySelector('[value="' + input.deviceID + '-i-' + input.index + '"]').querySelector('svg').appendChild(iconGroup);
-      })
-      .catch(error => {
-        console.error(`[deviceDetailCtrl] Error fetching the SVG file ${error}`);
-      });
+        .then(response => response.text())
+        .then(svgText => {
+          const parser = new DOMParser();
+          const svgDocument = parser.parseFromString(svgText, 'image/svg+xml');
+          let iconGroup = svgDocument.getElementById('icon');
+          iconGroup.setAttribute("transform", "scale(0.7) translate(4 4)");
+          iconGroup.setAttribute("style", "fill:" + colors.Front + ";stroke:" + colors.Front);
+          document.querySelector('#channel-list').querySelector('[value="' + input.deviceID + '-i-' + input.index + '"]').querySelector('svg').appendChild(iconGroup);
+        })
+        .catch(error => {
+          console.error(`[deviceDetailCtrl] Error fetching the SVG file ${error}`);
+        });
     });
     device.channels.forEach((channel, index, fullArray) => {
-      let $element = $('#input-sortable').children('.io-element');
+      let $element = $('#input-sortable').children('.io-element-input');
       let connector = indexWrk.getConnector(channel.getDeviceId(), 'i', channel.getIO());
       if (typeof connector !== 'undefined') {
         var colors = constants.getColorCode(connector.getColor());
-        if (connector.getColorInvert() == true)
-        {
+        if (connector.getColorInvert() == true) {
           var temp = colors.Front;
           colors.Front = colors.Back;
           colors.Back = temp;
@@ -350,6 +371,45 @@ class DeviceDetailCtrl {
         $element.eq(index).children("div").css("border", "1px solid " + colors.Front);
         $element.eq(index).children("p").text(channel.getSource() + channel.getChannelCnt());
         fetch("../public/assets/icons/svg/" + connector.getIcon() + ".svg")
+          .then(response => response.text())
+          .then(svgText => {
+            const parser = new DOMParser();
+            const svgDocument = parser.parseFromString(svgText, 'image/svg+xml');
+            let iconGroup = svgDocument.getElementById('icon');
+            iconGroup.setAttribute("transform", "scale(0.8) translate(-8 -10)");
+            iconGroup.setAttribute("style", "fill:" + colors.Front + ";stroke:" + colors.Front);
+            $element.eq(index).children("div").children("svg").empty();
+            $element.eq(index).children("div").children("svg").append(iconGroup);
+          })
+          .catch(error => {
+            console.error(`[deviceDetailCtrl] Error fetching the SVG file ${error}`);
+          });
+      }
+      else {
+        $element.eq(index).children("div").children("p").text("NO IO SELECTED");
+        $element.eq(index).children("div").css("background-color", "#999999");
+        $element.eq(index).children("div").css("color", "#000000");
+        $element.eq(index).children("div").css("border", "none");
+        $element.eq(index).children("p").text("");
+        $element.eq(index).children("div").children("svg").empty();
+      }
+    });
+    device.mixbuses.forEach((mixbus, index, fullArray) => {
+      let $element = $('#mixbus-sortable').children('.io-element-mixbus');
+      var colors = constants.getColorCode(mixbus.getColor());
+      if (mixbus.getColorInvert() == true) {
+        var temp = colors.Front;
+        colors.Front = colors.Back;
+        colors.Back = temp;
+      }
+      console.log(mixbus)
+      console.log($element)
+      $element.eq(index).children("div").children("p").text(mixbus.getName());
+      $element.eq(index).children("div").css("background-color", colors.Back);
+      $element.eq(index).children("div").css("color", colors.Front);
+      $element.eq(index).children("div").css("border", "1px solid " + colors.Front);
+      //$element.eq(index).children("p").text(channel.getSource() + channel.getChannelCnt());
+      fetch("../public/assets/icons/svg/" + mixbus.getIcon() + ".svg")
         .then(response => response.text())
         .then(svgText => {
           const parser = new DOMParser();
@@ -363,15 +423,6 @@ class DeviceDetailCtrl {
         .catch(error => {
           console.error(`[deviceDetailCtrl] Error fetching the SVG file ${error}`);
         });
-      }
-      else {
-        $element.eq(index).children("div").children("p").text("NO IO SELECTED");
-        $element.eq(index).children("div").css("background-color", "#999999");
-        $element.eq(index).children("div").css("color", "#000000");
-        $element.eq(index).children("div").css("border", "none");
-        $element.eq(index).children("p").text("");
-        $element.eq(index).children("div").children("svg").empty();
-      }
     });
   }
 
@@ -385,8 +436,8 @@ class DeviceDetailCtrl {
 
       // Create sortables
       for (var i = 0; i < channelCnt; i++) {
-        $('#' + id + '-channel-names').append("<div class='channel-name'>" + channelName + " " + (i+1) + "</div>");
-        $('#' + id + '-sortable').append("<div class='io-element'><div style='background-color: #999999;'><p>NO IO SELECTED</p><svg height='40px' width='50px'></svg></div><p></p></div>");
+        $('#' + id + '-channel-names').append("<div class='channel-name'>" + channelName + " " + (i + 1) + "</div>");
+        $('#' + id + '-sortable').append("<div class='io-element-" + id + " io-element'><div style='background-color: #999999;'><p>NO IO SELECTED</p><svg height='40px' width='50px'></svg></div><p></p></div>");
       }
       $('#' + id + '-sortable').sortable({
         multiDrag: false,
@@ -403,9 +454,14 @@ class DeviceDetailCtrl {
         _this.moveChannel();
       });
 
-      $('.io-element').on("click", function (ev) {
+      $('.io-element-' + id).on("click", function (ev) {
         _this.selectedChannel = $(this).index();
-        _this.openChannelModal();
+        if (id == "input") {
+          _this.openChannelModal();
+        }
+        else if (id == "mixbus") {
+          _this.openMixbusModal();
+        }
       });
     }
   }
@@ -459,14 +515,28 @@ class DeviceDetailCtrl {
     this.selectChannel(value);
   };
 
+  openMixbusModal() {
+    console.log(`[deviceDetailCtrl] opening mixbus ${this.selectedChannel + 1}`);
+    let mixbus = this.selectedDevice.mixbuses[this.selectedChannel];
+    $('#mixbus-modal').removeClass("hidden");
+    $('.overlay').removeClass("hidden");
+    $("#mixbus-modal-title").html(this.selectedDevice.getName() + " - Mixbus " + this.selectedChannel);
+    $("#mixbus-name").val(mixbus.getName());
+    $('#mixbus-color-list').attr('data-selected', mixbus.getColor());
+    this.selectMixbusColor(mixbus.getColor());
+    $('#mixbus-icon-list').attr('data-selected', mixbus.getIcon());
+    this.selectMixbusIcon(mixbus.getIcon());
+  }
+
   openConnectorModal() {
-    console.log(`[deviceDetailCtrl] opening io ${this.selectedType}${this.selectedIO}`)
+    console.log(`[deviceDetailCtrl] opening io ${this.selectedType}${this.selectedIO}`);
     let connector, type;
     if (this.selectedType == "i") {
       connector = this.selectedDevice.inputs[this.selectedIO - 1];
       type = "Input";
     }
     else {
+      // TODO: CHANGE MODAL FOR OUTPUT MODAL
       connector = this.selectedDevice.outputs[this.selectedIO - 1];
       type = "Output";
     }
@@ -474,17 +544,17 @@ class DeviceDetailCtrl {
     $('.overlay').removeClass("hidden");
     $("#connector-modal-title").html(this.selectedDevice.getName() + " - " + type + " " + this.selectedIO);
     $("#channel-name").val(connector.getName());
-    $('#color-list').attr('data-selected', connector.getColor());
-    this.selectColor(connector.getColor());
-    $('#icon-list').attr('data-selected', connector.getIcon());
-    this.selectIcon(connector.getIcon());
+    $('#channel-color-list').attr('data-selected', connector.getColor());
+    this.selectChannelColor(connector.getColor());
+    $('#channel-icon-list').attr('data-selected', connector.getIcon());
+    this.selectChannelIcon(connector.getIcon());
     $('#channel-phase').prop('checked', connector.getPhaseInvert());
     $('#channel-invert').prop('checked', connector.getColorInvert());
     $('#channel-phantom').prop('checked', connector.getPhantomPower());
   };
 
-  selectColor(id) {
-    let $selected = $(document).find('#color-list').find(':button[value="' + id + '"]');
+  selectChannelColor(id) {
+    let $selected = $(document).find('#channel-color-list').find(':button[value="' + id + '"]');
     let $selectedValue = $selected.val();
     let $icon = $selected.find('svg');
     let $text = $selected.find('span');
@@ -498,8 +568,38 @@ class DeviceDetailCtrl {
     $btn.prepend($icon[0].outerHTML);
   }
 
-  selectIcon(id) {
-    let $selected = $(document).find('#icon-list').find(':button[value="' + id + '"]');
+  selectChannelIcon(id) {
+    let $selected = $(document).find('#channel-icon-list').find(':button[value="' + id + '"]');
+    let $selectedValue = $selected.val();
+    let $icon = $selected.find('object');
+    let $text = $selected.find('span');
+    let $btn = $selected.closest('.dropdown-wrapper').find('.trigger-dropdown');
+
+    $selected.closest('.dropdown-wrapper').find('.dropdown-menu').removeClass('show').attr('data-selected', $selectedValue);
+    $btn.find('span').remove();
+    $btn.find('svg').remove();
+    $btn.find('object').remove();
+    $btn.prepend($text[0].outerHTML);
+    $btn.prepend($icon[0].outerHTML);
+  }
+
+  selectMixbusColor(id) {
+    let $selected = $(document).find('#mixbus-color-list').find(':button[value="' + id + '"]');
+    let $selectedValue = $selected.val();
+    let $icon = $selected.find('svg');
+    let $text = $selected.find('span');
+    let $btn = $selected.closest('.dropdown-wrapper').find('.trigger-dropdown');
+
+    $selected.closest('.dropdown-wrapper').find('.dropdown-menu').removeClass('show').attr('data-selected', $selectedValue);
+    $btn.find('span').remove();
+    $btn.find('svg').remove();
+    $btn.find('object').remove();
+    $btn.prepend($text[0].outerHTML);
+    $btn.prepend($icon[0].outerHTML);
+  }
+
+  selectMixbusIcon(id) {
+    let $selected = $(document).find('#mixbus-icon-list').find(':button[value="' + id + '"]');
     let $selectedValue = $selected.val();
     let $icon = $selected.find('object');
     let $text = $selected.find('span');

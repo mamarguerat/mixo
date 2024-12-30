@@ -206,6 +206,24 @@ class IndexWrk {
   }
 
   /**
+   * Update a mixbus of device
+   * @param {Number} deviceID 
+   * @param {String} mixbusNbr 
+   * @param {String} name 
+   * @param {String} color 
+   * @param {String} icon 
+   */
+  updateMixbus(deviceID, connectorNbr, name, color, icon) {
+    // TODO: ADD COLOR INVERSION
+    console.log(`[indexWrk] id ${deviceID}, index ${id2index(deviceID, this.devices)}`);
+    console.log(connectorNbr)
+    console.log(this.devices[id2index(deviceID, this.devices)].mixbuses[connectorNbr])
+    this.devices[id2index(deviceID, this.devices)].mixbuses[connectorNbr].setName(name);
+    this.devices[id2index(deviceID, this.devices)].mixbuses[connectorNbr].setColor(color);
+    this.devices[id2index(deviceID, this.devices)].mixbuses[connectorNbr].setIcon(icon);
+  }
+
+  /**
    * Update worker and canvas
    */
   update() {

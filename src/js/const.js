@@ -87,14 +87,12 @@ class Const {
         }
       })
       device.mixbuses.forEach(mixbus => {
-        ret.devices[devIdx].mixbuses.push(new Channel());
+        ret.devices[devIdx].mixbuses.push(new Mixbus());
         var chIdx = ret.devices[devIdx].mixbuses.length - 1;
-        ret.devices[devIdx].mixbuses[chIdx]._deviceId = mixbus._deviceId;
-        ret.devices[devIdx].mixbuses[chIdx]._IO = mixbus._IO;
-        ret.devices[devIdx].mixbuses[chIdx]._source = mixbus._source;
-        if (mixbus._channelCnt) {
-          ret.devices[devIdx].mixbuses[chIdx]._channelCnt = mixbus._channelCnt;
-        }
+        ret.devices[devIdx].mixbuses[chIdx]._name = mixbus._name;
+        ret.devices[devIdx].mixbuses[chIdx]._color = mixbus._color;
+        ret.devices[devIdx].mixbuses[chIdx]._colorInvert = mixbus._colorInvert;
+        ret.devices[devIdx].mixbuses[chIdx]._icon = mixbus._icon;
       })
       device.matrix.forEach(matrix => {
         ret.devices[devIdx].matrix.push(new Channel());
