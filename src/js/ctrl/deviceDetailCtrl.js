@@ -95,6 +95,8 @@ class DeviceDetailCtrl {
       });
     });
 
+    // TODO: Add list of output sources
+
     $(document).click(function () {
       $('.dropdown-menu.show').removeClass('show');
     });
@@ -628,5 +630,13 @@ class DeviceDetailCtrl {
     $btn.find('object').remove();
     $btn.prepend($text[0].outerHTML);
     $btn.prepend($icon[0].outerHTML);
+  }
+
+  selectOutputSourceType(id) {
+    //TODO: fill dropdown with output sources
+  }
+
+  selectOuputSource(id) {
+    //TODO: save output source
   }
 }
