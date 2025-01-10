@@ -7,6 +7,7 @@ const isMac = process.platform === 'darwin'
 const devType = new deviceTypeLUT();
 let win
 let filePath = "";
+let fileSaved = true;
 
 // Autoupdater from https://samuelmeuli.com/blog/2019-04-07-packaging-and-publishing-an-electron-app/
 const { autoUpdater } = require("electron-updater")
@@ -174,6 +175,31 @@ const createWindow = () => {
       contextIsolation: false,
     },
   });
+  win.on('close', (event) => {
+    let response = 0;
+    if (!fileSaved) {
+      response = dialog.showMessageBoxSync(win, {
+        type: 'warning',
+        buttons: ['Save', 'Don\'t save', 'Cancel'],
+        title: 'Save changes',
+        message: 'Do you want to save the changes you made?',
+      });
+    }
+
+    if (response == 0) {
+      childWindows.forEach(childWindow => {
+        childWindow.close();
+      });
+      win.webContents.send('file', { function: 'saveAndClose' });
+      event.preventDefault();
+    } else if (response == 2) {
+      event.preventDefault();
+    } else {
+      childWindows.forEach(childWindow => {
+        childWindow.close();
+      });
+    }
+  });
   win.loadFile(join(__dirname, '..', 'index.html'));
 };
 
@@ -247,7 +273,7 @@ ipcMain.on('file', (event, arg) => {
   let jsonObject = JSON.parse(arg.json);
   jsonObject.version = app.getVersion();
   arg.json = JSON.stringify(jsonObject, null, 2);
-  if ('saveas' == arg.function || ('save' == arg.function && filePath == "")) {
+  if ('saveas' == arg.function || ('save' == arg.function && filePath == "") || ('saveAndClose' == arg.function && filePath == "")) {
     dialog.showSaveDialog({
       title: 'Save Mixo project',
       filters: [
@@ -262,20 +288,28 @@ ipcMain.on('file', (event, arg) => {
         fs.writeFile(result.filePath, arg.json, (err) => {
           if (err) throw err;
         });
+        fileSaved = true;
       }
     }).catch(err => {
       console.log(err);
     });
   }
-  else if ('save' == arg.function && filePath != "") {
+  else if (('save' == arg.function && filePath != "") || ('saveAndClose' == arg.function && filePath != "")) {
     fs.writeFile(filePath, arg.json, (err) => {
       if (err) throw err;
     })
+  }
+
+  if('saveAndClose' == arg.function) {
+    win.removeAllListeners('close');
+    win.close();
   }
 })
 
 // MARK: IPC windows
 ipcMain.on('forward-to-main', (event, arg) => {
+  win.setTitle('[unsaved] Mixo • ' + filePath.replace(/^.*[\\\/]/, '').slice(0, -9));
+  fileSaved = false;
   win.webContents.send('request-data-changes', arg);
 });
 

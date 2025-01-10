@@ -204,7 +204,7 @@ class IndexCtrl {
    * @param {*} arg 
    */
   fileMenu(arg) {
-    if ('save' == arg.function || 'saveas' == arg.function) {
+    if ('save' == arg.function || 'saveas' == arg.function || 'saveAndClose' == arg.function) {
       console.log(`[indexCtrl] save file`);
       // Convert the object to JSON
       let json = JSON.stringify(indexWrk, null, 0);
