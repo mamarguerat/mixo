@@ -60,10 +60,15 @@ var menuTemplate = [
         click: () => win.webContents.send('file', { function: 'saveas' }),
       },
       {
-        label: 'Export documentation',
+        label: 'Export',
         submenu: [
           {
-            label: 'PDF',
+            label: 'SCN file',
+            accelerator: 'CmdOrCtrl+E',
+            click:  () => win.webContents.send('file', { function: 'export'}),
+          },
+          {
+            label: 'PDF documentation',
             accelerator: 'Shift+CmdOrCtrl+E',
           }
         ]
@@ -273,7 +278,10 @@ ipcMain.on('file', (event, arg) => {
   let jsonObject = JSON.parse(arg.json);
   jsonObject.version = app.getVersion();
   arg.json = JSON.stringify(jsonObject, null, 2);
-  if ('saveas' == arg.function || ('save' == arg.function && filePath == "") || ('saveAndClose' == arg.function && filePath == "")) {
+  if ('saveas' == arg.function ||
+    ('save' == arg.function && filePath == "") ||
+    ('saveAndClose' == arg.function && filePath == "") ||
+    ('export' == arg.function && filePath == "")) {
     dialog.showSaveDialog({
       title: 'Save Mixo project',
       filters: [
@@ -295,12 +303,20 @@ ipcMain.on('file', (event, arg) => {
     });
   }
   else if (('save' == arg.function && filePath != "") || ('saveAndClose' == arg.function && filePath != "")) {
+    win.setTitle('Mixo • ' + filePath.replace(/^.*[\\\/]/, '').slice(0, -9));
     fs.writeFile(filePath, arg.json, (err) => {
-      if (err) throw err;
-    })
+      if (err) console.log(err);
+    });
+    fileSaved = true;
   }
-
-  if('saveAndClose' == arg.function) {
+  
+  if ('export' == arg.function) {
+    // Write the TEXT to the chosen file
+    fs.writeFile(filePath.slice(0, -9) + '.scn', arg.text, (err) => {
+      if (err) console.log(err);
+    });
+  }
+  else if ('saveAndClose' == arg.function) {
     win.removeAllListeners('close');
     win.close();
   }

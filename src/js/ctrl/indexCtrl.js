@@ -1,6 +1,7 @@
 const { ipcRenderer } = require("electron");
 
 const constants = new Const();
+const exporter = new Exporter();
 
 class IndexCtrl {
 
@@ -217,6 +218,16 @@ class IndexCtrl {
       console.log(`[indexCtrl] load file`);
       indexWrk = constants.reconstructIndexWrk(arg.jsonData);
       indexWrk.update();
+    }
+    else if ('export' == arg.function) {
+      console.log(`[indexCtrl] export file`);
+      // Convert the object to JSON
+      let json = JSON.stringify(indexWrk, null, 0);
+      ipcRenderer.send('file', {
+        function: arg.function,
+        json: json,
+        text: exporter.sncBuilder(indexWrk)
+      });
     }
   }
 
