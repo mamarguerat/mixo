@@ -1,6 +1,7 @@
 const { ipcRenderer } = require("electron");
 
 const constants = new Const();
+const exporter = new Exporter();
 
 class IndexCtrl {
 
@@ -204,7 +205,7 @@ class IndexCtrl {
    * @param {*} arg 
    */
   fileMenu(arg) {
-    if ('save' == arg.function || 'saveas' == arg.function) {
+    if ('save' == arg.function || 'saveas' == arg.function || 'saveAndClose' == arg.function) {
       console.log(`[indexCtrl] save file`);
       // Convert the object to JSON
       let json = JSON.stringify(indexWrk, null, 0);
@@ -217,6 +218,16 @@ class IndexCtrl {
       console.log(`[indexCtrl] load file`);
       indexWrk = constants.reconstructIndexWrk(arg.jsonData);
       indexWrk.update();
+    }
+    else if ('export' == arg.function) {
+      console.log(`[indexCtrl] export file`);
+      // Convert the object to JSON
+      let json = JSON.stringify(indexWrk, null, 0);
+      ipcRenderer.send('file', {
+        function: arg.function,
+        json: json,
+        text: exporter.sncBuilder(indexWrk)
+      });
     }
   }
 
