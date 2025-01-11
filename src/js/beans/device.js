@@ -30,7 +30,7 @@ class Device {
     }
     // Create array of mixbuses
     for (let i = 0; i < totalMixbuses; i++) {
-      this.mixbuses.push(new Channel());
+      this.mixbuses.push(new Mixbus());
     }
     // Create array of matrix
     for (let i = 0; i < totalMatrix; i++) {

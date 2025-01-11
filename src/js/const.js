@@ -31,6 +31,17 @@ class Const {
       { Name: "Cyan",     ColorBack: "#2DE0E7", ColorFront: "#000000", ID: "CY" },
       { Name: "White",    ColorBack: "#FFFFFF", ColorFront: "#000000", ID: "WH" }
     ];
+    this.outputTypes = [
+      { StartIdx: 0,  Name: "OFF"},
+      { StartIdx: 1,  Name: "Main"},
+      { StartIdx: 4,  Name: "MixBus"},
+      { StartIdx: 20, Name: "Matrix"},
+      { StartIdx: 26, Name: "Direct out Channel"},
+      { StartIdx: 58, Name: "Direct out Aux"},
+      { StartIdx: 66, Name: "Direct out FX"},
+      { StartIdx: 74, Name: "Monitor"},
+      { StartIdx: 76, Name: "Talkback"}
+    ]
   }
 
   getColorCode(colorID) {
@@ -87,14 +98,12 @@ class Const {
         }
       })
       device.mixbuses.forEach(mixbus => {
-        ret.devices[devIdx].mixbuses.push(new Channel());
+        ret.devices[devIdx].mixbuses.push(new Mixbus());
         var chIdx = ret.devices[devIdx].mixbuses.length - 1;
-        ret.devices[devIdx].mixbuses[chIdx]._deviceId = mixbus._deviceId;
-        ret.devices[devIdx].mixbuses[chIdx]._IO = mixbus._IO;
-        ret.devices[devIdx].mixbuses[chIdx]._source = mixbus._source;
-        if (mixbus._channelCnt) {
-          ret.devices[devIdx].mixbuses[chIdx]._channelCnt = mixbus._channelCnt;
-        }
+        ret.devices[devIdx].mixbuses[chIdx]._name = mixbus._name;
+        ret.devices[devIdx].mixbuses[chIdx]._color = mixbus._color;
+        ret.devices[devIdx].mixbuses[chIdx]._colorInvert = mixbus._colorInvert;
+        ret.devices[devIdx].mixbuses[chIdx]._icon = mixbus._icon;
       })
       device.matrix.forEach(matrix => {
         ret.devices[devIdx].matrix.push(new Channel());

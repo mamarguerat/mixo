@@ -1,0 +1,11 @@
+{
+  "tasks": [
+    {
+      "label": "Start app",
+      "type": "npm",
+      "script": "start",
+      "problemMatcher": [],
+      "detail": "electron-forge start"
+    }
+  ]
+}
