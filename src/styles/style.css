@@ -350,6 +350,10 @@ button {
     width: calc(200% + 10px);
 }
 
+#output-type-list, #output-channel-list {
+    width: 100%;
+}
+
 .dropdown-menu button {
     display: flex;
     gap: 10px;

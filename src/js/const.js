@@ -31,6 +31,17 @@ class Const {
       { Name: "Cyan",     ColorBack: "#2DE0E7", ColorFront: "#000000", ID: "CY" },
       { Name: "White",    ColorBack: "#FFFFFF", ColorFront: "#000000", ID: "WH" }
     ];
+    this.outputTypes = [
+      { StartIdx: 0,  Name: "OFF"},
+      { StartIdx: 1,  Name: "Main"},
+      { StartIdx: 4,  Name: "MixBus"},
+      { StartIdx: 20, Name: "Matrix"},
+      { StartIdx: 26, Name: "Direct out Channel"},
+      { StartIdx: 58, Name: "Direct out Aux"},
+      { StartIdx: 66, Name: "Direct out FX"},
+      { StartIdx: 74, Name: "Monitor"},
+      { StartIdx: 76, Name: "Talkback"}
+    ]
   }
 
   getColorCode(colorID) {

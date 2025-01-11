@@ -95,7 +95,16 @@ class DeviceDetailCtrl {
       });
     });
 
-    // TODO: Add list of output sources
+    constants.outputTypes.forEach((outputType, index, fullArray) => {
+      let outputTypesLists = [$('#output-type-list')];
+      outputTypesLists.forEach((outputTypeList, index, fullArray) => {
+        outputTypeList.append(
+          "<button type='button' value='" + outputType.Name + "'' tabindex='0' class='dropdown-item'>" +
+          "<span>" + outputType.Name + "</span>" +
+          "</button>"
+        );
+      });
+    });
 
     $(document).click(function () {
       $('.dropdown-menu.show').removeClass('show');
@@ -538,23 +547,27 @@ class DeviceDetailCtrl {
     if (this.selectedType == "i") {
       connector = this.selectedDevice.inputs[this.selectedIO - 1];
       type = "Input";
+      $('#connector-modal').removeClass("hidden");
+      $('.overlay').removeClass("hidden");
+      $("#connector-modal-title").html(this.selectedDevice.getName() + " - " + type + " " + this.selectedIO);
+      $("#channel-name").val(connector.getName());
+      $('#channel-color-list').attr('data-selected', connector.getColor());
+      this.selectChannelColor(connector.getColor());
+      $('#channel-icon-list').attr('data-selected', connector.getIcon());
+      this.selectChannelIcon(connector.getIcon());
+      $('#channel-phase').prop('checked', connector.getPhaseInvert());
+      $('#channel-invert').prop('checked', connector.getColorInvert());
+      $('#channel-phantom').prop('checked', connector.getPhantomPower());
     }
     else {
-      // TODO: CHANGE MODAL FOR OUTPUT MODAL
       connector = this.selectedDevice.outputs[this.selectedIO - 1];
       type = "Output";
+      $('#output-modal').removeClass("hidden");
+      $('.overlay').removeClass("hidden");
+      $("#output-modal-title").html(this.selectedDevice.getName() + " - " + type + " " + this.selectedIO);
+
     }
-    $('#connector-modal').removeClass("hidden");
-    $('.overlay').removeClass("hidden");
-    $("#connector-modal-title").html(this.selectedDevice.getName() + " - " + type + " " + this.selectedIO);
-    $("#channel-name").val(connector.getName());
-    $('#channel-color-list').attr('data-selected', connector.getColor());
-    this.selectChannelColor(connector.getColor());
-    $('#channel-icon-list').attr('data-selected', connector.getIcon());
-    this.selectChannelIcon(connector.getIcon());
-    $('#channel-phase').prop('checked', connector.getPhaseInvert());
-    $('#channel-invert').prop('checked', connector.getColorInvert());
-    $('#channel-phantom').prop('checked', connector.getPhantomPower());
+
   };
 
   selectChannelColor(id) {
