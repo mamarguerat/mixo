@@ -49,7 +49,7 @@
     "electron-updater": "^6.1.8",
     "fs": "^0.0.1-security",
     "jquery": "^3.7.0",
-    "serialize-javascript": "^6.0.2"
+    "serialize-javascript": "^7.0.3"
   },
   "build": {
     "extraResources": [
