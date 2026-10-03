@@ -36,4 +36,19 @@ assert.strictEqual(run(`indexWrk.links.length`), 0);
 run(`indexWrk.addLink(0, 'B', 2, 'A'); indexWrk.removeDeviceId(2)`);
 assert.strictEqual(run(`indexWrk.links.length + indexWrk.devices.length`), 2, 'delete removes device and its links');
 
+// IO view context menu (#39)
+assert.strictEqual(run(`incrementName('Tom 1')`), 'Tom 2');
+assert.strictEqual(run(`incrementName('Vox09')`), 'Vox10');
+assert.strictEqual(run(`incrementName('Vocal')`), 'Vocal');
+assert.strictEqual(run(`incrementName('Overheads 9')`), 'Overheads 10', '12 chars max');
+assert.strictEqual(run(`incrementName('Overheads 99')`), 'Overheads100', 'trims the name, not the number');
+run(`var c = indexWrk.getConnector(0, 'i', 0); c.setName('Kick'); c.setColor('RD', true); c.setPhantomPower(true);`);
+run(`indexWrk.setConnector(0, 'i', 1, JSON.parse(JSON.stringify(c)))`);
+assert.deepStrictEqual(run(`indexWrk.getConnector(0, 'i', 1)`), run(`c`));
+run(`indexWrk.setConnector(0, 'o', 0, JSON.parse(JSON.stringify(c)))`);
+assert.strictEqual(run(`indexWrk.getConnector(0, 'o', 0).getName()`), 'Kick');
+assert.strictEqual(run(`indexWrk.getConnector(0, 'o', 0).getPhantomPower()`), false, 'no +48V on outputs');
+run(`indexWrk.setConnector(0, 'i', 1, new Connector())`);
+assert.deepStrictEqual(run(`indexWrk.getConnector(0, 'i', 1)`), run(`new Connector()`));
+
 console.log('worker tests passed');

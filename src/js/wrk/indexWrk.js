@@ -355,6 +355,24 @@ class IndexWrk {
   }
 
   /**
+   * Copy connector properties (as serialized) onto a connector.
+   * Outputs have no +48V or phase inversion.
+   * @param {Number} deviceID 
+   * @param {String} type 'i' or 'o'
+   * @param {Number} index 0-based
+   * @param {*} data 
+   */
+  setConnector(deviceID, type, index, data) {
+    console.log(`[indexWrk] Set connector ${type}${index} of device ${deviceID}`);
+    let connector = this.getConnector(deviceID, type, index);
+    let fields = ['_name', '_color', '_colorInvert', '_icon'];
+    if (type == 'i') {
+      fields.push('_phaseInvert', '_pwr');
+    }
+    fields.forEach(field => connector[field] = data[field]);
+  }
+
+  /**
    * Move a channel from index to index
    * @param {Number} deviceID 
    * @param {String} channelType 
@@ -369,6 +387,21 @@ class IndexWrk {
 
 // MARK: Private funcitons
 /*----- Private functions ---------------------------------------------------------------------------------------------------*/
+/**
+ * Increment the trailing number of a name, keeping zero padding and the 12 chars limit
+ * ("Tom 1" -> "Tom 2", "Vox09" -> "Vox10"). Names without a number are unchanged.
+ * @param {String} name 
+ * @returns {String}
+ */
+function incrementName(name) {
+  let match = name.match(/^(.*?)(\d+)$/);
+  if (!match) {
+    return name;
+  }
+  let number = String(Number(match[2]) + 1).padStart(match[2].length, '0');
+  return match[1].slice(0, 12 - number.length) + number;
+}
+
 /**
  * Create an empty device of a type from the LUT
  * @param {String} deviceType 
