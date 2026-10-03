@@ -7,10 +7,16 @@ on:
       - 'release/**'
     tags:
       - v*
+  pull_request:
+    types:
+      - opened
+      - synchronize
 
 jobs:
   release:
     runs-on: ${{ matrix.os }}
+    permissions:
+      contents: write
 
     strategy:
       matrix:
@@ -18,12 +24,12 @@ jobs:
 
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v1
+        uses: actions/checkout@v4
 
       - name: Install Node.js, NPM and Yarn
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: 21
+          node-version: 22
 
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1
