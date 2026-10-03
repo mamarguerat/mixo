@@ -38,7 +38,11 @@ class IndexCtrl {
     $('#canvas').on('keyup', (e) => {
       this.saveText(e);
     })
+    $('#canvas').on('change', 'input', (e) => {
+      this.recordHistory();
+    })
     this.selectedElement = {};
+    this.history = new UndoHistory();
   }
 
   // MARK: Event handling
@@ -58,6 +62,7 @@ class IndexCtrl {
     else if (this.selectedElement.Type === "Device") {
       console.log(`[indexCtrl] new x ${this.selectedElement.NewX} new y ${this.selectedElement.NewY}`)
       indexWrk.moveDeviceId(this.selectedElement.Id, this.selectedElement.NewX, this.selectedElement.NewY);
+      this.recordHistory();
     }
     this.selectedElement = {};
   }
@@ -187,6 +192,32 @@ class IndexCtrl {
       console.log(`[indexCtrl] add device`);
       indexWrk.addDevice(arg.type);
     }
+    else if (arg.action === 'undo' || arg.action === 'redo') {
+      this.undoRedo(arg.action);
+    }
+  }
+
+  /**
+   * Undo or redo, or native text undo when a text field has focus
+   * @param {String} action 'undo' or 'redo'
+   */
+  undoRedo(action) {
+    if ($(document.activeElement).is('input, textarea')) {
+      document.execCommand(action);
+      return;
+    }
+    let state = action === 'undo' ? this.history.undo() : this.history.redo();
+    if (state !== undefined) {
+      indexWrk = constants.reconstructIndexWrk(JSON.parse(state));
+      indexWrk.update();
+    }
+  }
+
+  /**
+   * Save the current worker state in the undo history
+   */
+  recordHistory() {
+    this.history.record(JSON.stringify(indexWrk));
   }
 
   /**
@@ -196,6 +227,7 @@ class IndexCtrl {
   requestDataChanges(arg) {
     console.log(`[indexCtrl] got worker from child`);
     indexWrk = constants.reconstructIndexWrk(arg.worker);
+    this.recordHistory();
     ipcRenderer.send('forward-to-childs', { worker: indexWrk });
   }
 
@@ -216,6 +248,7 @@ class IndexCtrl {
     else if ('load' == arg.function) {
       console.log(`[indexCtrl] load file`);
       indexWrk = constants.reconstructIndexWrk(arg.jsonData);
+      this.history.reset();
       indexWrk.update();
     }
   }
@@ -235,6 +268,7 @@ class IndexCtrl {
     if (links.length > 0) {
       this.drawLines(links);
     }
+    this.recordHistory();
     ipcRenderer.send('forward-to-childs', { worker: indexWrk });
   }
 

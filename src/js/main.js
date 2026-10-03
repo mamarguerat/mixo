@@ -82,8 +82,16 @@ var menuTemplate = [
   {
     label: 'Edit',
     submenu: [
-      { role: 'undo' },
-      { role: 'redo' },
+      {
+        label: 'Undo',
+        accelerator: 'CmdOrCtrl+Z',
+        click: (item, focusedWin) => (focusedWin || win).webContents.send('menu', { action: 'undo' }),
+      },
+      {
+        label: 'Redo',
+        accelerator: 'Shift+CmdOrCtrl+Z',
+        click: (item, focusedWin) => (focusedWin || win).webContents.send('menu', { action: 'redo' }),
+      },
       { type: 'separator' },
       { role: 'cut' },
       { role: 'copy' },
@@ -277,6 +285,10 @@ ipcMain.on('file', (event, arg) => {
 // MARK: IPC windows
 ipcMain.on('forward-to-main', (event, arg) => {
   win.webContents.send('request-data-changes', arg);
+});
+
+ipcMain.on('forward-menu-to-main', (event, arg) => {
+  win.webContents.send('menu', arg);
 });
 
 ipcMain.on('forward-to-childs', (event, arg) => {

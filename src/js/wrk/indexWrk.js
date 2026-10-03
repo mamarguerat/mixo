@@ -327,6 +327,51 @@ class IndexWrk {
   }
 }
 
+/**
+ * Undo/redo stack of serialized worker states
+ */
+class UndoHistory {
+  constructor(limit = 100) {
+    this.limit = limit;
+    this.reset();
+  }
+
+  reset() {
+    this.states = [];
+    this.pos = -1;
+  }
+
+  /**
+   * Push a state if it differs from the current one, dropping the redo states
+   * @param {String} state
+   */
+  record(state) {
+    if (state === this.states[this.pos]) {
+      return;
+    }
+    this.states.splice(this.pos + 1);
+    this.states.push(state);
+    if (this.states.length > this.limit) {
+      this.states.shift();
+    }
+    this.pos = this.states.length - 1;
+  }
+
+  /**
+   * @returns The previous state or undefined
+   */
+  undo() {
+    return this.pos > 0 ? this.states[--this.pos] : undefined;
+  }
+
+  /**
+   * @returns The next state or undefined
+   */
+  redo() {
+    return this.pos < this.states.length - 1 ? this.states[++this.pos] : undefined;
+  }
+}
+
 // MARK: Private funcitons
 /*----- Private functions ---------------------------------------------------------------------------------------------------*/
 /**
