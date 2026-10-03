@@ -4,10 +4,8 @@
   "description": "Routing tool for behringer x32 based on hardware availabilities instead of software capabilities. Aim to simplify routing and create automatic documentation.",
   "main": "src/js/main.js",
   "scripts": {
-    "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "loc-build": "electron-builder"
+    "start": "electron .",
+    "dist": "electron-builder"
   },
   "repository": {
     "type": "git",
@@ -33,23 +31,14 @@
   },
   "homepage": "https://github.com/mamarguerat/mixo#readme",
   "devDependencies": {
-    "@electron-forge/cli": "^6.0.5",
-    "@electron-forge/maker-deb": "^6.0.5",
-    "@electron-forge/maker-rpm": "^6.0.5",
-    "@electron-forge/maker-squirrel": "^6.0.5",
-    "@electron-forge/maker-zip": "^6.0.5",
-    "electron": "^41.1.1",
-    "electron-builder": "^24.13.3",
-    "jquery-sortablejs": "^1.0.1"
+    "electron": "^41.10.7",
+    "electron-builder": "^26.15.3"
   },
   "dependencies": {
-    "@electron/remote": "^2.1.2",
     "about-window": "^1.15.2",
-    "electron-squirrel-startup": "^1.0.0",
-    "electron-updater": "^6.1.8",
-    "fs": "^0.0.1-security",
-    "jquery": "^3.7.0",
-    "serialize-javascript": "^7.0.5"
+    "electron-updater": "^6.8.9",
+    "jquery": "^3.7.1",
+    "jquery-sortablejs": "^1.0.1"
   },
   "build": {
     "extraResources": [
