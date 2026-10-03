@@ -64,6 +64,7 @@ var menuTemplate = [
           {
             label: 'PDF',
             accelerator: 'Shift+CmdOrCtrl+E',
+            click: () => win.webContents.send('file', { function: 'export-pdf' }),
           }
         ]
       },
@@ -273,6 +274,40 @@ ipcMain.on('file', (event, arg) => {
     })
   }
 })
+
+ipcMain.on('export-pdf', async (event, arg) => {
+  let title = filePath == "" ? "Mixo project" : filePath.replace(/^.*[\\\/]/, '').slice(0, -9);
+  let result = await dialog.showSaveDialog(win, {
+    title: 'Export documentation',
+    defaultPath: title + '.pdf',
+    filters: [{ name: 'PDF', extensions: ['pdf'] }]
+  });
+  if (result.canceled) {
+    return;
+  }
+  let report = new BrowserWindow({
+    show: false,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+    },
+  });
+  try {
+    await report.loadFile(join(__dirname, '..', 'report.html'));
+    let rendered = new Promise(resolve => report.webContents.ipc.once('report-rendered', resolve));
+    report.webContents.send('report', { worker: arg.worker, title: title, date: new Date().toLocaleDateString() });
+    await rendered;
+    let pdf = await report.webContents.printToPDF({ pageSize: 'A4', printBackground: true });
+    fs.writeFileSync(result.filePath, pdf);
+  }
+  catch (err) {
+    console.log(err);
+    dialog.showErrorBox('Export documentation', 'Could not export the PDF file: ' + err.message);
+  }
+  finally {
+    report.destroy();
+  }
+});
 
 // MARK: IPC windows
 ipcMain.on('forward-to-main', (event, arg) => {
