@@ -1,7 +1,6 @@
 const { ipcRenderer } = require("electron");
 
 const constants = new Const();
-const exporter = new Exporter();
 
 class IndexCtrl {
 
@@ -220,14 +219,12 @@ class IndexCtrl {
       indexWrk.update();
     }
     else if ('export' == arg.function) {
-      console.log(`[indexCtrl] export file`);
-      // Convert the object to JSON
-      let json = JSON.stringify(indexWrk, null, 0);
-      ipcRenderer.send('file', {
-        function: arg.function,
-        json: json,
-        text: exporter.sncBuilder(indexWrk)
-      });
+      console.log(`[indexCtrl] export scn files`);
+      let LUT = new DeviceTypeLUT();
+      let scenes = indexWrk.devices
+        .filter(device => LUT.getTypeFromId(device.getType()) == "Mixer" && device.getType() != "debug")
+        .map(mixer => ({ name: mixer.getName(), ...buildScn(indexWrk, mixer) }));
+      ipcRenderer.send('export', scenes);
     }
   }
 

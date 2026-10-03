@@ -1,5 +1,5 @@
 const { dialog, app, BrowserWindow, ipcMain, Menu } = require('electron');
-const join = require('path').join;
+const { join, dirname } = require('path');
 const fs = require('fs');
 const openAboutWindow = require('about-window').default;
 const deviceTypeLUT = require('./beans/deviceTypeLUT.js');
@@ -280,8 +280,7 @@ ipcMain.on('file', (event, arg) => {
   arg.json = JSON.stringify(jsonObject, null, 2);
   if ('saveas' == arg.function ||
     ('save' == arg.function && filePath == "") ||
-    ('saveAndClose' == arg.function && filePath == "") ||
-    ('export' == arg.function && filePath == "")) {
+    ('saveAndClose' == arg.function && filePath == "")) {
     dialog.showSaveDialog({
       title: 'Save Mixo project',
       filters: [
@@ -309,18 +308,38 @@ ipcMain.on('file', (event, arg) => {
     });
     fileSaved = true;
   }
-  
-  if ('export' == arg.function) {
-    // Write the TEXT to the chosen file
-    fs.writeFile(filePath.slice(0, -9) + '.scn', arg.text, (err) => {
-      if (err) console.log(err);
-    });
-  }
-  else if ('saveAndClose' == arg.function) {
+
+  if ('saveAndClose' == arg.function) {
     win.removeAllListeners('close');
     win.close();
   }
 })
+
+// One scene file per mixer, nothing written if the project can't be exported
+ipcMain.on('export', async (event, scenes) => {
+  if (scenes.length == 0) {
+    dialog.showMessageBox(win, { type: 'info', message: 'No mixer to export' });
+    return;
+  }
+  let errors = scenes.flatMap(scene => scene.errors.map(error => `${scene.name} - ${error}`));
+  if (errors.length > 0) {
+    dialog.showMessageBox(win, { type: 'error', message: 'Scene export failed', detail: errors.join('\n') });
+    return;
+  }
+  let dir = filePath == "" ? app.getPath('documents') : dirname(filePath);
+  for (const scene of scenes) {
+    let result = await dialog.showSaveDialog(win, {
+      title: `Export ${scene.name} scene`,
+      defaultPath: join(dir, `${scene.name}.scn`),
+      filters: [{ name: 'X32/M32 scene', extensions: ['scn'] }]
+    });
+    if (!result.canceled) {
+      fs.writeFile(result.filePath, scene.text, (err) => {
+        if (err) dialog.showErrorBox('Scene export failed', err.message);
+      });
+    }
+  }
+});
 
 // MARK: IPC windows
 ipcMain.on('forward-to-main', (event, arg) => {
