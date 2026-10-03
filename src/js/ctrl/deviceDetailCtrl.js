@@ -17,6 +17,9 @@ class DeviceDetailCtrl {
     ipcRenderer.on('new-data', (event, arg) => {
       this.dataUpdated(arg);
     })
+    ipcRenderer.on('context-menu-command', (event, arg) => {
+      this.contextMenuCommand(arg);
+    })
     /* ----- DOM Event Listeners ----- */
     $(document).ready(this.documentReady());
     $('.btn-close').on('click', (e) => {
@@ -34,6 +37,8 @@ class DeviceDetailCtrl {
     $('#save-channel').on('click', (e) => {
       this.saveChannel();
     });
+    this.connectorClipboard = null;
+    this.channelClipboard = null;
   }
 
   // MARK: Event handling
@@ -112,6 +117,95 @@ class DeviceDetailCtrl {
       $btn.prepend($text[0].outerHTML);
       $btn.prepend($icon[0].outerHTML);
     });
+  }
+
+  /**
+   * Right click on a connector
+   * @param {String} type 'i' or 'o'
+   * @param {Number} index 0-based
+   */
+  connectorContextMenu(type, index) {
+    let canPaste = this.connectorClipboard !== null;
+    ipcRenderer.send('context-menu', [
+      { label: 'Copy', command: { action: 'io-copy', type, index } },
+      { label: 'Paste', enabled: canPaste, command: { action: 'io-paste', type, index } },
+      { label: 'Incremental paste', enabled: canPaste, command: { action: 'io-paste-inc', type, index } },
+      { type: 'separator' },
+      { label: 'Reset', command: { action: 'io-reset', type, index } },
+    ]);
+  }
+
+  /**
+   * Right click on a channel
+   * @param {Number} index 0-based
+   */
+  channelContextMenu(index) {
+    let canPaste = this.channelClipboard !== null;
+    ipcRenderer.send('context-menu', [
+      { label: 'Copy', command: { action: 'ch-copy', index } },
+      { label: 'Paste', enabled: canPaste, command: { action: 'ch-paste', index } },
+      { label: 'Incremental paste', enabled: canPaste && this.nextSource(this.channelClipboard) !== undefined, command: { action: 'ch-paste-inc', index } },
+      { type: 'separator' },
+      { label: 'Reset', command: { action: 'ch-reset', index } },
+    ]);
+  }
+
+  /**
+   * Source following a channel source in the list of routable inputs
+   * @param {*} source { deviceID, index, source, inputCnt }
+   * @returns The next source or undefined
+   */
+  nextSource(source) {
+    let idx = this._connectorList.findIndex(input =>
+      Number(input.deviceID) === Number(source.deviceID) && Number(input.index) === Number(source.index));
+    return idx < 0 ? undefined : this._connectorList[idx + 1];
+  }
+
+  /**
+   * Context menu item clicked
+   * @param {*} arg 
+   */
+  contextMenuCommand(arg) {
+    console.log(`[deviceDetailCtrl] context menu ${arg.action}`);
+    switch (arg.action) {
+      case 'io-copy':
+        this.connectorClipboard = JSON.parse(JSON.stringify(indexWrk.getConnector(this.deviceID, arg.type, arg.index)));
+        return;
+      case 'io-paste-inc':
+        this.connectorClipboard._name = incrementName(this.connectorClipboard._name);
+        // fall through
+      case 'io-paste':
+        indexWrk.setConnector(this.deviceID, arg.type, arg.index, this.connectorClipboard);
+        break;
+      case 'io-reset':
+        indexWrk.setConnector(this.deviceID, arg.type, arg.index, new Connector());
+        break;
+      case 'ch-copy': {
+        let channel = this.selectedDevice.channels[arg.index];
+        this.channelClipboard = channel.getIO() === "" ? null : this._connectorList.find(input =>
+          Number(input.deviceID) === Number(channel.getDeviceId()) && Number(input.index) === Number(channel.getIO()));
+        return;
+      }
+      case 'ch-paste-inc':
+        this.channelClipboard = this.nextSource(this.channelClipboard);
+        if (this.channelClipboard === undefined) {
+          this.channelClipboard = null;
+          return;
+        }
+        // fall through
+      case 'ch-paste': {
+        let source = this.channelClipboard;
+        indexWrk.updateChannel(this.deviceID, "channel-input", arg.index,
+          String(source.deviceID), String(source.index), source.source, String(source.inputCnt + 1));
+        break;
+      }
+      case 'ch-reset':
+        indexWrk.updateChannel(this.deviceID, "channel-input", arg.index, "", "", "", "");
+        break;
+      default:
+        return;
+    }
+    ipcRenderer.send('forward-to-main', { worker: indexWrk });
   }
 
   /**
@@ -229,6 +323,10 @@ class DeviceDetailCtrl {
           _this.selectedType = this.id.slice(3, 4);
           _this.selectedIO = this.id.slice(5, 7);
           _this.openConnectorModal();
+        });
+        $(this).on("contextmenu", function (ev) {
+          ev.preventDefault();
+          _this.connectorContextMenu(this.id.slice(3, 4), this.id.slice(5, 7) - 1);
         });
       });
 
@@ -406,6 +504,10 @@ class DeviceDetailCtrl {
       $('.io-element').on("click", function (ev) {
         _this.selectedChannel = $(this).index();
         _this.openChannelModal();
+      });
+      $('.io-element').on("contextmenu", function (ev) {
+        ev.preventDefault();
+        _this.channelContextMenu($(this).index());
       });
     }
   }
