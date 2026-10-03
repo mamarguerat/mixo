@@ -1,0 +1,89 @@
+@page {
+    size: A4;
+    margin: 15mm;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    color: #000000;
+    background: #FFFFFF;
+}
+
+section {
+    break-before: page;
+}
+
+section.cover {
+    break-before: auto;
+}
+
+h1 {
+    font-size: 24pt;
+    margin: 30mm 0 2mm 0;
+}
+
+h2 {
+    font-size: 14pt;
+    border-bottom: 2px solid #000000;
+    padding-bottom: 1mm;
+}
+
+h2 small {
+    font-weight: normal;
+    color: #606060;
+}
+
+h3 {
+    font-size: 11pt;
+    margin-top: 6mm;
+}
+
+.date {
+    color: #606060;
+    margin-bottom: 10mm;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    display: table-header-group;
+}
+
+tr {
+    break-inside: avoid;
+}
+
+th, td {
+    text-align: left;
+    padding: 1mm 2mm;
+    border-bottom: 1px solid #C0C0C0;
+}
+
+th {
+    border-bottom: 1px solid #000000;
+}
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 1mm;
+    min-width: 30mm;
+    padding: 0.5mm 2mm;
+    border: 1px solid #606060;
+    border-radius: 1mm;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+.chip img {
+    height: 4mm;
+}
+
+.empty {
+    color: #909090;
+}
