@@ -1,5 +1,5 @@
 const { dialog, app, BrowserWindow, ipcMain, Menu } = require('electron');
-const join = require('path').join;
+const { join, dirname } = require('path');
 const fs = require('fs');
 const openAboutWindow = require('about-window').default;
 const deviceTypeLUT = require('./beans/deviceTypeLUT.js');
@@ -7,6 +7,7 @@ const isMac = process.platform === 'darwin'
 const devType = new deviceTypeLUT();
 let win
 let filePath = "";
+let fileSaved = true;
 
 // Autoupdater from https://samuelmeuli.com/blog/2019-04-07-packaging-and-publishing-an-electron-app/
 const { autoUpdater } = require("electron-updater")
@@ -59,10 +60,15 @@ var menuTemplate = [
         click: () => win.webContents.send('file', { function: 'saveas' }),
       },
       {
-        label: 'Export documentation',
+        label: 'Export',
         submenu: [
           {
-            label: 'PDF',
+            label: 'SCN file',
+            accelerator: 'CmdOrCtrl+E',
+            click:  () => win.webContents.send('file', { function: 'export'}),
+          },
+          {
+            label: 'PDF documentation',
             accelerator: 'Shift+CmdOrCtrl+E',
           }
         ]
@@ -174,6 +180,31 @@ const createWindow = () => {
       contextIsolation: false,
     },
   });
+  win.on('close', (event) => {
+    let response = 0;
+    if (!fileSaved) {
+      response = dialog.showMessageBoxSync(win, {
+        type: 'warning',
+        buttons: ['Save', 'Don\'t save', 'Cancel'],
+        title: 'Save changes',
+        message: 'Do you want to save the changes you made?',
+      });
+    }
+
+    if (response == 0) {
+      childWindows.forEach(childWindow => {
+        childWindow.close();
+      });
+      win.webContents.send('file', { function: 'saveAndClose' });
+      event.preventDefault();
+    } else if (response == 2) {
+      event.preventDefault();
+    } else {
+      childWindows.forEach(childWindow => {
+        childWindow.close();
+      });
+    }
+  });
   win.loadFile(join(__dirname, '..', 'index.html'));
 };
 
@@ -247,7 +278,9 @@ ipcMain.on('file', (event, arg) => {
   let jsonObject = JSON.parse(arg.json);
   jsonObject.version = app.getVersion();
   arg.json = JSON.stringify(jsonObject, null, 2);
-  if ('saveas' == arg.function || ('save' == arg.function && filePath == "")) {
+  if ('saveas' == arg.function ||
+    ('save' == arg.function && filePath == "") ||
+    ('saveAndClose' == arg.function && filePath == "")) {
     dialog.showSaveDialog({
       title: 'Save Mixo project',
       filters: [
@@ -262,20 +295,56 @@ ipcMain.on('file', (event, arg) => {
         fs.writeFile(result.filePath, arg.json, (err) => {
           if (err) throw err;
         });
+        fileSaved = true;
       }
     }).catch(err => {
       console.log(err);
     });
   }
-  else if ('save' == arg.function && filePath != "") {
+  else if (('save' == arg.function && filePath != "") || ('saveAndClose' == arg.function && filePath != "")) {
+    win.setTitle('Mixo • ' + filePath.replace(/^.*[\\\/]/, '').slice(0, -9));
     fs.writeFile(filePath, arg.json, (err) => {
-      if (err) throw err;
-    })
+      if (err) console.log(err);
+    });
+    fileSaved = true;
+  }
+
+  if ('saveAndClose' == arg.function) {
+    win.removeAllListeners('close');
+    win.close();
   }
 })
 
+// One scene file per mixer, nothing written if the project can't be exported
+ipcMain.on('export', async (event, scenes) => {
+  if (scenes.length == 0) {
+    dialog.showMessageBox(win, { type: 'info', message: 'No mixer to export' });
+    return;
+  }
+  let errors = scenes.flatMap(scene => scene.errors.map(error => `${scene.name} - ${error}`));
+  if (errors.length > 0) {
+    dialog.showMessageBox(win, { type: 'error', message: 'Scene export failed', detail: errors.join('\n') });
+    return;
+  }
+  let dir = filePath == "" ? app.getPath('documents') : dirname(filePath);
+  for (const scene of scenes) {
+    let result = await dialog.showSaveDialog(win, {
+      title: `Export ${scene.name} scene`,
+      defaultPath: join(dir, `${scene.name}.scn`),
+      filters: [{ name: 'X32/M32 scene', extensions: ['scn'] }]
+    });
+    if (!result.canceled) {
+      fs.writeFile(result.filePath, scene.text, (err) => {
+        if (err) dialog.showErrorBox('Scene export failed', err.message);
+      });
+    }
+  }
+});
+
 // MARK: IPC windows
 ipcMain.on('forward-to-main', (event, arg) => {
+  win.setTitle('[unsaved] Mixo • ' + filePath.replace(/^.*[\\\/]/, '').slice(0, -9));
+  fileSaved = false;
   win.webContents.send('request-data-changes', arg);
 });
 

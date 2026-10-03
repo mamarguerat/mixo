@@ -5,6 +5,7 @@
   "main": "src/js/main.js",
   "scripts": {
     "start": "electron .",
+    "test": "node test/exporter.test.js",
     "dist": "electron-builder"
   },
   "repository": {

@@ -253,19 +253,19 @@ class IndexWrk {
       device.inputs.forEach((input, index, fullArray) => {
         if (input.getName() != "" || input.getColor() != "OFF" || input.getIcon() != "1") {
           inputCnt = index + previousChannels;
-          this.previousChannels++;
           usedConnectors.push({ deviceID, index, source, inputCnt });
         }
       });
+      this.previousChannels += device.inputs.length;
     }
     else {
       device.outputs.forEach((output, index, fullArray) => {
         if (output.getName() != "" || output.getColor() != "OFF" || output.getIcon() != "1") {
           inputCnt = index + previousChannels;
-          this.previousChannels++;
           usedConnectors.push({ deviceID, index, source, inputCnt });
         }
       });
+      this.previousChannels += device.outputs.length;
     }
   
     // Recurse condition
@@ -273,7 +273,9 @@ class IndexWrk {
       (link.getFromDeviceId() === deviceID) || (link.getToDeviceId() === deviceID)
     );
     deviceLinks.forEach((link, index, fullArray) => {
-      let newSource = this.recurseLevel == 1 ? link.getToAes50() : source;
+      // On the mixer, the AES50 source is the mixer's own port
+      let mixerPort = link.getFromDeviceId() === deviceID ? link.getFromAes50() : link.getToAes50();
+      let newSource = this.recurseLevel == 1 ? mixerPort : source;
       console.log(`[indexWrk] Found link between ${link.getFromDeviceId()} and ${link.getToDeviceId()} with source ${newSource} and recurseLevel ${this.recurseLevel}`);
       if (link.getFromDeviceId() !== deviceID) {
         if (false == scannedDevices.includes(link.getFromDeviceId())) {

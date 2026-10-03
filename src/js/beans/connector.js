@@ -41,7 +41,7 @@ class Connector {
   }
 
   getColorText() {
-    return this._color + this._colorInvert ? "i" : "";
+    return `${this._color}${this._colorInvert ? "i" : ""}`;
   }
 
   getIcon() {
