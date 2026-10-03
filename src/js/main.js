@@ -274,6 +274,17 @@ ipcMain.on('file', (event, arg) => {
   }
 })
 
+// Native context menu built from a plain item list sent by a renderer.
+// Items: { label, command, enabled } | { label, submenu: [...] } | { type: 'separator' }
+ipcMain.on('context-menu', (event, items) => {
+  const build = (list) => list.map(item =>
+    item.type ? item
+    : item.submenu ? { label: item.label, submenu: build(item.submenu) }
+    : { label: item.label, enabled: item.enabled !== false, click: () => event.sender.send('context-menu-command', item.command) }
+  );
+  Menu.buildFromTemplate(build(items)).popup({ window: BrowserWindow.fromWebContents(event.sender) });
+});
+
 // MARK: IPC windows
 ipcMain.on('forward-to-main', (event, arg) => {
   win.webContents.send('request-data-changes', arg);
