@@ -51,4 +51,12 @@ assert.strictEqual(run(`indexWrk.getConnector(0, 'o', 0).getPhantomPower()`), fa
 run(`indexWrk.setConnector(0, 'i', 1, new Connector())`);
 assert.deepStrictEqual(run(`indexWrk.getConnector(0, 'i', 1)`), run(`new Connector()`));
 
+// Channel view context menu (#40)
+run(`indexWrk.getConnector(0, 'i', 1).setName('Snare'); var used = indexWrk.getAllUsedConnectors(0, 'i');`);
+assert.deepStrictEqual(run(`used.map(u => u.index)`), [0, 1]);
+run(`indexWrk.updateChannel(0, 'channel-input', 3, String(used[1].deviceID), String(used[1].index), used[1].source, String(used[1].inputCnt + 1))`);
+assert.strictEqual(run(`indexWrk.getDeviceFromId(0).channels[3].getSource() + indexWrk.getDeviceFromId(0).channels[3].getChannelCnt()`), 'Local2');
+run(`indexWrk.updateChannel(0, 'channel-input', 3, '', '', '', '')`);
+assert.deepStrictEqual(run(`indexWrk.getDeviceFromId(0).channels[3]`), run(`new Channel()`));
+
 console.log('worker tests passed');
