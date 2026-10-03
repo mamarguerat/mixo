@@ -16,6 +16,9 @@ class IndexCtrl {
     ipcRenderer.on('file', (event, arg) => {
       this.fileMenu(arg);
     })
+    ipcRenderer.on('context-menu-command', (event, arg) => {
+      this.contextMenuCommand(arg);
+    })
     /* ----- DOM Event Listeners ----- */
     window.addEventListener("mousemove", (e) => {
       this.mouseMove(e);
@@ -29,8 +32,8 @@ class IndexCtrl {
     $('#canvas').on('mousedown', '.deviceimg', (e) => {
       this.deviceSelect(e);
     })
-    $('#canvas').on('contextmenu', '.deviceimg', (e) => {
-      this.deleteDevice(e);
+    $(document).on('contextmenu', (e) => {
+      this.contextMenu(e);
     });
     $('#canvas').on('dblclick', '.deviceimg', (e) => {
       this.openDeviceDetail(e);
@@ -39,6 +42,7 @@ class IndexCtrl {
       this.saveText(e);
     })
     this.selectedElement = {};
+    this.clipboard = null;
   }
 
   // MARK: Event handling
@@ -98,13 +102,56 @@ class IndexCtrl {
   }
 
   /**
-   * Right click event -> delete device
+   * Right click event -> open device or canvas context menu
    * @param {Event} e 
    */
-  deleteDevice(e) {
-    let id = $(e.target).parent().attr('deviceid');
-    indexWrk.removeDeviceId(id);
+  contextMenu(e) {
+    e.preventDefault();
     this.selectedElement = {};
+    let id = $(e.target).closest('.device').attr('deviceid');
+    let x = Math.round(e.clientX / 10) * 10;
+    let y = Math.round(e.clientY / 10) * 10;
+    let items;
+    if (id !== undefined) {
+      id = Number(id);
+      items = [
+        { label: 'Copy', command: { action: 'copy', id } },
+        { label: 'Reset device', command: { action: 'reset', id } },
+        { label: 'Remove all links', command: { action: 'unlink', id } },
+        { type: 'separator' },
+        { label: 'Delete device', command: { action: 'delete', id } },
+      ];
+    }
+    else {
+      let LUT = new DeviceTypeLUT();
+      items = [
+        {
+          label: 'Add device', submenu: LUT.getBrands().map(brand => ({
+            label: brand,
+            submenu: [...LUT.getBrandMixers(brand), { separator: true }, ...LUT.getBrandStageBoxes(brand)].map(dev =>
+              dev.separator ? { type: 'separator' } : { label: dev.FullName, command: { action: 'add', type: dev.ID, x, y } })
+          }))
+        },
+        { label: 'Paste', enabled: this.clipboard !== null, command: { action: 'paste', x, y } },
+      ];
+    }
+    ipcRenderer.send('context-menu', items);
+  }
+
+  /**
+   * Context menu item clicked
+   * @param {*} arg 
+   */
+  contextMenuCommand(arg) {
+    console.log(`[indexCtrl] context menu ${arg.action}`);
+    switch (arg.action) {
+      case 'add': indexWrk.addDevice(arg.type, arg.x, arg.y); break;
+      case 'delete': indexWrk.removeDeviceId(arg.id); break;
+      case 'unlink': indexWrk.removeLinksId(arg.id); break;
+      case 'copy': this.clipboard = JSON.parse(JSON.stringify(indexWrk.getDeviceFromId(arg.id))); break;
+      case 'paste': indexWrk.pasteDevice(this.clipboard, arg.x, arg.y); break;
+      case 'reset': indexWrk.resetDeviceId(arg.id); break;
+    }
   }
 
   /**

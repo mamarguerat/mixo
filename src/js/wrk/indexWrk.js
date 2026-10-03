@@ -11,15 +11,57 @@ class IndexWrk {
   /**
    * Add an empty device to the devices array
    * @param {String} deviceType 
+   * @param {Number} x optional position
+   * @param {Number} y optional position
    */
-  addDevice(deviceType) {
-    let LUT = new DeviceTypeLUT();
-    let inputCnt, outputCnt;
-    let channelCnt, mixbusCnt, matrixCnt, stereoCnt, dcaCnt;
+  addDevice(deviceType, x, y) {
     console.log(`[indexWrk] add device`);
-    [inputCnt, outputCnt] = LUT.getIoCnt(deviceType);
-    [channelCnt, mixbusCnt, matrixCnt, stereoCnt, dcaCnt] = LUT.getChCnt(deviceType);
-    this.devices.push(new Device(deviceType, this.id++, inputCnt, outputCnt, channelCnt, mixbusCnt, matrixCnt, stereoCnt, dcaCnt));
+    let device = newDevice(deviceType, this.id++);
+    if (x !== undefined) {
+      device.setPos(x, y);
+    }
+    this.devices.push(device);
+    indexCtrl.drawCanvas(this.devices, this.links);
+  }
+
+  /**
+   * Add a copy of a device (plain object, as serialized) without its links
+   * @param {*} deviceData 
+   * @param {Number} x 
+   * @param {Number} y 
+   */
+  pasteDevice(deviceData, x, y) {
+    console.log(`[indexWrk] paste device`);
+    let device = constants.reconstructIndexWrk({ devices: [deviceData], links: [], id: 0 }).devices[0];
+    device._id = this.id++;
+    device.setPos(x, y);
+    this.devices.push(device);
+    indexCtrl.drawCanvas(this.devices, this.links);
+  }
+
+  /**
+   * Reset a device to its defaults, keeping id, name, position and links
+   * @param {Number} id 
+   */
+  resetDeviceId(id) {
+    console.log(`[indexWrk] reset device with id ${id}`);
+    let index = id2index(id, this.devices);
+    let old = this.devices[index];
+    let device = newDevice(old.getType(), old.getId());
+    device.setName(old.getName());
+    device.setPos(old.getPosX(), old.getPosY());
+    this.devices[index] = device;
+    indexCtrl.drawCanvas(this.devices, this.links);
+  }
+
+  /**
+   * Remove all links of a device
+   * @param {Number} id 
+   */
+  removeLinksId(id) {
+    console.log(`[indexWrk] remove links of device with id ${id}`);
+    this.links = this.links.filter(link =>
+      Number(link.getFromDeviceId()) !== Number(id) && Number(link.getToDeviceId()) !== Number(id));
     indexCtrl.drawCanvas(this.devices, this.links);
   }
 
@@ -67,9 +109,8 @@ class IndexWrk {
    */
   removeDeviceId(id) {
     console.log(`[indexWrk] remove device with id ${id}`);
-    this.deleteConnectedAt(id, 'A', id, 'B');
     this.removeDeviceIndex(id2index(id, this.devices));
-    indexCtrl.drawCanvas(this.devices, this.links);
+    this.removeLinksId(id);
   }
 
   /**
@@ -78,7 +119,6 @@ class IndexWrk {
    */
   removeDeviceIndex(index) {
     this.devices.splice(index, 1);
-    // TODO: remove links of this device
   }
 
   /**
@@ -315,6 +355,24 @@ class IndexWrk {
   }
 
   /**
+   * Copy connector properties (as serialized) onto a connector.
+   * Outputs have no +48V or phase inversion.
+   * @param {Number} deviceID 
+   * @param {String} type 'i' or 'o'
+   * @param {Number} index 0-based
+   * @param {*} data 
+   */
+  setConnector(deviceID, type, index, data) {
+    console.log(`[indexWrk] Set connector ${type}${index} of device ${deviceID}`);
+    let connector = this.getConnector(deviceID, type, index);
+    let fields = ['_name', '_color', '_colorInvert', '_icon'];
+    if (type == 'i') {
+      fields.push('_phaseInvert', '_pwr');
+    }
+    fields.forEach(field => connector[field] = data[field]);
+  }
+
+  /**
    * Move a channel from index to index
    * @param {Number} deviceID 
    * @param {String} channelType 
@@ -329,6 +387,32 @@ class IndexWrk {
 
 // MARK: Private funcitons
 /*----- Private functions ---------------------------------------------------------------------------------------------------*/
+/**
+ * Increment the trailing number of a name, keeping zero padding and the 12 chars limit
+ * ("Tom 1" -> "Tom 2", "Vox09" -> "Vox10"). Names without a number are unchanged.
+ * @param {String} name 
+ * @returns {String}
+ */
+function incrementName(name) {
+  let match = name.match(/^(.*?)(\d+)$/);
+  if (!match) {
+    return name;
+  }
+  let number = String(Number(match[2]) + 1).padStart(match[2].length, '0');
+  return match[1].slice(0, 12 - number.length) + number;
+}
+
+/**
+ * Create an empty device of a type from the LUT
+ * @param {String} deviceType 
+ * @param {Number} id 
+ * @returns {Device}
+ */
+function newDevice(deviceType, id) {
+  let LUT = new DeviceTypeLUT();
+  return new Device(deviceType, id, ...LUT.getIoCnt(deviceType), ...LUT.getChCnt(deviceType));
+}
+
 /**
  * Search an in an array and return the index (array[index].id)
  * @param {Number} id 
