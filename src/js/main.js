@@ -8,11 +8,39 @@ const devType = new deviceTypeLUT();
 let win
 let filePath = "";
 
-// Autoupdater from https://samuelmeuli.com/blog/2019-04-07-packaging-and-publishing-an-electron-app/
+// MARK: Auto update
+// Check on startup, ask the user, then download and install silently in the background.
 const { autoUpdater } = require("electron-updater")
+autoUpdater.autoDownload = false;
 
-app.on("ready", () => {
-  autoUpdater.checkForUpdatesAndNotify();
+autoUpdater.on('update-available', (info) => {
+  dialog.showMessageBox(win, {
+    type: 'info',
+    title: 'Update available',
+    message: `Mixo ${info.version} is available (current: ${app.getVersion()}).`,
+    detail: 'The update will be downloaded in the background and Mixo will restart automatically once it is ready. Save your work before it finishes.',
+    buttons: ['Update', 'Later'],
+    defaultId: 0,
+    cancelId: 1,
+  }).then(({ response }) => {
+    if (response === 0) autoUpdater.downloadUpdate();
+  });
+});
+
+autoUpdater.on('download-progress', (p) => win?.setProgressBar(p.percent / 100));
+
+autoUpdater.on('update-downloaded', () => {
+  win?.setProgressBar(-1);
+  autoUpdater.quitAndInstall(true, true); // silent install, relaunch afterwards
+});
+
+autoUpdater.on('error', (err) => {
+  win?.setProgressBar(-1);
+  console.log('Auto update error:', err);
+});
+
+app.whenReady().then(() => {
+  if (app.isPackaged) autoUpdater.checkForUpdates();
 });
 
 // MARK: Menu template
