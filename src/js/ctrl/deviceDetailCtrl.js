@@ -17,6 +17,15 @@ class DeviceDetailCtrl {
     ipcRenderer.on('new-data', (event, arg) => {
       this.dataUpdated(arg);
     })
+    ipcRenderer.on('menu', (event, arg) => {
+      // Undo history lives in the main window, text fields keep native undo
+      if ($(document.activeElement).is('input, textarea')) {
+        document.execCommand(arg.action);
+      }
+      else {
+        ipcRenderer.send('forward-menu-to-main', arg);
+      }
+    })
     /* ----- DOM Event Listeners ----- */
     $(document).ready(this.documentReady());
     $('.btn-close').on('click', (e) => {
