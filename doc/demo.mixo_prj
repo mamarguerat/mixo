@@ -348,52 +348,52 @@
       ],
       "channels": [
         {
-          "_deviceId": "",
-          "_IO": "",
-          "_source": "",
-          "_channelCnt": ""
+          "_deviceId": "3",
+          "_IO": "0",
+          "_source": "A",
+          "_channelCnt": "9"
         },
         {
-          "_deviceId": "",
-          "_IO": "",
-          "_source": "",
-          "_channelCnt": ""
+          "_deviceId": "3",
+          "_IO": "1",
+          "_source": "A",
+          "_channelCnt": "10"
         },
         {
-          "_deviceId": "",
-          "_IO": "",
-          "_source": "",
-          "_channelCnt": ""
+          "_deviceId": "3",
+          "_IO": "2",
+          "_source": "A",
+          "_channelCnt": "11"
         },
         {
-          "_deviceId": "",
-          "_IO": "",
-          "_source": "",
-          "_channelCnt": ""
+          "_deviceId": "3",
+          "_IO": "3",
+          "_source": "A",
+          "_channelCnt": "12"
         },
         {
-          "_deviceId": "",
-          "_IO": "",
-          "_source": "",
-          "_channelCnt": ""
+          "_deviceId": "2",
+          "_IO": "0",
+          "_source": "Local",
+          "_channelCnt": "1"
         },
         {
-          "_deviceId": "",
-          "_IO": "",
-          "_source": "",
-          "_channelCnt": ""
+          "_deviceId": "2",
+          "_IO": "1",
+          "_source": "Local",
+          "_channelCnt": "2"
         },
         {
-          "_deviceId": "",
-          "_IO": "",
-          "_source": "",
-          "_channelCnt": ""
+          "_deviceId": "2",
+          "_IO": "2",
+          "_source": "Local",
+          "_channelCnt": "3"
         },
         {
-          "_deviceId": "",
-          "_IO": "",
-          "_source": "",
-          "_channelCnt": ""
+          "_deviceId": "2",
+          "_IO": "3",
+          "_source": "Local",
+          "_channelCnt": "4"
         },
         {
           "_deviceId": "",
@@ -542,100 +542,84 @@
       ],
       "mixbuses": [
         {
-          "_deviceId": "",
-          "_IO": "",
-          "_source": "",
-          "_channelCnt": ""
+          "_name": "",
+          "_color": "OFF",
+          "_icon": "71"
         },
         {
-          "_deviceId": "",
-          "_IO": "",
-          "_source": "",
-          "_channelCnt": ""
+          "_name": "",
+          "_color": "OFF",
+          "_icon": "71"
         },
         {
-          "_deviceId": "",
-          "_IO": "",
-          "_source": "",
-          "_channelCnt": ""
+          "_name": "",
+          "_color": "OFF",
+          "_icon": "71"
         },
         {
-          "_deviceId": "",
-          "_IO": "",
-          "_source": "",
-          "_channelCnt": ""
+          "_name": "",
+          "_color": "OFF",
+          "_icon": "71"
         },
         {
-          "_deviceId": "",
-          "_IO": "",
-          "_source": "",
-          "_channelCnt": ""
+          "_name": "",
+          "_color": "OFF",
+          "_icon": "71"
         },
         {
-          "_deviceId": "",
-          "_IO": "",
-          "_source": "",
-          "_channelCnt": ""
+          "_name": "",
+          "_color": "OFF",
+          "_icon": "71"
         },
         {
-          "_deviceId": "",
-          "_IO": "",
-          "_source": "",
-          "_channelCnt": ""
+          "_name": "",
+          "_color": "OFF",
+          "_icon": "71"
         },
         {
-          "_deviceId": "",
-          "_IO": "",
-          "_source": "",
-          "_channelCnt": ""
+          "_name": "",
+          "_color": "OFF",
+          "_icon": "71"
         },
         {
-          "_deviceId": "",
-          "_IO": "",
-          "_source": "",
-          "_channelCnt": ""
+          "_name": "",
+          "_color": "OFF",
+          "_icon": "71"
         },
         {
-          "_deviceId": "",
-          "_IO": "",
-          "_source": "",
-          "_channelCnt": ""
+          "_name": "",
+          "_color": "OFF",
+          "_icon": "71"
         },
         {
-          "_deviceId": "",
-          "_IO": "",
-          "_source": "",
-          "_channelCnt": ""
+          "_name": "",
+          "_color": "OFF",
+          "_icon": "71"
         },
         {
-          "_deviceId": "",
-          "_IO": "",
-          "_source": "",
-          "_channelCnt": ""
+          "_name": "",
+          "_color": "OFF",
+          "_icon": "71"
         },
         {
-          "_deviceId": "",
-          "_IO": "",
-          "_source": "",
-          "_channelCnt": ""
+          "_name": "",
+          "_color": "OFF",
+          "_icon": "71"
         },
         {
-          "_deviceId": "",
-          "_IO": "",
-          "_source": "",
-          "_channelCnt": ""
+          "_name": "",
+          "_color": "OFF",
+          "_icon": "71"
         },
         {
-          "_deviceId": "",
-          "_IO": "",
-          "_source": "",
-          "_channelCnt": ""
+          "_name": "",
+          "_color": "OFF",
+          "_icon": "71"
         },
         {
-          "_deviceId": "",
-          "_IO": "",
-          "_source": "",
-          "_channelCnt": ""
+          "_name": "",
+          "_color": "OFF",
+          "_icon": "71"
         }
       ],
       "matrix": [

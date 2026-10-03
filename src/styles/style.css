@@ -345,8 +345,13 @@ button {
     background-color: #fff;
 }
 
-#icon-list, #color-list {
+#channel-icon-list, #channel-color-list,
+#mixbus-icon-list, #mixbus-color-list {
     width: calc(200% + 10px);
+}
+
+#output-type-list, #output-channel-list {
+    width: 100%;
 }
 
 .dropdown-menu button {

@@ -45,7 +45,7 @@ var menuTemplate = [
     label: 'File',
     submenu: [
       {
-        label: 'Load',
+        label: 'Open',
         accelerator: 'CmdOrCtrl+O',
         click: () => loadFile(),
       },
