@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="./styles/report.css">
+    <title>Mixo documentation</title>
+  </head>
+  <body>
+  </body>
+
+  <!-- Constants -->
+  <script src="js/const.js"></script>
+  <!-- Beans -->
+  <script src="js/beans/device.js"></script>
+  <script src="js/beans/link.js"></script>
+  <script src="js/beans/connector.js"></script>
+  <script src="js/beans/channel.js"></script>
+  <script src="js/beans/deviceTypeLUT.js"></script>
+  <!-- Worker and report -->
+  <script src="js/wrk/indexWrk.js"></script>
+  <script src="js/report.js"></script>
+  <script>
+    // arg: { worker, title, date }
+    require("electron").ipcRenderer.on('report', (event, arg) => {
+      let wrk = new Const().reconstructIndexWrk(arg.worker);
+      document.body.innerHTML = renderReport(wrk, arg.title, arg.date);
+      event.sender.send('report-rendered');
+    });
+  </script>
+</html>
