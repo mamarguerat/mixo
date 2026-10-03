@@ -24,7 +24,9 @@
     require("electron").ipcRenderer.on('report', (event, arg) => {
       let wrk = new Const().reconstructIndexWrk(arg.worker);
       document.body.innerHTML = renderReport(wrk, arg.title, arg.date);
-      event.sender.send('report-rendered');
+      // Wait for the icons before printing
+      Promise.all([...document.images].map(img => img.complete ? null : new Promise(resolve => img.onload = img.onerror = resolve)))
+        .then(() => event.sender.send('report-rendered'));
     });
   </script>
 </html>

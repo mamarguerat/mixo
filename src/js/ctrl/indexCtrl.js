@@ -213,6 +213,10 @@ class IndexCtrl {
         json: json
       });
     }
+    else if ('export-pdf' == arg.function) {
+      console.log(`[indexCtrl] export pdf`);
+      ipcRenderer.send('export-pdf', { worker: JSON.parse(JSON.stringify(indexWrk)) });
+    }
     else if ('load' == arg.function) {
       console.log(`[indexCtrl] load file`);
       indexWrk = constants.reconstructIndexWrk(arg.jsonData);
